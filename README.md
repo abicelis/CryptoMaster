@@ -2,7 +2,7 @@
 
 Stay up to date with crypto markets!
 
-Please check out the prototype by clicking [right here!](https://abicelis.github.io/CryptoMaster/ "CryptoMaster Prototype")
+Please check out the prototype by clicking [right here!](https://abicelis.github.io/CryptoMaster/index.html "CryptoMaster Prototype")
 
 <a target="_blank" href='https://play.google.com/store/apps/details?id=ve.com.abicelis.planetracker&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png' width="240px"/></a>
 
