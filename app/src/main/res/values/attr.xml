@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--COLORS FOR THEMES-->
+    <attr name="text_title" format="reference|color" />
+    <attr name="text_primary" format="reference|color" />
+    <attr name="text_secondary" format="reference|color" />
+    <attr name="text_positive" format="reference|color" />
+    <attr name="text_negative" format="reference|color" />
+    <attr name="bottom_nav_background" format="reference|color" />
+    <attr name="bottom_nav_icon_selected" format="reference|color" />
+    <attr name="bottom_nav_icon_unselected" format="reference|color" />
+
+
+
+</resources>
