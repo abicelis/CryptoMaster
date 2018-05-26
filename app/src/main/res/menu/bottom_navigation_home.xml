@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/bottom_navigation_home_alerts"
+        android:enabled="true"
+        android:icon="@drawable/ic_nav_bottom_alert"
+        android:title="Alerts" />
+    <item
+        android:id="@+id/bottom_navigation_home_market"
+        android:enabled="true"
+        android:icon="@drawable/ic_nav_bottom_market"
+        android:title="Market" />
+    <item
+        android:id="@+id/bottom_navigation_home_coins"
+        android:enabled="true"
+        android:icon="@drawable/ic_nav_bottom_coin"
+        android:title="Coins" />
+    <item
+        android:id="@+id/bottom_navigation_home_favorites"
+        android:enabled="true"
+        android:icon="@drawable/ic_nav_bottom_favorite"
+        android:title="Favorites" />
+    <item
+        android:id="@+id/bottom_navigation_home_settings"
+        android:enabled="true"
+        android:icon="@drawable/ic_nav_bottom_settings"
+        android:title="Settings" />
+</menu>
