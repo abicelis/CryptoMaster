@@ -1,4 +1,4 @@
-package ve.com.abicelis.cryptomaster.model.coinmarketcap;
+package ve.com.abicelis.cryptomaster.data.model.coinmarketcap;
 
 import java.util.List;
 
