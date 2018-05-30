@@ -16,6 +16,8 @@
     <color name="bottom_nav_background">#673AB7</color>
     <color name="bottom_nav_icon_selected">#EDE7F6</color>
     <color name="bottom_nav_icon_unselected">#9575CD</color>
+    <color name="bottom_nav_notification_background">#e53935</color>
+    <color name="bottom_nav_notification_text">#FFFFFF</color>
 
     <!--Main colors: AppTheme Dark-->
     <color name="dark_divider">#0E1A23</color>
@@ -28,5 +30,7 @@
     <color name="dark_bottom_nav_background">#673AB7</color>
     <color name="dark_bottom_nav_icon_selected">#EDE7F6</color>
     <color name="dark_bottom_nav_icon_unselected">#9575CD</color>
+    <color name="dark_bottom_nav_notification_background">#e53935</color>
+    <color name="dark_bottom_nav_notification_text">#FFFFFF</color>
 
 </resources>

@@ -16,6 +16,8 @@
         <item name="bottom_nav_background">@color/bottom_nav_background</item>
         <item name="bottom_nav_icon_selected">@color/bottom_nav_icon_selected</item>
         <item name="bottom_nav_icon_unselected">@color/bottom_nav_icon_unselected</item>
+        <item name="bottom_nav_notification_background">@color/bottom_nav_notification_background</item>
+        <item name="bottom_nav_notification_text">@color/bottom_nav_notification_text</item>
     </style>
 
     <!-- Base application theme. Dark. -->
@@ -34,6 +36,8 @@
         <item name="bottom_nav_background">@color/dark_bottom_nav_background</item>
         <item name="bottom_nav_icon_selected">@color/dark_bottom_nav_icon_selected</item>
         <item name="bottom_nav_icon_unselected">@color/dark_bottom_nav_icon_unselected</item>
+        <item name="bottom_nav_notification_background">@color/dark_bottom_nav_notification_background</item>
+        <item name="bottom_nav_notification_text">@color/dark_bottom_nav_notification_text</item>
 
     </style>
 

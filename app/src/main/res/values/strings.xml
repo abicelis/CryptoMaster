@@ -1,5 +1,13 @@
 <resources>
 
+    <!--HOME ACTIVITY-->
+    <string name="activity_home_bottom_navigation_title_alarms">Alarms</string>
+    <string name="activity_home_bottom_navigation_title_market">Market</string>
+    <string name="activity_home_bottom_navigation_title_coins">Coins</string>
+    <string name="activity_home_bottom_navigation_title_favorites">Favorites</string>
+    <string name="activity_home_bottom_navigation_title_settings">Settings</string>
+
+
 
 
     <!--ENUM APP THEME TYPE-->
