@@ -1,30 +1,28 @@
 package ve.com.abicelis.cryptomaster.ui.home;
 
-import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BaseTransientBottomBar;
 import android.support.design.widget.CoordinatorLayout;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
+import android.support.v4.content.ContextCompat;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
+import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
+import com.aurelhubert.ahbottomnavigation.notification.AHNotification;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import ve.com.abicelis.cryptomaster.R;
+import ve.com.abicelis.cryptomaster.application.Constants;
 import ve.com.abicelis.cryptomaster.application.Message;
-import ve.com.abicelis.cryptomaster.data.local.SharedPreferenceHelper;
 import ve.com.abicelis.cryptomaster.ui.base.BaseActivity;
 import ve.com.abicelis.cryptomaster.util.SnackbarUtil;
 
@@ -36,12 +34,18 @@ public class HomeActivity extends BaseActivity implements HomeMvpView {
 
     @Inject
     HomePresenter mHomePresenter;
-//
-//    @BindView(R.id.activity_home_container)
-//    CoordinatorLayout mContainer;
-//
-//    @BindView(R.id.activity_home_toolbar)
-//    Toolbar mToolbar;
+
+    @BindView(R.id.activity_home_coordinator)
+    CoordinatorLayout mCoordinator;
+
+    @BindView(R.id.activity_home_viewpager)
+    NoSwipePager mViewPager;
+    private BottomNavigationAdapter mViewpagerAdapter;
+
+    @BindView(R.id.activity_home_bottom_navigation)
+    AHBottomNavigation mBottomNavigation;
+
+
 //
 //    @BindView(R.id.activity_home_search_view)
 //    MaterialSearchView mSearchView;
@@ -67,6 +71,9 @@ public class HomeActivity extends BaseActivity implements HomeMvpView {
         getPresenterComponent().inject(this);
         mHomePresenter.attachView(this);
 
+        setupBottomNavigation();
+        createFakeNotification();
+        setupViewpager();
         //setUpToolbar();
         //setUpRecyclerView();
         //setupSearchView();
@@ -79,6 +86,83 @@ public class HomeActivity extends BaseActivity implements HomeMvpView {
 //                Toast.makeText(HomeActivity.this, "Inserting fake trip", Toast.LENGTH_SHORT).show();
 //        });
 
+    }
+
+    private void setupViewpager() {
+        mViewPager.setPagingEnabled(false);
+        mViewpagerAdapter = new BottomNavigationAdapter(getSupportFragmentManager());
+
+        Bundle bundle = new Bundle();
+        bundle.putInt(ColorFragment.COLOR_OF_FRAGMENT, Color.RED);
+        ColorFragment fragment = new ColorFragment();
+        fragment.setArguments(bundle);
+        mViewpagerAdapter.addFragment(fragment);
+
+        bundle = new Bundle();
+        bundle.putInt(ColorFragment.COLOR_OF_FRAGMENT, Color.GREEN);
+        fragment = new ColorFragment();
+        fragment.setArguments(bundle);
+        mViewpagerAdapter.addFragment(fragment);
+
+        bundle = new Bundle();
+        bundle.putInt(ColorFragment.COLOR_OF_FRAGMENT, Color.BLUE);
+        fragment = new ColorFragment();
+        fragment.setArguments(bundle);
+        mViewpagerAdapter.addFragment(fragment);
+
+        bundle = new Bundle();
+        bundle.putInt(ColorFragment.COLOR_OF_FRAGMENT, Color.YELLOW);
+        fragment = new ColorFragment();
+        fragment.setArguments(bundle);
+        mViewpagerAdapter.addFragment(fragment);
+
+        bundle = new Bundle();
+        bundle.putInt(ColorFragment.COLOR_OF_FRAGMENT, Color.CYAN);
+        fragment = new ColorFragment();
+        fragment.setArguments(bundle);
+        mViewpagerAdapter.addFragment(fragment);
+
+        mViewPager.setAdapter(mViewpagerAdapter);
+        mViewPager.setCurrentItem(Constants.MISC_START_HOME_PAGE);
+    }
+
+    private void setupBottomNavigation() {
+        mBottomNavigation.addItem(new AHBottomNavigationItem(getString(R.string.activity_home_bottom_navigation_title_alarms), R.drawable.ic_nav_bottom_alarm));
+        mBottomNavigation.addItem(new AHBottomNavigationItem(getString(R.string.activity_home_bottom_navigation_title_market), R.drawable.ic_nav_bottom_market));
+        mBottomNavigation.addItem(new AHBottomNavigationItem(getString(R.string.activity_home_bottom_navigation_title_coins), R.drawable.ic_nav_bottom_coin));
+        mBottomNavigation.addItem(new AHBottomNavigationItem(getString(R.string.activity_home_bottom_navigation_title_favorites), R.drawable.ic_nav_bottom_favorite));
+        mBottomNavigation.addItem(new AHBottomNavigationItem(getString(R.string.activity_home_bottom_navigation_title_settings), R.drawable.ic_nav_bottom_settings));
+        mBottomNavigation.setCurrentItem(Constants.MISC_START_HOME_PAGE);
+
+
+        mBottomNavigation.setOnTabSelectedListener((position, wasSelected) -> {
+
+            if(!wasSelected)
+                mViewPager.setCurrentItem(position);
+            return true;
+        });
+
+        mBottomNavigation.setDefaultBackgroundColor(ContextCompat.getColor(this, R.color.bottom_nav_background));
+        mBottomNavigation.setAccentColor(ContextCompat.getColor(this, R.color.bottom_nav_icon_selected));
+        mBottomNavigation.setInactiveColor(ContextCompat.getColor(this, R.color.bottom_nav_icon_unselected));
+        mBottomNavigation.setTitleState(AHBottomNavigation.TitleState.ALWAYS_HIDE);
+
+    }
+
+    private void createFakeNotification() {
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                AHNotification notification = new AHNotification.Builder()
+                        .setText("1")
+                        .setBackgroundColor(ContextCompat.getColor(HomeActivity.this, R.color.bottom_nav_notification_background))
+                        .setTextColor(ContextCompat.getColor(HomeActivity.this, R.color.bottom_nav_notification_text))
+                        .build();
+                // Adding notification to last item.
+
+                mBottomNavigation.setNotification(notification, mBottomNavigation.getItemsCount() - 1);
+            }
+        }, 1000);
     }
 
     @Override
@@ -198,7 +282,7 @@ public class HomeActivity extends BaseActivity implements HomeMvpView {
 
     @Override
     public void showMessage(Message message, @Nullable BaseTransientBottomBar.BaseCallback<Snackbar> callback) {
-        //SnackbarUtil.showSnackbar(mContainer, message.getMessageType(), message.getFriendlyNameRes(), SnackbarUtil.SnackbarDuration.SHORT, callback);
+        SnackbarUtil.showSnackbar(mCoordinator, message.getMessageType(), message.getFriendlyNameRes(), SnackbarUtil.SnackbarDuration.SHORT, callback);
     }
 
 //    @Override
