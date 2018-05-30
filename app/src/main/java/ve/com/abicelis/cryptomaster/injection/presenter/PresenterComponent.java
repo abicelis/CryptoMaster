@@ -2,6 +2,7 @@ package ve.com.abicelis.cryptomaster.injection.presenter;
 
 import dagger.Subcomponent;
 import ve.com.abicelis.cryptomaster.ui.home.HomeActivity;
+import ve.com.abicelis.cryptomaster.ui.market.MarketFragment;
 
 /**
  * Created by abicelis on 25/5/2018.
@@ -14,4 +15,5 @@ import ve.com.abicelis.cryptomaster.ui.home.HomeActivity;
 )
 public interface PresenterComponent {
     void inject(HomeActivity target);
+    void inject(MarketFragment target);
 }

@@ -7,6 +7,7 @@ import dagger.Module;
 import dagger.Provides;
 import ve.com.abicelis.cryptomaster.data.DataManager;
 import ve.com.abicelis.cryptomaster.ui.home.HomePresenter;
+import ve.com.abicelis.cryptomaster.ui.market.MarketPresenter;
 
 /**
  * Created by abicelis on 25/5/2018.
@@ -32,11 +33,11 @@ public class PresenterModule {
     HomePresenter homePresenter(DataManager dataManager) {
         return new HomePresenter(dataManager);
     }
-//
-//    @Provides
-//    HomePresenter homePresenter(DataManager dataManager) {
-//        return new HomePresenter(dataManager);
-//    }
+
+    @Provides
+    MarketPresenter marketPresenter(DataManager dataManager) {
+        return new MarketPresenter(dataManager);
+    }
 //
 //    @Provides
 //    ChangeImagePresenter changeImagePresenter(DataManager dataManager) {return new ChangeImagePresenter(dataManager); }

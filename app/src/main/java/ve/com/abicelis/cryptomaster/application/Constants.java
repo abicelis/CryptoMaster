@@ -23,6 +23,8 @@ public class Constants {
 
 
     /* HOME ACTIVITY */
+    public static final int    MISC_START_HOME_PAGE = 2;
+
 
     /* FLIGHT ACTIVITY */
 //    public static final String  EXTRA_ACTIVITY_FLIGHT_TRIP_ID = "EXTRA_ACTIVITY_FLIGHT_TRIP_ID";
