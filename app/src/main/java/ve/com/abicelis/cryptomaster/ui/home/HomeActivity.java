@@ -24,6 +24,7 @@ import ve.com.abicelis.cryptomaster.R;
 import ve.com.abicelis.cryptomaster.application.Constants;
 import ve.com.abicelis.cryptomaster.application.Message;
 import ve.com.abicelis.cryptomaster.ui.base.BaseActivity;
+import ve.com.abicelis.cryptomaster.ui.market.MarketFragment;
 import ve.com.abicelis.cryptomaster.util.SnackbarUtil;
 
 /**
@@ -98,11 +99,11 @@ public class HomeActivity extends BaseActivity implements HomeMvpView {
         fragment.setArguments(bundle);
         mViewpagerAdapter.addFragment(fragment);
 
-        bundle = new Bundle();
-        bundle.putInt(ColorFragment.COLOR_OF_FRAGMENT, Color.GREEN);
-        fragment = new ColorFragment();
-        fragment.setArguments(bundle);
-        mViewpagerAdapter.addFragment(fragment);
+        //bundle = new Bundle();
+        //bundle.putInt(ColorFragment.COLOR_OF_FRAGMENT, Color.GREEN);
+        MarketFragment mFragment = new MarketFragment();
+        //fragment.setArguments(bundle);
+        mViewpagerAdapter.addFragment(mFragment);
 
         bundle = new Bundle();
         bundle.putInt(ColorFragment.COLOR_OF_FRAGMENT, Color.BLUE);
