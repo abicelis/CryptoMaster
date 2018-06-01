@@ -75,6 +75,6 @@ dependencies {
     implementation 'com.aurelhubert:ahbottomnavigation:2.1.0'
 
     //Charts!
-    implementation 'com.diogobernardino:williamchart:2.5.0'
+    implementation 'com.github.lecho:hellocharts-library:1.5.8@aar'
 
 }
