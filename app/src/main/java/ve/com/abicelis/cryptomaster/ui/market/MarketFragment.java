@@ -67,6 +67,12 @@ public class MarketFragment extends BaseFragment implements MarketMvpView {
     }
 
     @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mMarketPresenter.detachView();
+    }
+
+    @Override
     public void showMessage(Message message, @Nullable BaseTransientBottomBar.BaseCallback<Snackbar> callback) {
         //Not implemented
     }

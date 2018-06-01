@@ -5,10 +5,6 @@ import javax.inject.Named;
 
 import dagger.Module;
 import dagger.Provides;
-import okhttp3.Credentials;
-import okhttp3.OkHttpClient;
-import okhttp3.Response;
-import okhttp3.Route;
 import retrofit2.Converter;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
@@ -16,6 +12,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
 import ve.com.abicelis.cryptomaster.application.Constants;
 import ve.com.abicelis.cryptomaster.data.remote.CoinMarketCapApi;
+import ve.com.abicelis.cryptomaster.data.remote.CoinMarketCapGraphApi;
 import ve.com.abicelis.cryptomaster.data.remote.CryptoCompareApi;
 
 /**
@@ -31,6 +28,9 @@ public class RemoteModule {
 
     private static final String COINMARKETCAP_BASE_URL = "COINMARKETCAP_BASE_URL";
     private static final String COINMARKETCAP_RETROFIT = "COINMARKETCAP_RETROFIT";
+
+    private static final String COINMARKETCAPGRAPH_BASE_URL = "COINMARKETCAPGRAPH_BASE_URL";
+    private static final String COINMARKETCAPGRAPH_RETROFIT = "COINMARKETCAPGRAPH_RETROFIT";
 
     private static final String CRYPTOCOMPARE_BASE_URL = "CRYPTOCOMPARE_BASE_URL";
     private static final String CRYPTOCOMPARE_RETROFIT = "CRYPTOCOMPARE_RETROFIT";
@@ -64,13 +64,13 @@ public class RemoteModule {
      */
     @Provides
     @Named(COINMARKETCAP_BASE_URL)
-    String provideFlightawareBaseUrlString() {return Constants.COINMARKETCAP_BASE_URL;}
+    String provideCMCBaseUrl() {return Constants.COINMARKETCAP_BASE_URL;}
 
     @Provides
     @Named(COINMARKETCAP_RETROFIT)
     Retrofit provideCoinMarketCapRetrofit(@Named(CONVERTER_GSON) Converter.Factory converter,
-                                        RxJava2CallAdapterFactory factory,
-                                        @Named(COINMARKETCAP_BASE_URL) String baseUrl) {
+                                          RxJava2CallAdapterFactory factory,
+                                          @Named(COINMARKETCAP_BASE_URL) String baseUrl) {
         return new Retrofit.Builder()
                 .baseUrl(baseUrl)
                 .addConverterFactory(converter)
@@ -83,6 +83,31 @@ public class RemoteModule {
         return retrofit.create(CoinMarketCapApi.class);
     }
 
+
+
+    /**
+     * INJECTION GRAPH FOR COIN MARKET CAP GRAPH API
+     */
+    @Provides
+    @Named(COINMARKETCAPGRAPH_BASE_URL)
+    String provideCMCGBaseUrl() {return Constants.COINMARKETCAPGRAPH_BASE_URL;}
+
+    @Provides
+    @Named(COINMARKETCAPGRAPH_RETROFIT)
+    Retrofit provideCMCGRetrofit(@Named(CONVERTER_GSON) Converter.Factory converter,
+                                          RxJava2CallAdapterFactory factory,
+                                          @Named(COINMARKETCAPGRAPH_BASE_URL) String baseUrl) {
+        return new Retrofit.Builder()
+                .baseUrl(baseUrl)
+                .addConverterFactory(converter)
+                .addCallAdapterFactory(factory)
+                .build();
+    }
+
+    @Provides
+    CoinMarketCapGraphApi provideCMCGApi(@Named(COINMARKETCAPGRAPH_RETROFIT) Retrofit retrofit) {
+        return retrofit.create(CoinMarketCapGraphApi.class);
+    }
 
 
 
