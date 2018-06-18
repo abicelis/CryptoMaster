@@ -1,16 +1,25 @@
 package ve.com.abicelis.cryptomaster.data;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
 import javax.inject.Inject;
 
-import io.reactivex.Maybe;
+import io.reactivex.Single;
+import lecho.lib.hellocharts.model.PointValue;
 import ve.com.abicelis.cryptomaster.data.local.SharedPreferenceHelper;
+import ve.com.abicelis.cryptomaster.data.model.Coin;
 import ve.com.abicelis.cryptomaster.data.model.Currency;
 import ve.com.abicelis.cryptomaster.data.model.coinmarketcap.GlobalResult;
 import ve.com.abicelis.cryptomaster.data.model.coinmarketcap.TickerResult;
-import ve.com.abicelis.cryptomaster.data.model.coinmarketcapgraph.TotalMarketCapResult;
+import ve.com.abicelis.cryptomaster.data.model.coinmarketcaps2.CurrencyResult;
 import ve.com.abicelis.cryptomaster.data.remote.CoinMarketCapApi;
 import ve.com.abicelis.cryptomaster.data.remote.CoinMarketCapGraphApi;
+import ve.com.abicelis.cryptomaster.data.remote.CoinMarketCapS2Api;
 import ve.com.abicelis.cryptomaster.data.remote.CryptoCompareApi;
+import ve.com.abicelis.cryptomaster.util.StringUtil;
 
 /**
  * Created by abicelis on 29/8/2017.
@@ -22,16 +31,22 @@ public class DataManager {
     private SharedPreferenceHelper mSharedPreferenceHelper;
     private CoinMarketCapApi mCoinMarketCapApi;
     private CoinMarketCapGraphApi mCoinMarketCapGraphApi;
+    private CoinMarketCapS2Api mCoinMarketCapS2Api;
     private CryptoCompareApi mCryptoCompareApi;
 
     @Inject
     public DataManager(//AppDatabase appDatabase,
                        SharedPreferenceHelper sharedPreferenceHelper,
-                       CoinMarketCapApi coinMarketCapApi, CoinMarketCapGraphApi coinMarketCapGraphApi, CryptoCompareApi cryptoCompareApi) {
+                       CoinMarketCapApi coinMarketCapApi,
+                       CoinMarketCapGraphApi coinMarketCapGraphApi,
+                       CoinMarketCapS2Api coinMarketCapS2Api,
+                       CryptoCompareApi cryptoCompareApi) {
+
         //mAppDatabase = appDatabase;
         mSharedPreferenceHelper = sharedPreferenceHelper;
         mCoinMarketCapApi = coinMarketCapApi;
         mCoinMarketCapGraphApi = coinMarketCapGraphApi;
+        mCoinMarketCapS2Api = coinMarketCapS2Api;
         mCryptoCompareApi = cryptoCompareApi;
     }
 
@@ -39,8 +54,26 @@ public class DataManager {
     /**
      * Grabs ticker data from CoinMarketCap
      */
-    public Maybe<TickerResult> getTicker() {
-        return mCoinMarketCapApi.getTicker(1, 100, "id", "USD");
+    public Single<List<Coin>> getCoins(int start, int limit, String currency) {
+        return mCoinMarketCapApi.getTicker(start, limit, "id", currency)
+                .map(tickerResult -> {
+                    List<Coin> coins = new ArrayList<>();
+                    for (TickerResult.TickerData data : tickerResult.getData()) {
+                        TickerResult.TickerData.QuoteData quoteData = data.getQuotes().get(currency);
+                        coins.add(new Coin(data.getId(),
+                                data.getName(),
+                                data.getSymbol(),
+                                quoteData.getPrice(),
+                                quoteData.getVolume24h(),
+                                quoteData.getMarketCap(),
+                                quoteData.getPercentChange1h(),
+                                quoteData.getPercentChange24h(),
+                                quoteData.getPercentChange7d()));
+                    }
+
+                    Collections.sort(coins);
+                    return coins;
+                });
     }
 
     /**
@@ -50,18 +83,30 @@ public class DataManager {
      * - Bitcoin dominance (%)
      * - Market cap and 24h vol
      */
-    public Maybe<GlobalResult> getCoinMarketCapGlobal() {
+    public Single<GlobalResult> getCoinMarketCapGlobal() {
         return mCoinMarketCapApi.getGlobal(Currency.USD.name());
     }
 
 
-    /**
-     */
-    public Maybe<TotalMarketCapResult> getTotalMaketCap() {
-        return mCoinMarketCapGraphApi.getTotalMaketCap(1520873220000L,1520874220000L);
+
+
+
+      public Single<List<PointValue>> getMaketCapGraphData(long timeStart, long timeEnd) {
+        return mCoinMarketCapGraphApi.getTotalMarketCapAndVolumeGraphData(timeStart, timeEnd)
+                .map(result -> {
+                    List<PointValue> values = new ArrayList<>();
+                    long[][] vals = result.getMarketCapByAvailableSupply();
+                    for (int i = 0; i < result.getMarketCapByAvailableSupply().length; i++) {
+                        values.add(new PointValue(vals[i][0], vals[i][1]));
+                    }
+                    return values;
+                });
     }
 
 
+    public Single<CurrencyResult[]> getCurrencies() {
+        return mCoinMarketCapS2Api.getCurrencies();
+    }
 
 
 
