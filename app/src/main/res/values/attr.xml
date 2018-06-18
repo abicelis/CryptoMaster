@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!--COLORS FOR THEMES-->
+    <attr name="horizontal_divider" format="reference|color" />
+    <attr name="default_background" format="reference|color" />
+    <attr name="default_accent" format="reference|color" />
     <attr name="text_title" format="reference|color" />
     <attr name="text_primary" format="reference|color" />
     <attr name="text_secondary" format="reference|color" />
@@ -11,6 +14,4 @@
     <attr name="bottom_nav_icon_unselected" format="reference|color" />
     <attr name="bottom_nav_notification_background" format="reference|color" />
     <attr name="bottom_nav_notification_text" format="reference|color" />
-
-
 </resources>

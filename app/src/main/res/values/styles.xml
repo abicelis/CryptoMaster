@@ -6,8 +6,9 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
 
-        <item name="divider">@color/divider</item>
-        <item name="background">@color/background</item>
+        <item name="horizontal_divider">@color/default_divider</item>
+        <item name="default_background">@color/default_background</item>
+        <item name="default_accent">@color/default_accent</item>
         <item name="text_title">@color/text_title</item>
         <item name="text_primary">@color/text_primary</item>
         <item name="text_secondary">@color/text_secondary</item>
@@ -18,6 +19,8 @@
         <item name="bottom_nav_icon_unselected">@color/bottom_nav_icon_unselected</item>
         <item name="bottom_nav_notification_background">@color/bottom_nav_notification_background</item>
         <item name="bottom_nav_notification_text">@color/bottom_nav_notification_text</item>
+
+        <item name="android:fontFamily">@font/nunito_extralight</item>
     </style>
 
     <!-- Base application theme. Dark. -->
@@ -26,8 +29,9 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
 
-        <item name="divider">@color/dark_divider</item>
-        <item name="background">@color/dark_background</item>
+        <item name="horizontal_divider">@color/dark_default_divider</item>
+        <item name="default_background">@color/dark_default_background</item>
+        <item name="default_accent">@color/dark_default_accent</item>
         <item name="text_title">@color/dark_text_title</item>
         <item name="text_primary">@color/dark_text_primary</item>
         <item name="text_secondary">@color/dark_text_secondary</item>
@@ -39,6 +43,7 @@
         <item name="bottom_nav_notification_background">@color/dark_bottom_nav_notification_background</item>
         <item name="bottom_nav_notification_text">@color/dark_bottom_nav_notification_text</item>
 
+        <item name="android:fontFamily">@font/nunito_extralight</item>
     </style>
 
     <!--Swipe refresh loading icon colors-->
