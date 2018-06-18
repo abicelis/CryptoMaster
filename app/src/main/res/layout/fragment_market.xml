@@ -1,13 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout
+    android:id="@+id/fragment_market_container"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:background="?attr/default_background"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <lecho.lib.hellocharts.view.LineChartView
-        android:id="@+id/fragment_market_chart_market"
+
+
+    <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="220dp"
         android:layout_marginEnd="16dp"
@@ -15,7 +18,15 @@
         android:layout_marginTop="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
+        <lecho.lib.hellocharts.view.LineChartView
+            android:id="@+id/fragment_market_chart_market_cap"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="8dp"
+
+            />
+    </android.support.v7.widget.CardView>
 
 
 </android.support.constraint.ConstraintLayout>

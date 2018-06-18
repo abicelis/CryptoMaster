@@ -2,8 +2,10 @@ package ve.com.abicelis.cryptomaster.ui.market;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
+import timber.log.Timber;
+import ve.com.abicelis.cryptomaster.application.Message;
 import ve.com.abicelis.cryptomaster.data.DataManager;
-import ve.com.abicelis.cryptomaster.data.model.coinmarketcap.GlobalResult;
+import ve.com.abicelis.cryptomaster.data.model.coinmarketcaps2.CurrencyResult;
 import ve.com.abicelis.cryptomaster.ui.base.BasePresenter;
 
 /**
@@ -16,10 +18,9 @@ public class MarketPresenter extends BasePresenter<MarketMvpView> {
 
     public MarketPresenter(DataManager dataManager) {
         mDataManager = dataManager;
-        getGlobal();
     }
 
-    public void getGlobal() {
+    public void getMarketCapGraphData() {
 
 //        addDisposable(mDataManager.getCoinMarketCapGlobal()
 //                .subscribeOn(Schedulers.io())
@@ -33,15 +34,25 @@ public class MarketPresenter extends BasePresenter<MarketMvpView> {
 //                ));
 
 
-        addDisposable(mDataManager.getTotalMaketCap()
+        addDisposable(mDataManager.getMaketCapGraphData(1520873220000L,1520879220000L)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(result -> {
-                    System.out.println("onSuccess");
+                    getMvpView().showMarketCapGraph(result);
+                }, throwable -> {
+                    getMvpView().showMessage(Message.ERROR_UNEXPECTED, null);
+                }));
 
-                }, throwable ->
-                        System.out.println("onError")
-                ));
+        addDisposable(mDataManager.getCurrencies()
+        .subscribeOn(Schedulers.io())
+        .observeOn(AndroidSchedulers.mainThread())
+        .subscribe(currencyResult -> {
+            for (CurrencyResult c : currencyResult ) {
+                //Timber.i(c.getName());
+            }
+        }, throwable -> {
+            getMvpView().showMessage(Message.ERROR_UNEXPECTED, null);
+        }));
     }
 
 }
