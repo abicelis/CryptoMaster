@@ -51,7 +51,9 @@ public class Constants {
 
     /* COINMARKETCAP API */
     public static final String COINMARKETCAP_BASE_URL = "https://api.coinmarketcap.com/v2/";
-    public static final String COINMARKETCAPGRAPH_BASE_URL = "https://graphs2.coinmarketcap.com/";
+    public static final String COINMARKETCAP_S2_BASE_URL = "https://s2.coinmarketcap.com/";
+    public static final String COINMARKETCAP_GRAPHS_BASE_URL = "https://graphs2.coinmarketcap.com/";
+    public static final String COINMARKETCAP_ICONS_BASE_URL = "https://s2.coinmarketcap.com/static/img/coins/16x16/%1$s.png";
 
     /* CRYPTOCOMPARE API */
     public static final String CRYPTOCOMPARE_BASE_URL = "https://api.qwant.com/api/search/";

@@ -1,6 +1,7 @@
 package ve.com.abicelis.cryptomaster.injection.presenter;
 
 import dagger.Subcomponent;
+import ve.com.abicelis.cryptomaster.ui.coins.CoinsFragment;
 import ve.com.abicelis.cryptomaster.ui.home.HomeActivity;
 import ve.com.abicelis.cryptomaster.ui.market.MarketFragment;
 
@@ -16,4 +17,5 @@ import ve.com.abicelis.cryptomaster.ui.market.MarketFragment;
 public interface PresenterComponent {
     void inject(HomeActivity target);
     void inject(MarketFragment target);
+    void inject(CoinsFragment target);
 }

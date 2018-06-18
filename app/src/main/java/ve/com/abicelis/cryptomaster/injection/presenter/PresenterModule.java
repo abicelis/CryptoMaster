@@ -1,11 +1,11 @@
 package ve.com.abicelis.cryptomaster.injection.presenter;
 
 import android.app.Activity;
-import android.content.Context;
 
 import dagger.Module;
 import dagger.Provides;
 import ve.com.abicelis.cryptomaster.data.DataManager;
+import ve.com.abicelis.cryptomaster.ui.coins.CoinsPresenter;
 import ve.com.abicelis.cryptomaster.ui.home.HomePresenter;
 import ve.com.abicelis.cryptomaster.ui.market.MarketPresenter;
 
@@ -38,19 +38,10 @@ public class PresenterModule {
     MarketPresenter marketPresenter(DataManager dataManager) {
         return new MarketPresenter(dataManager);
     }
-//
-//    @Provides
-//    ChangeImagePresenter changeImagePresenter(DataManager dataManager) {return new ChangeImagePresenter(dataManager); }
-//
-//    @Provides
-//    TripDetailPresenter tripDetailPresenter(DataManager dataManager) {return new TripDetailPresenter(dataManager); }
-//
-//    @Provides
-//    FlightPresenter flightPresenter(DataManager dataManager) {return new FlightPresenter(dataManager); }
-//
-//    @Provides
-//    AirportAirlineSearchPresenter airportAirlineSearchPresenter(DataManager dataManager) {return new AirportAirlineSearchPresenter(dataManager); }
-//
-//    @Provides
-//    TrackerPresenter trackerPresenter(DataManager dataManager) {return new TrackerPresenter(dataManager); }
+
+    @Provides
+    CoinsPresenter coinsPresenter(DataManager dataManager) {
+        return new CoinsPresenter(dataManager);
+    }
+
 }
