@@ -20,7 +20,7 @@ public class HomePresenter extends BasePresenter<HomeMvpView> {
     public HomePresenter(DataManager dataManager) {
         mDataManager = dataManager;
 //
-//        addDisposable(mDataManager.getTicker()
+//        addDisposable(mDataManager.getCoins()
 //                .subscribeOn(Schedulers.io())
 //                .observeOn(AndroidSchedulers.mainThread())
 //                .subscribe(tickerResult -> {
