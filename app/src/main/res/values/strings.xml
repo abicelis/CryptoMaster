@@ -7,6 +7,14 @@
     <string name="activity_home_bottom_navigation_title_favorites">Favorites</string>
     <string name="activity_home_bottom_navigation_title_settings">Settings</string>
 
+    <!--COIN FRAGMENT-->
+    <string name="fragment_coins_header_title_name">Name</string>
+    <string name="fragment_coins_header_title_price">Price</string>
+    <string name="fragment_coins_header_title_marketcap">M.Cap</string>
+    <string name="fragment_coins_header_title_volume">Vol</string>
+    <string name="fragment_coins_header_title_1h">1h</string>
+    <string name="fragment_coins_header_title_24h">24h</string>
+    <string name="fragment_coins_header_title_7d">7d</string>
 
 
 
