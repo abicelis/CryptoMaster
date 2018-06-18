@@ -10,7 +10,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
+import android.widget.RelativeLayout;
 
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
@@ -37,8 +37,8 @@ public class HomeActivity extends BaseActivity implements HomeMvpView {
     @Inject
     HomePresenter mHomePresenter;
 
-    @BindView(R.id.activity_home_coordinator)
-    CoordinatorLayout mCoordinator;
+    @BindView(R.id.activity_home_container)
+    RelativeLayout mContainer;
 
     @BindView(R.id.activity_home_viewpager)
     NoSwipePager mViewPager;
@@ -282,7 +282,7 @@ public class HomeActivity extends BaseActivity implements HomeMvpView {
 
     @Override
     public void showMessage(Message message, @Nullable BaseTransientBottomBar.BaseCallback<Snackbar> callback) {
-        SnackbarUtil.showSnackbar(mCoordinator, message.getMessageType(), message.getFriendlyNameRes(), SnackbarUtil.SnackbarDuration.SHORT, callback);
+        SnackbarUtil.showSnackbar(mContainer, message.getMessageType(), message.getFriendlyNameRes(), SnackbarUtil.SnackbarDuration.SHORT, callback);
     }
 
 //    @Override
