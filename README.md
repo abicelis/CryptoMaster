@@ -26,6 +26,7 @@ Please check out the prototype by clicking [right here!](https://abicelis.github
 - Retrofit
 - Dagger 2
 - Room database
+- Glide
 
 
 ## Code dependencies
@@ -42,6 +43,7 @@ This Project uses external dependencies and SDK's
 * [RxAndroid](https://github.com/ReactiveX/RxAndroid) - RxJava bindings for Android by ReactiveX
 * [Retrofit](https://github.com/square/retrofit) - Type-safe HTTP client for Android by square
 * [Room](https://developer.android.com/topic/libraries/architecture/room.html) - Room mobile database by google
+* [Glide](https://github.com/bumptech/glide) - Fast and efficient image loading and caching library by bumptech
 
 
 ## External APIs
