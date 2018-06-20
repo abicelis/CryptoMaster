@@ -19,11 +19,15 @@ public class Constants {
     /* MISC */
     public static final int    MISC_IMAGE_JPEG_COMPRESSION_PERCENTAGE = 50;
     public static final int    MISC_ALPHA_ANIMATIONS_DURATION = 200;
+    public static final int    MISC_REVEAL_ANIMATION_DURATION = 1000;
     public static final int    MISC_UI_DEBOUNCE_TIME_MILLISECONDS = 300;
 
 
     /* HOME ACTIVITY */
     public static final int    MISC_START_HOME_PAGE = 2;
+
+    /* COIN FRAGMENT */
+    public static final int    COIN_FRAGMENT_FAVORITE_DELAY = 3000;
 
 
     /* FLIGHT ACTIVITY */
@@ -41,6 +45,8 @@ public class Constants {
     public static final String  SHARED_PREFERENCE_TIME_FORMAT = "SHARED_PREFERENCE_TIME_FORMAT";
     public static final String  SHARED_PREFERENCE_DATE_FORMAT = "SHARED_PREFERENCE_DATE_FORMAT";
     public static final String  SHARED_PREFERENCE_APP_THEME_TYPE = "SHARED_PREFERENCE_APP_THEME_TYPE";
+    public static final String  SHARED_PREFERENCE_SEPARATOR = "-";
+    public static final String  SHARED_PREFERENCE_FAVORITE_COINS = "SHARED_PREFERENCE_FAVORITE_COINS";
 
 
     /* ROOM DATABASE */
