@@ -8,6 +8,8 @@
     <string name="activity_home_bottom_navigation_title_settings">Settings</string>
 
     <!--COIN FRAGMENT-->
+    <string name="fragment_coins_added_to_favorites">%1$s added to Favorites</string>
+    <string name="fragment_coins_removed_from_favorites">%1$s removed from Favorites</string>
     <string name="fragment_coins_header_title_name">Name</string>
     <string name="fragment_coins_header_title_price">Price</string>
     <string name="fragment_coins_header_title_marketcap">M.Cap</string>

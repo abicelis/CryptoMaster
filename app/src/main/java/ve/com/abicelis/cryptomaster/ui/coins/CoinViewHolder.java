@@ -1,19 +1,28 @@
 package ve.com.abicelis.cryptomaster.ui.coins;
 
+import android.animation.Animator;
+import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.support.constraint.ConstraintLayout;
-import android.support.v4.content.ContextCompat;
+import android.os.Handler;
 import android.support.v7.widget.RecyclerView;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewAnimationUtils;
+import android.view.animation.AccelerateDecelerateInterpolator;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import ve.com.abicelis.cryptomaster.R;
 import ve.com.abicelis.cryptomaster.application.Constants;
+import ve.com.abicelis.cryptomaster.data.local.SharedPreferenceHelper;
 import ve.com.abicelis.cryptomaster.data.model.Coin;
 import ve.com.abicelis.cryptomaster.util.AttrUtil;
 import ve.com.abicelis.cryptomaster.util.StringUtil;
@@ -22,17 +31,33 @@ import ve.com.abicelis.cryptomaster.util.StringUtil;
  * Created by abicelis on 16/6/2018.
  */
 
-public class CoinViewHolder extends RecyclerView.ViewHolder {
+public class CoinViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener, View.OnTouchListener {
 
     //DATA
+    private enum State {NORMAL, SHOWING_FAVORITE_OVERLAY}
     private CoinsAdapter mAdapter;
     private Activity mActivity;
     private Coin mCurrent;
     private int mPosition;
+    private State mState;
+
+
+    // class member variable to save the X,Y coordinates
+    private float[] lastTouchDownXY = new float[2];
+    float mEndRadius;
 
     //UI
+    Handler mFavoriteHandler;
+
+    @BindView(R.id.list_item_coin_favorite)
+    RelativeLayout mFavorite;
+    @BindView(R.id.list_item_coin_favorite_text)
+    TextView mFavoriteText;
+    @BindView(R.id.list_item_coin_favorite_cancel)
+    TextView mFavoriteCancel;
+
     @BindView(R.id.list_item_coin_container)
-    ConstraintLayout mContainer;
+    FrameLayout mContainer;
     @BindView(R.id.list_item_coin_name)
     TextView mName;
     @BindView(R.id.list_item_coin_symbol)
@@ -67,6 +92,11 @@ public class CoinViewHolder extends RecyclerView.ViewHolder {
         mCurrent = current;
         mPosition = position;
 
+        mState = State.NORMAL;
+        if (mFavoriteHandler != null)
+            mFavoriteHandler.removeCallbacksAndMessages(null);
+        mFavorite.setVisibility(View.GONE);
+
         mName.setText(mCurrent.getName());
         mSymbol.setText(mCurrent.getSymbol());
 
@@ -97,13 +127,17 @@ public class CoinViewHolder extends RecyclerView.ViewHolder {
             mPercent7d.setTextColor(AttrUtil.getAttributeColor(mActivity, R.attr.text_negative));
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     public void setListeners() {
 
         //mContainer.setOnClickListener(this);
-        //mContainer.setOnLongClickListener(this);
+        mContainer.setOnLongClickListener(this);
+        mContainer.setOnTouchListener(this);
+        mFavoriteCancel.setOnClickListener(this);
     }
 
-//    @Override
+
+    //    @Override
 //    public void onClick(View v) {
 //        int id = v.getId();
 //        switch (id) {
@@ -113,14 +147,100 @@ public class CoinViewHolder extends RecyclerView.ViewHolder {
 //        }
 //    }
 //
-//    @Override
-//    public boolean onLongClick(View v) {
-//        int id = v.getId();
-//        switch (id) {
-//            case R.id.list_item_flight_container:
-//                mAdapter.triggerFlightLongClicked(mCurrent);
-//                return true;
-//        }
-//        return false;
-//    }
+    @Override
+    public boolean onLongClick(View v) {
+        int id = v.getId();
+        switch (id) {
+            case R.id.list_item_coin_container:
+
+                if(mState == State.NORMAL) {
+                    mState = State.SHOWING_FAVORITE_OVERLAY;
+
+                    if(new SharedPreferenceHelper().isFavoriteCoin(mCurrent.getId()))
+                        mFavoriteText.setText(String.format(Locale.getDefault(), mActivity.getResources().getString(R.string.fragment_coins_removed_from_favorites), mCurrent.getName()));
+                    else
+                        mFavoriteText.setText(String.format(Locale.getDefault(), mActivity.getResources().getString(R.string.fragment_coins_added_to_favorites), mCurrent.getName()));
+
+
+                    mEndRadius = (int) Math.hypot(v.getWidth(), v.getHeight());
+                    Animator anim = ViewAnimationUtils.createCircularReveal(mFavorite, (int)lastTouchDownXY[0], (int)lastTouchDownXY[1], 0, mEndRadius);
+                    anim.setInterpolator(new AccelerateDecelerateInterpolator());
+                    //anim.setDuration(300);
+                    mFavorite.setVisibility(View.VISIBLE);
+                    anim.start();
+
+                    mFavoriteHandler = new Handler();
+                    mFavoriteHandler.postDelayed(() -> hideFavorite(false), Constants.COIN_FRAGMENT_FAVORITE_DELAY);
+                    return true;
+                }
+        }
+        return false;
+    }
+
+    @Override
+    public boolean onTouch(View v, MotionEvent event) {
+
+        // save the X,Y coordinates
+        if (event.getActionMasked() == MotionEvent.ACTION_DOWN) {
+            lastTouchDownXY[0] = event.getX();
+            lastTouchDownXY[1] = event.getY();
+        }
+
+        // let the touch event pass on to whoever needs it
+        return false;
+    }
+
+    @Override
+    public void onClick(View v) {
+        int id = v.getId();
+        switch (id) {
+            case R.id.list_item_coin_favorite_cancel:
+                if(mState == State.SHOWING_FAVORITE_OVERLAY) {
+                    mFavoriteHandler.removeCallbacksAndMessages(null);
+                    hideFavorite(true);
+                }
+                break;
+        }
+    }
+
+    private void hideFavorite(boolean isCancelled) {
+        Animator animator = (isCancelled) ?
+                ViewAnimationUtils.createCircularReveal(mFavorite,  mFavorite.getMeasuredWidth(), mFavorite.getMeasuredHeight()/2, mEndRadius, 0) :
+                ViewAnimationUtils.createCircularReveal(mFavorite,  0, mFavorite.getMeasuredHeight()/2, mEndRadius, 0);
+
+        animator.setInterpolator(new AccelerateDecelerateInterpolator());
+            animator.addListener(new Animator.AnimatorListener() {
+                @Override
+                public void onAnimationStart(Animator animation) {
+
+                }
+
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    if(!isCancelled) {
+                        if (!new SharedPreferenceHelper().isFavoriteCoin(mCurrent.getId()))
+                            new SharedPreferenceHelper().setCoinAsFavorite(mCurrent.getId());
+                        else
+                            new SharedPreferenceHelper().removeCoinFromFavorites(mCurrent.getId());
+                    }
+
+
+                    mFavorite.setVisibility(View.INVISIBLE);
+                    mState = State.NORMAL;
+                }
+
+                @Override
+                public void onAnimationCancel(Animator animation) {
+
+                }
+
+                @Override
+                public void onAnimationRepeat(Animator animation) {
+
+                }
+            });
+        //animator.setDuration(300);
+        animator.start();
+    }
+
 }

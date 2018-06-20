@@ -10,5 +10,7 @@ import ve.com.abicelis.cryptomaster.ui.base.MvpView;
  */
 public interface CoinsMvpView extends MvpView {
 
+    void showLoading();
     void showCoins(List<Coin> coins);
+    void hideLoading();
 }
