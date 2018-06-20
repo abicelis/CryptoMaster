@@ -7,6 +7,7 @@ import timber.log.Timber;
 import ve.com.abicelis.cryptomaster.application.Constants;
 import ve.com.abicelis.cryptomaster.application.CryptoMasterApplication;
 import ve.com.abicelis.cryptomaster.data.model.AppThemeType;
+import ve.com.abicelis.cryptomaster.util.IntUtil;
 
 /**
  * Created by abice on 1/4/2017.
@@ -18,6 +19,78 @@ public class SharedPreferenceHelper {
 
     public SharedPreferenceHelper() {
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(CryptoMasterApplication.getAppContext());
+    }
+
+
+    /* RECENT AIRPORTS */
+    public int[] getFavoriteCoins() {
+        String favoriteCoins = mSharedPreferences.getString(Constants.SHARED_PREFERENCE_FAVORITE_COINS, null);
+
+        if(favoriteCoins != null)
+            return IntUtil.ToIntArray(favoriteCoins.split(Constants.SHARED_PREFERENCE_SEPARATOR));
+
+        return new int[0];
+    }
+
+    public boolean isFavoriteCoin(int coinId) {
+        String favoriteCoins = mSharedPreferences.getString(Constants.SHARED_PREFERENCE_FAVORITE_COINS, null);
+
+        if(favoriteCoins == null)
+            return false;
+
+        int[] coinArray = IntUtil.ToIntArray(favoriteCoins.split(Constants.SHARED_PREFERENCE_SEPARATOR));
+
+
+        for (int coin : coinArray) {
+            if (coinId == coin)
+                return true;
+        }
+        return false;
+    }
+
+    public void setCoinAsFavorite(int coinId) {
+        String favoriteCoins = mSharedPreferences.getString(Constants.SHARED_PREFERENCE_FAVORITE_COINS, null);
+
+        if(favoriteCoins == null) {
+            mSharedPreferences.edit().putString(Constants.SHARED_PREFERENCE_FAVORITE_COINS, String.valueOf(coinId)).apply();
+            return;
+        }
+
+        int[] coinArray = IntUtil.ToIntArray(favoriteCoins.split(Constants.SHARED_PREFERENCE_SEPARATOR));
+
+        //Skip if already favorite
+        for (int coin : coinArray) {
+            if (coin == coinId)
+                return;
+        }
+
+            mSharedPreferences.edit().putString(Constants.SHARED_PREFERENCE_FAVORITE_COINS, favoriteCoins
+                    + Constants.SHARED_PREFERENCE_SEPARATOR
+                    + String.valueOf(coinId)).apply();
+    }
+
+    public void removeCoinFromFavorites(int coinId) {
+        String favoriteCoins = mSharedPreferences.getString(Constants.SHARED_PREFERENCE_FAVORITE_COINS, null);
+
+        //If null, we're done
+        if(favoriteCoins == null)
+            return;
+
+        int[] coinArray = IntUtil.ToIntArray(favoriteCoins.split(Constants.SHARED_PREFERENCE_SEPARATOR));
+
+        //Skip if already favorite
+        String newCoins = "";
+        for (int coin : coinArray) {
+            if (coin != coinId)
+                newCoins += String.valueOf(coin) + Constants.SHARED_PREFERENCE_SEPARATOR;
+        }
+        if(newCoins.length() > 0) {
+            newCoins = newCoins.substring(0, newCoins.length() - 1);
+            mSharedPreferences.edit().putString(Constants.SHARED_PREFERENCE_FAVORITE_COINS, newCoins).apply();
+        } else {
+            mSharedPreferences.edit().putString(Constants.SHARED_PREFERENCE_FAVORITE_COINS, null).apply();
+        }
+
     }
 
 
