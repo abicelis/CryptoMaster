@@ -8,6 +8,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 import io.reactivex.Single;
+import io.reactivex.functions.Function;
 import lecho.lib.hellocharts.model.PointValue;
 import ve.com.abicelis.cryptomaster.data.local.SharedPreferenceHelper;
 import ve.com.abicelis.cryptomaster.data.model.Coin;
@@ -74,6 +75,42 @@ public class DataManager {
                     Collections.sort(coins);
                     return coins;
                 });
+    }
+
+    public Single<List<Coin>> getCoins(int[] coinIds, String currency) {
+        List<Single<TickerResult>> list = new ArrayList<>();
+
+        if(coinIds.length == 0)
+            return Single.just(new ArrayList<>());
+
+        for (int i = 0; i < coinIds.length; i++)
+            list.add(mCoinMarketCapApi.getTickerSingleCurrency(coinIds[i], currency));
+
+            return Single.zip(list, new Function<Object[], List<Coin>>() {
+                @Override
+                public List<Coin> apply(Object[] objects) {
+                    List<Coin> coins = new ArrayList<>();
+                    for(int i = 0; i < objects.length; i++) {
+                        if(objects[i] instanceof TickerResult) {
+                            for (TickerResult.TickerData data : ((TickerResult)objects[i]).getData()) {
+                                TickerResult.TickerData.QuoteData quoteData = data.getQuotes().get(currency);
+                                coins.add(new Coin(data.getId(),
+                                        data.getName(),
+                                        data.getSymbol(),
+                                        quoteData.getPrice(),
+                                        quoteData.getVolume24h(),
+                                        quoteData.getMarketCap(),
+                                        quoteData.getPercentChange1h(),
+                                        quoteData.getPercentChange24h(),
+                                        quoteData.getPercentChange7d()));
+                            }
+                        }
+                    }
+
+                    Collections.sort(coins);
+                    return coins;
+                }
+            });
     }
 
     /**
