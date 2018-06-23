@@ -4,10 +4,13 @@
     <string name="activity_home_bottom_navigation_title_alarms">Alarms</string>
     <string name="activity_home_bottom_navigation_title_market">Market</string>
     <string name="activity_home_bottom_navigation_title_coins">Coins</string>
-    <string name="activity_home_bottom_navigation_title_favorites">Favorites</string>
+    <string name="activity_home_bottom_navigation_title_favorites">Favorite Coins</string>
     <string name="activity_home_bottom_navigation_title_settings">Settings</string>
 
-    <!--COIN FRAGMENT-->
+
+    <!--FAVORITE COINS FRAGMENT-->
+
+    <!--COINS FRAGMENT-->
     <string name="fragment_coins_added_to_favorites">%1$s added to Favorites</string>
     <string name="fragment_coins_removed_from_favorites">%1$s removed from Favorites</string>
     <string name="fragment_coins_header_title_name">Name</string>
@@ -50,4 +53,5 @@
 
     <!--MESSAGES-->
     <string name="error_unexpected">Unexpected error, please report this error</string>
+    <string name="coin_fragment_type_missing">Error, missing COIN FRAGMENT TYPE</string>
 </resources>

@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BaseTransientBottomBar;
-import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.view.Menu;
@@ -23,6 +22,7 @@ import butterknife.ButterKnife;
 import ve.com.abicelis.cryptomaster.R;
 import ve.com.abicelis.cryptomaster.application.Constants;
 import ve.com.abicelis.cryptomaster.application.Message;
+import ve.com.abicelis.cryptomaster.data.model.CoinsFragmentType;
 import ve.com.abicelis.cryptomaster.ui.base.BaseActivity;
 import ve.com.abicelis.cryptomaster.ui.coins.CoinsFragment;
 import ve.com.abicelis.cryptomaster.ui.market.MarketFragment;
@@ -106,8 +106,16 @@ public class HomeActivity extends BaseActivity implements HomeMvpView {
         //fragment.setArguments(bundle);
         mViewpagerAdapter.addFragment(mFragment);
 
-        bundle.putInt(ColorFragment.COLOR_OF_FRAGMENT, Color.BLUE);
+        bundle = new Bundle();
+        bundle.putSerializable(Constants.COINS_FRAGMENT_TYPE, CoinsFragmentType.NORMAL);
         CoinsFragment coinsFragment = new CoinsFragment();
+        coinsFragment.setArguments(bundle);
+        mViewpagerAdapter.addFragment(coinsFragment);
+
+        bundle = new Bundle();
+        bundle.putSerializable(Constants.COINS_FRAGMENT_TYPE, CoinsFragmentType.FAVORITES);
+        coinsFragment = new CoinsFragment();
+        coinsFragment.setArguments(bundle);
         mViewpagerAdapter.addFragment(coinsFragment);
 
         bundle = new Bundle();
