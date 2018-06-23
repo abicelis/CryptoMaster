@@ -17,6 +17,7 @@ import ve.com.abicelis.cryptomaster.util.SnackbarUtil;
 
 public enum Message {
     ERROR_UNEXPECTED(R.string.error_unexpected, SnackbarUtil.SnackbarType.ERROR),
+    COIN_FRAGMENT_TYPE_MISSING(R.string.coin_fragment_type_missing, SnackbarUtil.SnackbarType.ERROR),
 
     ;
 

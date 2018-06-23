@@ -27,7 +27,8 @@ public class Constants {
     public static final int    MISC_START_HOME_PAGE = 2;
 
     /* COIN FRAGMENT */
-    public static final int    COIN_FRAGMENT_FAVORITE_DELAY = 3000;
+    public static final int     COINS_FRAGMENT_FAVORITE_DELAY = 3000;
+    public static final String  COINS_FRAGMENT_TYPE = "COINS_FRAGMENT_TYPE";
 
 
     /* FLIGHT ACTIVITY */
