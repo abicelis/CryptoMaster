@@ -24,6 +24,7 @@ import ve.com.abicelis.cryptomaster.R;
 import ve.com.abicelis.cryptomaster.application.Constants;
 import ve.com.abicelis.cryptomaster.data.local.SharedPreferenceHelper;
 import ve.com.abicelis.cryptomaster.data.model.Coin;
+import ve.com.abicelis.cryptomaster.data.model.CoinsFragmentType;
 import ve.com.abicelis.cryptomaster.util.AttrUtil;
 import ve.com.abicelis.cryptomaster.util.StringUtil;
 
@@ -37,8 +38,8 @@ public class CoinViewHolder extends RecyclerView.ViewHolder implements View.OnCl
     private enum State {NORMAL, SHOWING_FAVORITE_OVERLAY}
     private CoinsAdapter mAdapter;
     private Activity mActivity;
+    private CoinsFragmentType mCoinsFragmentType;
     private Coin mCurrent;
-    private int mPosition;
     private State mState;
 
 
@@ -86,11 +87,11 @@ public class CoinViewHolder extends RecyclerView.ViewHolder implements View.OnCl
         ButterKnife.bind(this, itemView);
     }
 
-    public void setData(CoinsAdapter adapter, Activity activity, Coin current, int position) {
+    public void setData(CoinsAdapter adapter, Activity activity, Coin current, CoinsFragmentType coinsFragmentType) {
         mAdapter = adapter;
         mActivity = activity;
         mCurrent = current;
-        mPosition = position;
+        mCoinsFragmentType = coinsFragmentType;
 
         mState = State.NORMAL;
         if (mFavoriteHandler != null)
@@ -170,7 +171,7 @@ public class CoinViewHolder extends RecyclerView.ViewHolder implements View.OnCl
                     anim.start();
 
                     mFavoriteHandler = new Handler();
-                    mFavoriteHandler.postDelayed(() -> hideFavorite(false), Constants.COIN_FRAGMENT_FAVORITE_DELAY);
+                    mFavoriteHandler.postDelayed(() -> hideFavorite(false), Constants.COINS_FRAGMENT_FAVORITE_DELAY);
                     return true;
                 }
         }
@@ -203,12 +204,14 @@ public class CoinViewHolder extends RecyclerView.ViewHolder implements View.OnCl
         }
     }
 
-    private void hideFavorite(boolean isCancelled) {
-        Animator animator = (isCancelled) ?
-                ViewAnimationUtils.createCircularReveal(mFavorite,  mFavorite.getMeasuredWidth(), mFavorite.getMeasuredHeight()/2, mEndRadius, 0) :
-                ViewAnimationUtils.createCircularReveal(mFavorite,  0, mFavorite.getMeasuredHeight()/2, mEndRadius, 0);
 
-        animator.setInterpolator(new AccelerateDecelerateInterpolator());
+    private void hideFavorite(boolean isCancelled) {
+        if(mFavorite.isAttachedToWindow()) {
+            Animator animator = (isCancelled) ?
+                    ViewAnimationUtils.createCircularReveal(mFavorite,  mFavorite.getMeasuredWidth(), mFavorite.getMeasuredHeight()/2, mEndRadius, 0) :
+                    ViewAnimationUtils.createCircularReveal(mFavorite,  0, mFavorite.getMeasuredHeight()/2, mEndRadius, 0);
+
+            animator.setInterpolator(new AccelerateDecelerateInterpolator());
             animator.addListener(new Animator.AnimatorListener() {
                 @Override
                 public void onAnimationStart(Animator animation) {
@@ -217,16 +220,9 @@ public class CoinViewHolder extends RecyclerView.ViewHolder implements View.OnCl
 
                 @Override
                 public void onAnimationEnd(Animator animation) {
-                    if(!isCancelled) {
-                        if (!new SharedPreferenceHelper().isFavoriteCoin(mCurrent.getId()))
-                            new SharedPreferenceHelper().setCoinAsFavorite(mCurrent.getId());
-                        else
-                            new SharedPreferenceHelper().removeCoinFromFavorites(mCurrent.getId());
-                    }
 
+                    doHandleHideFavorite(isCancelled);
 
-                    mFavorite.setVisibility(View.INVISIBLE);
-                    mState = State.NORMAL;
                 }
 
                 @Override
@@ -239,8 +235,33 @@ public class CoinViewHolder extends RecyclerView.ViewHolder implements View.OnCl
 
                 }
             });
-        //animator.setDuration(300);
-        animator.start();
+            //animator.setDuration(300);
+            animator.start();
+        } else {
+            doHandleHideFavorite(isCancelled);
+        }
+
+    }
+
+    public void doHandleHideFavorite(boolean isCancelled) {
+        if(!isCancelled) {
+            if (!new SharedPreferenceHelper().isFavoriteCoin(mCurrent.getId()))
+                new SharedPreferenceHelper().setCoinAsFavorite(mCurrent.getId());
+            else {
+                new SharedPreferenceHelper().removeCoinFromFavorites(mCurrent.getId());
+
+                if(mCoinsFragmentType == CoinsFragmentType.FAVORITES) {
+                    int pos = getAdapterPosition();
+                    mAdapter.getItems().remove(pos);
+                    mAdapter.notifyItemRemoved(pos);
+                    mAdapter.notifyItemRangeChanged(pos, mAdapter.getItemCount());
+                }
+            }
+        }
+
+
+        mFavorite.setVisibility(View.INVISIBLE);
+        mState = State.NORMAL;
     }
 
 }

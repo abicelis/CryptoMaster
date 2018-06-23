@@ -10,6 +10,7 @@ import java.util.List;
 
 import ve.com.abicelis.cryptomaster.R;
 import ve.com.abicelis.cryptomaster.data.model.Coin;
+import ve.com.abicelis.cryptomaster.data.model.CoinsFragmentType;
 
 /**
  * Created by abicelis on 17/9/2017.
@@ -19,12 +20,14 @@ public class CoinsAdapter extends RecyclerView.Adapter<CoinViewHolder> {
 
     //DATA
     private List<Coin> mItems = new ArrayList<>();
+    CoinsFragmentType mCoinsFragmentType;
     //private FlightClickedListener mListener;
     private LayoutInflater mInflater;
     private Activity mActivity;
 
 
-    public CoinsAdapter(Activity activity) {
+    public CoinsAdapter(Activity activity, CoinsFragmentType coinsFragmentType) {
+        mCoinsFragmentType = coinsFragmentType;
         mActivity = activity;
         mInflater = LayoutInflater.from(activity);
     }
@@ -38,7 +41,7 @@ public class CoinsAdapter extends RecyclerView.Adapter<CoinViewHolder> {
     @Override
     public void onBindViewHolder(CoinViewHolder holder, int position) {
         Coin current = mItems.get(position);
-        holder.setData(this, mActivity, current, position);
+        holder.setData(this, mActivity, current, mCoinsFragmentType);
         holder.setListeners();
     }
 

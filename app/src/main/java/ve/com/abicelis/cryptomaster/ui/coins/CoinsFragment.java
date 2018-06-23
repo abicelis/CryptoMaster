@@ -13,7 +13,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import java.util.List;
 
@@ -22,10 +22,11 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import ve.com.abicelis.cryptomaster.R;
+import ve.com.abicelis.cryptomaster.application.Constants;
 import ve.com.abicelis.cryptomaster.application.Message;
 import ve.com.abicelis.cryptomaster.data.model.Coin;
+import ve.com.abicelis.cryptomaster.data.model.CoinsFragmentType;
 import ve.com.abicelis.cryptomaster.ui.base.BaseFragment;
-import ve.com.abicelis.cryptomaster.util.AttrUtil;
 import ve.com.abicelis.cryptomaster.util.SnackbarUtil;
 
 /**
@@ -33,6 +34,7 @@ import ve.com.abicelis.cryptomaster.util.SnackbarUtil;
  */
 public class CoinsFragment extends BaseFragment implements CoinsMvpView {
 
+    //DATA
     Context mContext;
 
     @Inject
@@ -40,8 +42,8 @@ public class CoinsFragment extends BaseFragment implements CoinsMvpView {
 
     @BindView(R.id.fragment_coins_container)
     CoordinatorLayout mContainer;
-    @BindView(R.id.fragment_coins_progressbar)
-    ProgressBar mProgressBar;
+    @BindView(R.id.fragment_coin_toolbar_title)
+    TextView mToolbarTitle;
     @BindView(R.id.fragment_coins_recycler)
     RecyclerView mRecycler;
     @BindView(R.id.fragment_coins_swipe_refresh)
@@ -61,6 +63,11 @@ public class CoinsFragment extends BaseFragment implements CoinsMvpView {
 
         getPresenterComponent().inject(this);
         mCoinPresenter.attachView(this);
+
+        Bundle bundle = getArguments();
+        if(bundle != null && bundle.containsKey(Constants.COINS_FRAGMENT_TYPE)) {
+                mCoinPresenter.setCoinFragmentType((CoinsFragmentType) getArguments().getSerializable(Constants.COINS_FRAGMENT_TYPE));
+        }
     }
 
 
@@ -72,9 +79,23 @@ public class CoinsFragment extends BaseFragment implements CoinsMvpView {
         View rootView = inflater.inflate(R.layout.fragment_coins, container, false);
         ButterKnife.bind(this, rootView);
 
-        setupRecycler();
+        if(mCoinPresenter.getCoinFragmentType() != null) {
 
-        mCoinPresenter.getCoinsData();
+            switch(mCoinPresenter.getCoinFragmentType()) {
+                case NORMAL:
+                    mToolbarTitle.setText(getResources().getString(R.string.activity_home_bottom_navigation_title_coins));
+                    break;
+                case FAVORITES:
+                    mToolbarTitle.setText(getResources().getString(R.string.activity_home_bottom_navigation_title_favorites));
+                    break;
+            }
+
+            setupRecycler();
+            mCoinPresenter.refreshCoinsData();
+
+        } else
+            showMessage(Message.COIN_FRAGMENT_TYPE_MISSING, null);
+
 
         return rootView;
     }
@@ -93,7 +114,7 @@ public class CoinsFragment extends BaseFragment implements CoinsMvpView {
 
     private void setupRecycler() {
         mLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
-        mCoinsAdapter = new CoinsAdapter(getActivity());
+        mCoinsAdapter = new CoinsAdapter(getActivity(), mCoinPresenter.getCoinFragmentType());
 //            mFlightAdapter.setFlightClickedListener(new FlightAdapter.FlightClickedListener() {
 //                @Override
 //                public void onFlightClicked(Flight flight) {
@@ -113,7 +134,7 @@ public class CoinsFragment extends BaseFragment implements CoinsMvpView {
 
         mSwipeRefresh.setColorSchemeResources(R.color.dark_bottom_nav_icon_unselected, R.color.dark_bottom_nav_icon_selected, R.color.dark_bottom_nav_icon_unselected);
         mSwipeRefresh.setProgressBackgroundColorSchemeResource(R.color.dark_bottom_nav_background);
-        mSwipeRefresh.setOnRefreshListener(() -> mCoinPresenter.getCoinsData());
+        mSwipeRefresh.setOnRefreshListener(() -> mCoinPresenter.refreshCoinsData());
     }
 
 
@@ -124,7 +145,6 @@ public class CoinsFragment extends BaseFragment implements CoinsMvpView {
 
     @Override
     public void showLoading() {
-        //mProgressBar.setVisibility(View.VISIBLE);
         mSwipeRefresh.setRefreshing(true);
     }
 
@@ -137,7 +157,6 @@ public class CoinsFragment extends BaseFragment implements CoinsMvpView {
 
     @Override
     public void hideLoading() {
-        //mProgressBar.setVisibility(View.INVISIBLE);
         mSwipeRefresh.setRefreshing(false);
     }
 }
