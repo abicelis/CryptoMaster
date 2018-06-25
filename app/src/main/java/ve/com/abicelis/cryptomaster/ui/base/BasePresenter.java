@@ -15,8 +15,8 @@ public class BasePresenter<T extends MvpView> implements Presenter<T> {
     private T mMvpView;
     private CompositeDisposable compositeDisposable = new CompositeDisposable();    //Used to properly dispose subscriptions on activity destruction
 
-    public void addDisposable(Disposable d) { compositeDisposable.add(d); }
-    public void disposeDisposables() { compositeDisposable.dispose(); }
+    protected void addDisposable(Disposable d) { compositeDisposable.add(d); }
+    protected void disposeDisposables() { compositeDisposable.dispose(); }
 
 
 
