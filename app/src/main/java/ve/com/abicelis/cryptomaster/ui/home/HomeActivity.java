@@ -34,8 +34,6 @@ import ve.com.abicelis.cryptomaster.util.SnackbarUtil;
 
 public class HomeActivity extends BaseActivity implements HomeMvpView {
 
-    @Inject
-    HomePresenter mHomePresenter;
 
     @BindView(R.id.activity_home_container)
     RelativeLayout mContainer;
@@ -47,47 +45,15 @@ public class HomeActivity extends BaseActivity implements HomeMvpView {
     @BindView(R.id.activity_home_bottom_navigation)
     AHBottomNavigation mBottomNavigation;
 
-
-//
-//    @BindView(R.id.activity_home_search_view)
-//    MaterialSearchView mSearchView;
-//
-//    @BindView(R.id.activity_home_no_items_container)
-//    RelativeLayout mNoItemsContainer;
-//    @BindView(R.id.activity_home_swipe_refresh)
-//    SwipeRefreshLayout mSwipeRefresh;
-//    @BindView(R.id.activity_home_recyclerview)
-//    RecyclerView mRecycler;
-//    private LinearLayoutManager mLayoutManager;
-//    private TripAdapter mTripAdapter;
-//
-//    @BindView(R.id.activity_home_fab_add_trip)
-//    FloatingActionButton mAddTrip;
-
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         ButterKnife.bind(this);
-        getPresenterComponent().inject(this);
-        mHomePresenter.attachView(this);
 
         setupBottomNavigation();
         createFakeNotification();
         setupViewpager();
-        //setUpToolbar();
-        //setUpRecyclerView();
-        //setupSearchView();
-        //mHomePresenter.refreshTripList(null);
-
-//        mAddTrip.setOnClickListener((view) -> {
-//            Intent createNewTripIntent = new Intent(this, FlightActivity.class);
-//            startActivity(createNewTripIntent);
-//
-//                Toast.makeText(HomeActivity.this, "Inserting fake trip", Toast.LENGTH_SHORT).show();
-//        });
-
     }
 
     private void setupViewpager() {
@@ -173,11 +139,6 @@ public class HomeActivity extends BaseActivity implements HomeMvpView {
         }, 1000);
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        mHomePresenter.detachView();
-    }
 
     @Override
     protected void onResume() {
