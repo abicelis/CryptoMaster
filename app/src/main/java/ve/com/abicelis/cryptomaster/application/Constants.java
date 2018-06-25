@@ -29,6 +29,7 @@ public class Constants {
     /* COIN FRAGMENT */
     public static final int     COINS_FRAGMENT_FAVORITE_DELAY = 3000;
     public static final String  COINS_FRAGMENT_TYPE = "COINS_FRAGMENT_TYPE";
+    public static final long    COINS_FRAGMENT_MAX_SECONDS_SINCE_LAST_UPDATE = 30;    //60 * 30. 30min
 
 
     /* FLIGHT ACTIVITY */
