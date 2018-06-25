@@ -15,16 +15,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import java.util.List;
-
 import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import timber.log.Timber;
 import ve.com.abicelis.cryptomaster.R;
 import ve.com.abicelis.cryptomaster.application.Constants;
 import ve.com.abicelis.cryptomaster.application.Message;
-import ve.com.abicelis.cryptomaster.data.model.Coin;
 import ve.com.abicelis.cryptomaster.data.model.CoinsFragmentType;
 import ve.com.abicelis.cryptomaster.ui.base.BaseFragment;
 import ve.com.abicelis.cryptomaster.util.SnackbarUtil;
@@ -36,9 +34,9 @@ public class CoinsFragment extends BaseFragment implements CoinsMvpView {
 
     //DATA
     Context mContext;
+    CoinsFragmentType mCoinFragmentType;
+    boolean mIsVisibleToUser;
 
-    @Inject
-    CoinsPresenter mCoinPresenter;
 
     @BindView(R.id.fragment_coins_container)
     CoordinatorLayout mContainer;
@@ -49,7 +47,7 @@ public class CoinsFragment extends BaseFragment implements CoinsMvpView {
     @BindView(R.id.fragment_coins_swipe_refresh)
     SwipeRefreshLayout mSwipeRefresh;
     private LinearLayoutManager mLayoutManager;
-    private CoinsAdapter mCoinsAdapter;
+    private CoinsListAdapter mCoinsListAdapter;
 
     public CoinsFragment() {
         // Required empty public constructor
@@ -61,15 +59,33 @@ public class CoinsFragment extends BaseFragment implements CoinsMvpView {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        getPresenterComponent().inject(this);
-        mCoinPresenter.attachView(this);
-
+        mIsVisibleToUser = false;
         Bundle bundle = getArguments();
         if(bundle != null && bundle.containsKey(Constants.COINS_FRAGMENT_TYPE)) {
-                mCoinPresenter.setCoinFragmentType((CoinsFragmentType) getArguments().getSerializable(Constants.COINS_FRAGMENT_TYPE));
+            mCoinFragmentType = ((CoinsFragmentType) getArguments().getSerializable(Constants.COINS_FRAGMENT_TYPE));
+        } else {
+            Timber.i(Message.COIN_FRAGMENT_TYPE_MISSING.getFriendlyName(getContext()));
+            showMessage(Message.COIN_FRAGMENT_TYPE_MISSING, null);
+            mCoinFragmentType = CoinsFragmentType.NORMAL;
         }
     }
 
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if(isVisibleToUser && mCoinsListAdapter != null)
+            mCoinsListAdapter.fetchNewData();
+
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        //if(mIsVisibleToUser) {
+            //mCoinsListAdapter.fetchNewData();
+            //mIsVisibleToUser = false;
+        //}
+    }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
@@ -79,23 +95,20 @@ public class CoinsFragment extends BaseFragment implements CoinsMvpView {
         View rootView = inflater.inflate(R.layout.fragment_coins, container, false);
         ButterKnife.bind(this, rootView);
 
-        if(mCoinPresenter.getCoinFragmentType() != null) {
+        switch(mCoinFragmentType) {
+            case NORMAL:
+                mToolbarTitle.setText(getResources().getString(R.string.activity_home_bottom_navigation_title_coins));
+                break;
+            case FAVORITES:
+                mToolbarTitle.setText(getResources().getString(R.string.activity_home_bottom_navigation_title_favorites));
+                break;
+        }
 
-            switch(mCoinPresenter.getCoinFragmentType()) {
-                case NORMAL:
-                    mToolbarTitle.setText(getResources().getString(R.string.activity_home_bottom_navigation_title_coins));
-                    break;
-                case FAVORITES:
-                    mToolbarTitle.setText(getResources().getString(R.string.activity_home_bottom_navigation_title_favorites));
-                    break;
-            }
-
-            setupRecycler();
-            mCoinPresenter.refreshCoinsData();
-
-        } else
-            showMessage(Message.COIN_FRAGMENT_TYPE_MISSING, null);
-
+        setupRecycler();
+        //if(mIsVisibleToUser) {
+           mCoinsListAdapter.fetchNewData();
+            //mIsVisibleToUser = false;
+        //}
 
         return rootView;
     }
@@ -114,27 +127,30 @@ public class CoinsFragment extends BaseFragment implements CoinsMvpView {
 
     private void setupRecycler() {
         mLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
-        mCoinsAdapter = new CoinsAdapter(getActivity(), mCoinPresenter.getCoinFragmentType());
-//            mFlightAdapter.setFlightClickedListener(new FlightAdapter.FlightClickedListener() {
-//                @Override
-//                public void onFlightClicked(Flight flight) {
-//                    //Relay event to activity
-//                    mListener.onFlightSelected(flight);
-//                }
-//
-//                @Override
-//                public void onFlightLongClicked(Flight flight) {
-//                    //Relay event to activity
-//                    mListener.onFlightSelected(flight);
-//                }
-//            });
+        mCoinsListAdapter = new CoinsListAdapter(getActivity(), mCoinFragmentType);
+        mCoinsListAdapter.setListener(new CoinsListAdapter.CoinsListAdapterListener() {
+            @Override
+            public void showLoading() {
+                mSwipeRefresh.setRefreshing(true);
+            }
+
+            @Override
+            public void hideLoading() {
+                mSwipeRefresh.setRefreshing(false);
+            }
+
+            @Override
+            public void showMessage(Message message, @Nullable BaseTransientBottomBar.BaseCallback<Snackbar> callback) {
+                CoinsFragment.this.showMessage(message, callback);
+            }
+        });
 
         mRecycler.setLayoutManager(mLayoutManager);
-        mRecycler.setAdapter(mCoinsAdapter);
+        mRecycler.setAdapter(mCoinsListAdapter);
 
         mSwipeRefresh.setColorSchemeResources(R.color.dark_bottom_nav_icon_unselected, R.color.dark_bottom_nav_icon_selected, R.color.dark_bottom_nav_icon_unselected);
         mSwipeRefresh.setProgressBackgroundColorSchemeResource(R.color.dark_bottom_nav_background);
-        mSwipeRefresh.setOnRefreshListener(() -> mCoinPresenter.refreshCoinsData());
+        mSwipeRefresh.setOnRefreshListener(() -> mCoinsListAdapter.fetchNewData());
     }
 
 
@@ -143,20 +159,4 @@ public class CoinsFragment extends BaseFragment implements CoinsMvpView {
         SnackbarUtil.showSnackbar(mContainer, message.getMessageType(), message.getFriendlyNameRes(), SnackbarUtil.SnackbarDuration.SHORT, callback);
     }
 
-    @Override
-    public void showLoading() {
-        mSwipeRefresh.setRefreshing(true);
-    }
-
-    @Override
-    public void showCoins(List<Coin> coins) {
-        mCoinsAdapter.getItems().clear();
-        mCoinsAdapter.getItems().addAll(coins);
-        mCoinsAdapter.notifyDataSetChanged();
-    }
-
-    @Override
-    public void hideLoading() {
-        mSwipeRefresh.setRefreshing(false);
-    }
 }
