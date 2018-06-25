@@ -8,6 +8,7 @@ import javax.inject.Named;
 import dagger.Module;
 import dagger.Provides;
 import ve.com.abicelis.cryptomaster.application.Constants;
+import ve.com.abicelis.cryptomaster.data.local.AppDatabase;
 import ve.com.abicelis.cryptomaster.data.local.SharedPreferenceHelper;
 
 /**
@@ -27,13 +28,13 @@ public class LocalModule {
     @Named(ROOM_DATABASE_NAME)
     String provideRoomDatabaseName() {return Constants.ROOM_DATABASE_NAME;}
 
-//    @Provides
-//    @ApplicationScope
-//    AppDatabase provideRoomAppDatabase(Application applicationContext, @Named(ROOM_DATABASE_NAME) String databaseName) {
-//        return Room.databaseBuilder(applicationContext,
-//                AppDatabase.class, databaseName).fallbackToDestructiveMigration().build();
-//        //TODO remember to kill fallbackToDestructiveMigration() and provide a proper migration plan on prod!
-//    }
+    @Provides
+    @ApplicationScope
+    AppDatabase provideRoomAppDatabase(Application applicationContext, @Named(ROOM_DATABASE_NAME) String databaseName) {
+        return Room.databaseBuilder(applicationContext,
+                AppDatabase.class, databaseName).fallbackToDestructiveMigration().build();
+        //TODO remember to kill fallbackToDestructiveMigration() and provide a proper migration plan on prod!
+    }
 
     @Provides
     @ApplicationScope
