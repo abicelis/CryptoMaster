@@ -73,40 +73,106 @@ public class CoinsListPresenter extends BasePresenter<CoinsListMvpView> {
     private void getCoinsData() {
         isLoading = true;
         getMvpView().showLoading();
+        Timber.d("Fetching coins data");
 
-        Timber.d("Fetching remote coins data");
-        addDisposable(mDataManager.getRemoteCoins(1, 100, "USD")
+
+        addDisposable(mDataManager.getOldestCoinLastUpdated()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(coins -> {
-                    Timber.d("Fetched remote coins data");
+                .subscribe(lastUpdated -> {
+                    long timeSinceLastUpdate = (new Date().getTime()/1000) - lastUpdated;
 
-                    isLoading = false;
-                    getMvpView().hideLoading();
-                    mItems = coins;
-                    getMvpView().refreshCoinsList();
-                }, throwable -> {
+                    if(timeSinceLastUpdate > Constants.COINS_FRAGMENT_MAX_SECONDS_SINCE_LAST_UPDATE) {
+                        Timber.d("FAV: Local data is old, fetching remote coins data. TimeSinceLastUpdate=%1$d secs", timeSinceLastUpdate);
 
-                    getMvpView().showMessage(Message.COULD_NOT_FETCH_FRESH_COIN_DATA, null);
-                    Timber.d(throwable, "Error fetching remote coin data, getting local copy");
+                        //Local data is old, try to grab remote data
+                        addDisposable(mDataManager.getRemoteCoins(1, 100, "USD")
+                                .subscribeOn(Schedulers.io())
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .subscribe(coins -> {
+                                    Timber.d("Fetched remote coins data");
 
-                    //Try to load local version
-                    mDataManager.getLocalCoins()
-                            .subscribeOn(Schedulers.io())
-                            .observeOn(AndroidSchedulers.mainThread())
-                            .subscribe(coins -> {
-                                isLoading = false;
-                                getMvpView().hideLoading();
-                                mItems = coins;
-                                getMvpView().refreshCoinsList();
-                                Timber.d("Got local coins data");
+                                    isLoading = false;
+                                    getMvpView().hideLoading();
+                                    mItems = coins;
+                                    getMvpView().refreshCoinsList();
+                                }, throwable -> {
 
-                            }, throwable1 -> {
-                                isLoading = false;
-                                getMvpView().hideLoading();
-                                getMvpView().showMessage(Message.ERROR_UNEXPECTED, null);
-                                Timber.e(throwable1, "Error fetching remote and local coin data");
-                            });
+                                    //Could not fetch remote, grab local copy
+                                    getMvpView().showMessage(Message.COULD_NOT_FETCH_FRESH_COIN_DATA, null);
+                                    Timber.d(throwable, "Error fetching remote coin data, getting local copy");
+
+                                    addDisposable(mDataManager.getLocalCoins()
+                                            .subscribeOn(Schedulers.io())
+                                            .observeOn(AndroidSchedulers.mainThread())
+                                            .subscribe(coins -> {
+                                                isLoading = false;
+                                                getMvpView().hideLoading();
+                                                mItems = coins;
+                                                getMvpView().refreshCoinsList();
+                                                Timber.d("Got local coins data");
+
+                                            }, throwable1 -> {
+                                                isLoading = false;
+                                                getMvpView().hideLoading();
+                                                getMvpView().showMessage(Message.ERROR_UNEXPECTED, null);
+                                                Timber.e(throwable1, "Error fetching remote and local coin data");
+                                            }));
+
+                                }));
+
+                    } else {
+                        //Local data is recent
+                        Timber.d("Local data is recent, getting local coins data. TimeSinceLastUpdate=%1$d secs", timeSinceLastUpdate);
+                        addDisposable(mDataManager.getLocalCoins()
+                                .subscribeOn(Schedulers.io())
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .subscribe(coins -> {
+                                    isLoading = false;
+                                    getMvpView().hideLoading();
+                                    mItems = coins;
+                                    getMvpView().refreshCoinsList();
+                                    Timber.d("Got local coins data");
+
+                                }, throwable -> {
+                                    isLoading = false;
+                                    getMvpView().hideLoading();
+                                    Timber.e(throwable);
+                                    getMvpView().showMessage(Message.ERROR_UNEXPECTED, null);
+                                    Timber.d("Error getting local coins data");
+                                }));
+                    }
+
+                }, throwable1 -> {
+                    if(throwable1 instanceof EmptyResultSetException) {
+
+                        //No coins in db, try to grab remote data
+                        Timber.d("No coins saved locally, fetching remote data");
+
+                        addDisposable(mDataManager.getRemoteCoins(1, 100, "USD")
+                                .subscribeOn(Schedulers.io())
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .subscribe(coins -> {
+                                    Timber.d("Fetched remote coins data");
+
+                                    isLoading = false;
+                                    getMvpView().hideLoading();
+                                    mItems = coins;
+                                    getMvpView().refreshCoinsList();
+                                }, throwable3 -> {
+                                    isLoading = false;
+                                    getMvpView().hideLoading();
+                                    Timber.e(throwable3, "Error fetching remote coin data");
+                                    getMvpView().showMessage(Message.ERROR_UNEXPECTED, null);
+                                }));
+
+                    } else {
+                        isLoading = false;
+                        getMvpView().hideLoading();
+                        Timber.d(throwable1);
+                        getMvpView().showMessage(Message.ERROR_UNEXPECTED, null);
+                    }
+
                 }));
     }
 
@@ -117,7 +183,7 @@ public class CoinsListPresenter extends BasePresenter<CoinsListMvpView> {
         getMvpView().showLoading();
         Timber.d("FAV: Fetching favorite coins data");
 
-        addDisposable(mDataManager.getOldestCoinLastUpdated()
+        addDisposable(mDataManager.getOldestFavoriteCoinLastUpdated()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(lastUpdated -> {
@@ -156,9 +222,8 @@ public class CoinsListPresenter extends BasePresenter<CoinsListMvpView> {
                                             }, throwable2 -> {
                                                 isLoading = false;
                                                 getMvpView().hideLoading();
-                                                Timber.e(throwable2);
                                                 getMvpView().showMessage(Message.ERROR_UNEXPECTED, null);
-                                                Timber.d(throwable2, "FAV: Error getting remote and local coin data");
+                                                Timber.d(throwable2, "FAV: Error getting remote and local favorite coin data");
                                             }));
 
                                 }));
