@@ -87,7 +87,7 @@ public class DataManager {
                     Collections.sort(coins);
 
                     //Save to DB
-                    mAppDatabase.coinDao().insert(coins);
+                    mAppDatabase.coinDao().deleteCoinsAndInsertNewOnes(coins);
                     return coins;
                 });
     }
@@ -162,8 +162,11 @@ public class DataManager {
 
 
 
-
     public Single<Long> getOldestCoinLastUpdated() {
+        return mAppDatabase.coinDao().getOldestLastUpdated();
+    }
+
+    public Single<Long> getOldestFavoriteCoinLastUpdated() {
         return mAppDatabase.favoriteCoinDao().getOldestLastUpdated();
     }
 
