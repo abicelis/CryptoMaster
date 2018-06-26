@@ -6,6 +6,7 @@ import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.OnConflictStrategy;
 import android.arch.persistence.room.Query;
 import android.arch.persistence.room.RoomWarnings;
+import android.arch.persistence.room.Transaction;
 import android.arch.persistence.room.Update;
 
 import java.util.List;
@@ -18,32 +19,38 @@ import ve.com.abicelis.cryptomaster.data.model.Coin;
  * Created by abicelis on 23/6/2018.
  */
 @Dao
-public interface CoinDao {
+public abstract class CoinDao {
 
 
     @Query("SELECT count(*) FROM coin")
-    Single<Integer> count();
+    public abstract Single<Integer> count();
 
     @Query("SELECT * FROM coin")
-    Single<List<Coin>> getAll();
+    public abstract Single<List<Coin>> getAll();
 
     @Query("SELECT * FROM coin where coin_id = :coinId")
-    Maybe<Coin> getById(long coinId);
+    public abstract Maybe<Coin> getById(long coinId);
 
     @Query("SELECT * FROM coin where coin_id IN (:coinIds)")
-    Maybe<List<Coin>> getByIds(long[] coinIds);
+    public abstract Maybe<List<Coin>> getByIds(long[] coinIds);
 
     @Query("SELECT * FROM coin where symbol = :symbol")
-    Maybe<Coin> getBySymbol(String symbol);
+    public abstract Maybe<Coin> getBySymbol(String symbol);
 
     @Query("SELECT * FROM coin where symbol IN (:symbols)")
-    Maybe<List<Coin>> getBySymbols(String symbols);
+    public abstract Maybe<List<Coin>> getBySymbols(String symbols);
 
     @Query("SELECT * FROM coin where name = :name")
-    Maybe<Coin> getByName(String name);
+    public abstract Maybe<Coin> getByName(String name);
 
     @Query("SELECT * FROM coin where name IN (:names)")
-    Maybe<List<Coin>> getByNames(String names);
+    public abstract Maybe<List<Coin>> getByNames(String names);
+
+
+    //@SuppressWarnings(RoomWarnings.CURSOR_MISMATCH) //favorite_coin_id not used...
+    @Query("SELECT last_updated FROM coin ORDER BY last_updated ASC LIMIT 1")
+    public abstract Single<Long> getOldestLastUpdated();
+
 
     @SuppressWarnings(RoomWarnings.CURSOR_MISMATCH)     //Skip warning, mismatch with calculated column relevance
     @Query("SELECT *" +
@@ -53,7 +60,7 @@ public interface CoinDao {
             " FROM coin" +
             " WHERE name LIKE :query OR symbol LIKE :query" +
             " ORDER BY [relevance] desc")
-    Maybe<List<Coin>> find(String query);
+    public abstract Maybe<List<Coin>> find(String query);
 
     @SuppressWarnings(RoomWarnings.CURSOR_MISMATCH)     //Skip warning, mismatch with calculated column relevance
     @Query("SELECT *" +
@@ -64,18 +71,25 @@ public interface CoinDao {
             " WHERE name LIKE :query OR symbol LIKE :query" +
             " ORDER BY [relevance] desc" +
             " LIMIT :limit")
-    Maybe<List<Coin>> find(String query, int limit);
+    public abstract Maybe<List<Coin>> find(String query, int limit);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    long[] insert(List<Coin> coins);
+    public abstract long[] insert(List<Coin> coins);
 
     @Update
-    int update(Coin coin);
+    public abstract int update(Coin coin);
 
     @Delete
-    void delete(Coin coin);
+    public abstract void delete(Coin coin);
 
     @Query("DELETE FROM coin")
-    int deleteAll();
+    public abstract int deleteAll();
+
+
+    @Transaction
+    public void deleteCoinsAndInsertNewOnes(List<Coin> coins) {
+        deleteAll();
+        insert(coins);
+    }
 
 }
