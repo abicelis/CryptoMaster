@@ -4,22 +4,17 @@ Stay up to date with crypto markets!
 
 Please check out the prototype by clicking [right here!](https://abicelis.github.io/CryptoMaster/index.html "CryptoMaster Prototype")
 
-<a target="_blank" href='https://play.google.com/store/apps/details?id=ve.com.abicelis.planetracker&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png' width="240px"/></a>
+<a target="_blank" href='https://play.google.com/store/apps/details?id=ve.com.abicelis.cryptomaster&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png' width="240px"/></a>
 
 ## Screenshots
 
+Coming soon!
 
-[ ![](https://github.com/abicelis/PlaneTracker/blob/master/graphics/play_store/screens/v1.0/nexus5X/thumbs/1%20home.jpg) ](https://github.com/abicelis/PlaneTracker/blob/master/graphics/play_store/screens/v1.0/nexus5X/1%20home.png)
-[ ![](https://github.com/abicelis/PlaneTracker/blob/master/graphics/play_store/screens/v1.0/nexus5X/thumbs/2%20trip%20detail.jpg) ](https://github.com/abicelis/PlaneTracker/blob/master/graphics/play_store/screens/v1.0/nexus5X/2%20trip%20detail.png)
-[ ![](https://github.com/abicelis/PlaneTracker/blob/master/graphics/play_store/screens/v1.0/nexus5X/thumbs/3%20airport.jpg) ](https://github.com/abicelis/PlaneTracker/blob/master/graphics/play_store/screens/v1.0/nexus5X/3%20airport.png)
-[ ![](https://github.com/abicelis/PlaneTracker/blob/master/graphics/play_store/screens/v1.0/nexus5X/thumbs/4%20flight%20route.jpg) ](https://github.com/abicelis/PlaneTracker/blob/master/graphics/play_store/screens/v1.0/nexus5X/4%20flight%20route.png)
-[ ![](https://github.com/abicelis/PlaneTracker/blob/master/graphics/play_store/screens/v1.0/nexus5X/thumbs/5%20add%20a%20flight.jpg) ](https://github.com/abicelis/PlaneTracker/blob/master/graphics/play_store/screens/v1.0/nexus5X/5%20add%20a%20flight.png)
-[ ![](https://github.com/abicelis/PlaneTracker/blob/master/graphics/play_store/screens/v1.0/nexus5X/thumbs/6%20add%20a%20flight.jpg) ](https://github.com/abicelis/PlaneTracker/blob/master/graphics/play_store/screens/v1.0/nexus5X/6%20add%20a%20flight.png)
 
 
 
 ## Skills learnt while building the app 
-- MVP: Model View Presenter with configuration change survival
+- MVP: Model View Presenter
 - New fancy MVP+RxJava+DataLayer architecture, loosely based on [ribot-boilerplate](https://github.com/ribot/android-boilerplate)
 - RxJava 2 and Rx Android!
 - Java lambdas (retrolambda)
@@ -36,8 +31,6 @@ This Project uses external dependencies and SDK's
 * [Butterknife](https://github.com/JakeWharton/butterknife) - Android view binder library by JakeWharton
 * [Timber](https://github.com/JakeWharton/timber) - Logger by JakeWharton
 * [Dagger 2](https://github.com/google/dagger) - Dependency Injection by Square
-* [TransitionsEverywhere](https://github.com/andkulikov/Transitions-Everywhere) - Backported Transitions library by andkulikov
-* [CircleImageView](https://github.com/hdodenhof/CircleImageView) - Circular ImageView by hdodenhof
 * [Gradle Retrolambda](https://github.com/evant/gradle-retrolambda) - Java lambda support by evant
 * [RxJava 2](https://github.com/ReactiveX/RxJava) - Reactive Extensions by ReactiveX
 * [RxAndroid](https://github.com/ReactiveX/RxAndroid) - RxJava bindings for Android by ReactiveX
