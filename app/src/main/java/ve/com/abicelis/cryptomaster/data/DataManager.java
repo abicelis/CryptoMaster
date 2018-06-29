@@ -55,7 +55,7 @@ public class DataManager {
 
 
     /**
-     * Grabs ticker data from CoinMarketCap
+     * Fetches remote ticker data, returns a List of Coins
      */
     public Single<List<Coin>> getRemoteCoins(int start, int limit, String currency) {
         return mCoinMarketCapApi.getTicker(start, limit, currency)
@@ -92,6 +92,9 @@ public class DataManager {
                 });
     }
 
+    /**
+     * Fetches locally saved Coins
+     */
     public Single<List<Coin>> getLocalCoins() {
         return mAppDatabase.coinDao().getAll()
                 .map(coins -> {
@@ -101,6 +104,9 @@ public class DataManager {
                 });
     }
 
+    /**
+     * Fetches remote ticker data, filtered by favorites, returns a List of Coins
+     */
     public Single<List<Coin>> getRemoteFavoriteCoins(String currency) {
 
         return mAppDatabase.favoriteCoinDao().getAll()
@@ -151,6 +157,9 @@ public class DataManager {
                 });
     }
 
+    /**
+     * Fetches locally saved Coins, filtered by favorites
+     */
     public Single<List<Coin>> getLocalFavoriteCoins() {
         return mAppDatabase.favoriteCoinDao().getAll()
                 .map(coins -> {
@@ -161,24 +170,42 @@ public class DataManager {
     }
 
 
-
+    /**
+     * Gets the oldest lastUpdated stored in db
+     */
     public Single<Long> getOldestCoinLastUpdated() {
         return mAppDatabase.coinDao().getOldestLastUpdated();
     }
 
+
+    /**
+     * Gets the oldest lastUpdated stored in db, filtered by favorites
+     */
     public Single<Long> getOldestFavoriteCoinLastUpdated() {
         return mAppDatabase.favoriteCoinDao().getOldestLastUpdated();
     }
 
+
+    /**
+     * Checks if coinId is saved as favorite
+     */
     public Single<Integer> isFavoriteCoin(long coinId) {
         return mAppDatabase.favoriteCoinDao().coinIsFavorite(coinId);
     }
+
+    /**
+     * Insert coinId into favorites
+     */
     public Completable setCoinAsFavorite(long coinId) {
         return Completable.fromCallable(() -> {
             mAppDatabase.favoriteCoinDao().insert(new FavoriteCoin(coinId));
             return null;
         });
     }
+
+    /**
+     * Remove coinId from favorites
+     */
     public Completable removeCoinFromFavorites(long coinId) {
         return Completable.fromCallable(() -> {
             mAppDatabase.favoriteCoinDao().delete(new FavoriteCoin(coinId));
@@ -193,7 +220,7 @@ public class DataManager {
      * - Bitcoin dominance (%)
      * - Market cap and 24h vol
      */
-    public Single<GlobalResult> getCoinMarketCapGlobal() {
+    public Single<GlobalResult> getMarketGlobalData() {
         return mCoinMarketCapApi.getGlobal(Currency.USD.name());
     }
 
@@ -218,14 +245,5 @@ public class DataManager {
         return mCoinMarketCapS2Api.getCurrencies();
     }
 
-
-
-
-    //TODO kill these, are only here for testing purposes
-
-    //@Deprecated
-    //public AppDatabase getDatabase() {
-    //    return mAppDatabase;
-    //}
 
 }
