@@ -43,16 +43,16 @@ public class MarketPresenter extends BasePresenter<MarketMvpView> {
                     getMvpView().showMessage(Message.ERROR_UNEXPECTED, null);
                 }));
 
-        addDisposable(mDataManager.getCurrencies()
-        .subscribeOn(Schedulers.io())
-        .observeOn(AndroidSchedulers.mainThread())
-        .subscribe(currencyResult -> {
-            for (CurrencyResult c : currencyResult ) {
-                //Timber.i(c.getName());
-            }
-        }, throwable -> {
-            getMvpView().showMessage(Message.ERROR_UNEXPECTED, null);
-        }));
+//        addDisposable(mDataManager.getCurrencies()
+//        .subscribeOn(Schedulers.io())
+//        .observeOn(AndroidSchedulers.mainThread())
+//        .subscribe(currencyResult -> {
+//            for (CurrencyResult c : currencyResult ) {
+//                //Timber.i(c.getName());
+//            }
+//        }, throwable -> {
+//            getMvpView().showMessage(Message.ERROR_UNEXPECTED, null);
+//        }));
     }
 
 }
