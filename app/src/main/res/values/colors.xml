@@ -11,7 +11,9 @@
     <!--Main colors: AppTheme Light-->
     <color name="default_divider">#0E1A23</color>
     <color name="default_background">#272E47</color>
+    <color name="default_foreground">#394363</color>
     <color name="default_accent">#3d5afe</color>
+    <color name="chart_line">#0ED696</color>
     <color name="text_title">#FFFFFF</color>
     <color name="text_primary">#FFFFFF</color>
     <color name="text_secondary">#9FA8DA</color>
@@ -26,7 +28,9 @@
     <!--Main colors: AppTheme Dark-->
     <color name="dark_default_divider">#0E1A23</color>
     <color name="dark_default_background">#272E47</color>
+    <color name="dark_default_foreground">#394363</color>
     <color name="dark_default_accent">#3d5afe</color>
+    <color name="dark_chart_line">#0ED696</color>
     <color name="dark_text_title">#FFFFFF</color>
     <color name="dark_text_primary">#FFFFFF</color>
     <color name="dark_text_secondary">#9FA8DA</color>
