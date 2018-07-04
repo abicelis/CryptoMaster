@@ -22,7 +22,7 @@ Coming soon!
 - Dagger 2
 - Room database
 - Glide
-
+- MPAndroidChart
 
 ## Code dependencies
 
@@ -37,6 +37,7 @@ This Project uses external dependencies and SDK's
 * [Retrofit](https://github.com/square/retrofit) - Type-safe HTTP client for Android by square
 * [Room](https://developer.android.com/topic/libraries/architecture/room.html) - Room mobile database by google
 * [Glide](https://github.com/bumptech/glide) - Fast and efficient image loading and caching library by bumptech
+* [MPAndroidChart](https://github.com/PhilJay/MPAndroidChart) - A powerful & easy to use chart library for Android by PhilJay
 
 
 ## External APIs
