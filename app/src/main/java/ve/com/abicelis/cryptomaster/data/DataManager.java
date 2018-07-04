@@ -1,5 +1,8 @@
 package ve.com.abicelis.cryptomaster.data;
 
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.utils.EntryXComparator;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -10,14 +13,15 @@ import javax.inject.Inject;
 import io.reactivex.Completable;
 import io.reactivex.Single;
 import io.reactivex.functions.Function;
-import lecho.lib.hellocharts.model.PointValue;
 import ve.com.abicelis.cryptomaster.data.local.AppDatabase;
 import ve.com.abicelis.cryptomaster.data.local.SharedPreferenceHelper;
+import ve.com.abicelis.cryptomaster.data.model.ChartTimespan;
 import ve.com.abicelis.cryptomaster.data.model.Coin;
 import ve.com.abicelis.cryptomaster.data.model.Currency;
 import ve.com.abicelis.cryptomaster.data.model.FavoriteCoin;
 import ve.com.abicelis.cryptomaster.data.model.coinmarketcap.GlobalResult;
 import ve.com.abicelis.cryptomaster.data.model.coinmarketcap.TickerResult;
+import ve.com.abicelis.cryptomaster.data.model.coinmarketcapgraph.MarketCapAndVolumeChartData;
 import ve.com.abicelis.cryptomaster.data.model.coinmarketcaps2.CurrencyResult;
 import ve.com.abicelis.cryptomaster.data.remote.CoinMarketCapApi;
 import ve.com.abicelis.cryptomaster.data.remote.CoinMarketCapGraphApi;
@@ -228,15 +232,30 @@ public class DataManager {
 
 
 
-    public Single<List<PointValue>> getMaketCapGraphData(long timeStart, long timeEnd) {
+    public Single<MarketCapAndVolumeChartData> getMaketCapAndVolumeGraphData(long timeStart, long timeEnd, ChartTimespan chartTimespan) {
         return mCoinMarketCapGraphApi.getTotalMarketCapAndVolumeGraphData(timeStart, timeEnd)
                 .map(result -> {
-                    List<PointValue> values = new ArrayList<>();
-                    long[][] vals = result.getMarketCapByAvailableSupply();
+
+
+                    List<Entry> marketCapEntries = new ArrayList<>();
+                    List<Entry> volumeEntries = new ArrayList<>();
+                    List<Long> timestamps = new ArrayList<>();
+
+                    long[][] mcapVals = result.getMarketCapByAvailableSupply();
+                    long[][] volumeVals = result.getVolumeUsd();
                     for (int i = 0; i < result.getMarketCapByAvailableSupply().length; i++) {
-                        values.add(new PointValue(vals[i][0], vals[i][1]));
+
+                        long x = mcapVals[i][0];
+                        float yMcap = ((float) mcapVals[i][1]) / 1000000000;
+                        float yVol = ((float) volumeVals[i][1]) / 1000000000;
+
+                        marketCapEntries.add(new Entry(i, yMcap));
+                        volumeEntries.add(new Entry(i, yVol));
+                        timestamps.add(x);
                     }
-                    return values;
+
+                    //Collections.sort(entries, new EntryXComparator());
+                    return new MarketCapAndVolumeChartData(marketCapEntries, mcapVals[mcapVals.length-1][1], volumeEntries, volumeVals[volumeVals.length-1][1], timestamps, chartTimespan);
                 });
     }
 

@@ -1,8 +1,7 @@
 package ve.com.abicelis.cryptomaster.ui.market;
 
-import java.util.List;
-
-import lecho.lib.hellocharts.model.PointValue;
+import ve.com.abicelis.cryptomaster.data.model.ChartTimespan;
+import ve.com.abicelis.cryptomaster.data.model.coinmarketcapgraph.MarketCapAndVolumeChartData;
 import ve.com.abicelis.cryptomaster.ui.base.MvpView;
 
 /**
@@ -10,6 +9,9 @@ import ve.com.abicelis.cryptomaster.ui.base.MvpView;
  */
 public interface MarketMvpView extends MvpView {
 
-    void showMarketCapGraph(List<PointValue> values);
-
+    void marketCapAndVolumeShowGraph(MarketCapAndVolumeChartData data);
+    void marketCapSetLast(String text);
+    void marketCapActivateButton(ChartTimespan chartTimespan);
+    void marketCapShowLoading();
+    void marketCapHideLoading();
 }

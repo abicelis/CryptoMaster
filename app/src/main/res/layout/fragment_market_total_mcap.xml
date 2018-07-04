@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardBackgroundColor="?attr/default_foreground"
+    app:cardCornerRadius="5dp"
+    android:layout_marginTop="16dp">
+
+    <RelativeLayout
+        android:id="@+id/fragment_market_total_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:id="@+id/fragment_market_total_title_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/default_accent"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:textColor="?attr/text_primary"
+                android:textSize="18sp"
+                android:fontFamily="@font/nunito_light"
+                android:text="@string/fragment_market_total_title"
+                />
+            <TextView
+                android:id="@+id/fragment_market_total_last"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:textColor="?attr/text_primary"
+                android:textSize="26sp"
+                android:fontFamily="@font/nunito_extralight"
+                android:text=""
+                />
+        </LinearLayout>
+
+        <FrameLayout
+            android:id="@+id/fragment_market_total_chart_container"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_below="@id/fragment_market_total_title_container"
+            >
+            <com.github.mikephil.charting.charts.LineChart
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/fragment_market_total_chart" />
+
+            <TextView
+                android:id="@+id/fragment_market_total_chart_loading"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="visible"
+                android:background="?attr/chart_loading_background"
+                android:gravity="center"
+                android:textSize="16sp"
+                android:fontFamily="@font/nunito_semibold"
+                android:text="@string/fragment_market_loading"/>
+        </FrameLayout>
+
+
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_below="@id/fragment_market_total_chart_container">
+
+            <TextView
+                android:id="@+id/fragment_market_24h"
+                android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:layout_weight="10"
+                android:gravity="center_horizontal"
+                android:fontFamily="@font/nunito_semibold"
+                android:textColor="?attr/chart_button_active"
+                android:padding="12dp"
+                android:background="?android:attr/selectableItemBackgroundBorderless"
+                android:text="@string/fragment_market_button_24h"/>
+            <TextView
+                android:id="@+id/fragment_market_7d"
+                android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:layout_weight="10"
+                android:gravity="center_horizontal"
+                android:fontFamily="@font/nunito_semibold"
+                android:textColor="?attr/chart_button_inactive"
+                android:padding="12dp"
+                android:background="?android:attr/selectableItemBackgroundBorderless"
+                android:text="@string/fragment_market_button_7d"/>
+            <TextView
+                android:id="@+id/fragment_market_1m"
+                android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:layout_weight="10"
+                android:gravity="center_horizontal"
+                android:fontFamily="@font/nunito_semibold"
+                android:textColor="?attr/chart_button_inactive"
+                android:padding="12dp"
+                android:background="?android:attr/selectableItemBackgroundBorderless"
+                android:text="@string/fragment_market_button_1m"/>
+            <TextView
+                android:id="@+id/fragment_market_3m"
+                android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:layout_weight="10"
+                android:gravity="center_horizontal"
+                android:fontFamily="@font/nunito_semibold"
+                android:textColor="?attr/chart_button_inactive"
+                android:padding="12dp"
+                android:background="?android:attr/selectableItemBackgroundBorderless"
+                android:text="@string/fragment_market_button_3m"/>
+            <TextView
+                android:id="@+id/fragment_market_1y"
+                android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:layout_weight="10"
+                android:gravity="center_horizontal"
+                android:fontFamily="@font/nunito_semibold"
+                android:textColor="?attr/chart_button_inactive"
+                android:padding="12dp"
+                android:background="?android:attr/selectableItemBackgroundBorderless"
+                android:text="@string/fragment_market_button_1y"/>
+            <TextView
+                android:id="@+id/fragment_market_all"
+                android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:layout_weight="10"
+                android:gravity="center_horizontal"
+                android:fontFamily="@font/nunito_semibold"
+                android:textColor="?attr/chart_button_inactive"
+                android:padding="12dp"
+                android:background="?android:attr/selectableItemBackgroundBorderless"
+                android:text="@string/fragment_market_button_all"/>
+
+        </LinearLayout>
+
+
+    </RelativeLayout>
+
+
+</android.support.v7.widget.CardView>
