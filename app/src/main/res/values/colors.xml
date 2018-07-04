@@ -14,6 +14,11 @@
     <color name="default_foreground">#394363</color>
     <color name="default_accent">#3d5afe</color>
     <color name="chart_line">#0ED696</color>
+    <color name="chart_line_2">#BB9FA8DA</color>
+    <color name="chart_grid_line">#687fcb</color>
+    <color name="chart_loading_background">#BB272E47</color>
+    <color name="chart_button_active">#364FDB</color>
+    <color name="chart_button_inactive">#687fcb</color>
     <color name="text_title">#FFFFFF</color>
     <color name="text_primary">#FFFFFF</color>
     <color name="text_secondary">#9FA8DA</color>
@@ -31,6 +36,11 @@
     <color name="dark_default_foreground">#394363</color>
     <color name="dark_default_accent">#3d5afe</color>
     <color name="dark_chart_line">#0ED696</color>
+    <color name="dark_chart_line_2">#BB9FA8DA</color>
+    <color name="dark_chart_grid_line">#687fcb</color>
+    <color name="dark_chart_loading_background">#BB272E47</color>
+    <color name="dark_chart_button_active">#364FDB</color>
+    <color name="dark_chart_button_inactive">#687fcb</color>
     <color name="dark_text_title">#FFFFFF</color>
     <color name="dark_text_primary">#FFFFFF</color>
     <color name="dark_text_secondary">#9FA8DA</color>

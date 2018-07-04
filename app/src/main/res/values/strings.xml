@@ -8,7 +8,16 @@
     <string name="activity_home_bottom_navigation_title_settings">Settings</string>
 
 
-    <!--FAVORITE COINS FRAGMENT-->
+    <!--MARKET FRAGMENT-->
+    <string name="fragment_market_loading">Loading&#8230;</string>
+    <string name="fragment_market_button_24h">24H</string>
+    <string name="fragment_market_button_7d">7D</string>
+    <string name="fragment_market_button_1m">1M</string>
+    <string name="fragment_market_button_3m">3M</string>
+    <string name="fragment_market_button_1y">1Y</string>
+    <string name="fragment_market_button_all">ALL</string>
+    <string name="fragment_market_total_title">Total Market Capitalization</string>
+
 
     <!--COINS FRAGMENT-->
     <string name="fragment_coins_added_to_favorites">%1$s added to Favorites</string>
@@ -20,6 +29,9 @@
     <string name="fragment_coins_header_title_1h">1h</string>
     <string name="fragment_coins_header_title_24h">24h</string>
     <string name="fragment_coins_header_title_7d">7d</string>
+
+
+    <!--FAVORITE COINS FRAGMENT-->
 
 
 

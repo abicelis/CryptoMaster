@@ -6,6 +6,11 @@
     <attr name="default_foreground" format="reference|color" />
     <attr name="default_accent" format="reference|color" />
     <attr name="chart_line" format="reference|color" />
+    <attr name="chart_line_2" format="reference|color" />
+    <attr name="chart_grid_line" format="reference|color" />
+    <attr name="chart_loading_background" format="reference|color" />
+    <attr name="chart_button_active" format="reference|color" />
+    <attr name="chart_button_inactive" format="reference|color" />
     <attr name="text_title" format="reference|color" />
     <attr name="text_primary" format="reference|color" />
     <attr name="text_secondary" format="reference|color" />

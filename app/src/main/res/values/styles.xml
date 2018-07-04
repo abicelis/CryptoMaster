@@ -11,6 +11,11 @@
         <item name="default_foreground">@color/default_foreground</item>
         <item name="default_accent">@color/default_accent</item>
         <item name="chart_line">@color/chart_line</item>
+        <item name="chart_line_2">@color/chart_line_2</item>
+        <item name="chart_grid_line">@color/chart_grid_line</item>
+        <item name="chart_loading_background">@color/chart_loading_background</item>
+        <item name="chart_button_active">@color/chart_button_active</item>
+        <item name="chart_button_inactive">@color/chart_button_inactive</item>
         <item name="text_title">@color/text_title</item>
         <item name="text_primary">@color/text_primary</item>
         <item name="text_secondary">@color/text_secondary</item>
@@ -36,6 +41,11 @@
         <item name="default_foreground">@color/dark_default_foreground</item>
         <item name="default_accent">@color/dark_default_accent</item>
         <item name="chart_line">@color/dark_chart_line</item>
+        <item name="chart_line_2">@color/dark_chart_line_2</item>
+        <item name="chart_grid_line">@color/dark_chart_grid_line</item>
+        <item name="chart_loading_background">@color/dark_chart_loading_background</item>
+        <item name="chart_button_active">@color/dark_chart_button_active</item>
+        <item name="chart_button_inactive">@color/dark_chart_button_inactive</item>
         <item name="text_title">@color/dark_text_title</item>
         <item name="text_primary">@color/dark_text_primary</item>
         <item name="text_secondary">@color/dark_text_secondary</item>
