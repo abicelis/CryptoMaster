@@ -17,10 +17,12 @@ package ve.com.abicelis.cryptomaster.application;
 public class Constants {
 
     /* MISC */
-    public static final int    MISC_IMAGE_JPEG_COMPRESSION_PERCENTAGE = 50;
-    public static final int    MISC_ALPHA_ANIMATIONS_DURATION = 200;
-    public static final int    MISC_REVEAL_ANIMATION_DURATION = 1000;
-    public static final int    MISC_UI_DEBOUNCE_TIME_MILLISECONDS = 300;
+    public static final int MISC_IMAGE_JPEG_COMPRESSION_PERCENTAGE = 50;
+    public static final int MISC_ALPHA_ANIMATIONS_DURATION = 200;
+    public static final int MISC_REVEAL_ANIMATION_DURATION = 1000;
+    public static final int MISC_UI_DEBOUNCE_TIME_MILLISECONDS = 300;
+    public static final int MISC_OK_HTTP_READ_TIMEOUT_SECONDS = 5;
+    public static final int MISC_OK_HTTP_CONNECT_TIMEOUT_SECONDS = 5;
 
 
     /* HOME ACTIVITY */

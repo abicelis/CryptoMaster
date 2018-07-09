@@ -1,10 +1,13 @@
 package ve.com.abicelis.cryptomaster.injection.application;
 
 
+import java.util.concurrent.TimeUnit;
+
 import javax.inject.Named;
 
 import dagger.Module;
 import dagger.Provides;
+import okhttp3.OkHttpClient;
 import retrofit2.Converter;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
@@ -59,7 +62,13 @@ public class RemoteModule {
         return RxJava2CallAdapterFactory.create();
     }
 
-
+    @Provides
+    OkHttpClient provideOkHttpClientWithCustomTimeouts() {
+        return new OkHttpClient.Builder()
+                .readTimeout(Constants.MISC_OK_HTTP_READ_TIMEOUT_SECONDS, TimeUnit.SECONDS)
+                .connectTimeout(Constants.MISC_OK_HTTP_CONNECT_TIMEOUT_SECONDS, TimeUnit.SECONDS)
+                .build();
+    }
 
 
 
@@ -74,11 +83,16 @@ public class RemoteModule {
     @Named(COINMARKETCAP_RETROFIT)
     Retrofit provideCoinMarketCapRetrofit(@Named(CONVERTER_GSON) Converter.Factory converter,
                                           RxJava2CallAdapterFactory factory,
-                                          @Named(COINMARKETCAP_BASE_URL) String baseUrl) {
+                                          @Named(COINMARKETCAP_BASE_URL) String baseUrl,
+                                          OkHttpClient okHttpClient) {
+
+
+
         return new Retrofit.Builder()
                 .baseUrl(baseUrl)
                 .addConverterFactory(converter)
                 .addCallAdapterFactory(factory)
+                .client(okHttpClient)
                 .build();
     }
 
@@ -99,12 +113,14 @@ public class RemoteModule {
     @Provides
     @Named(COINMARKETCAP_GRAPHS_RETROFIT)
     Retrofit provideCMCGRetrofit(@Named(CONVERTER_GSON) Converter.Factory converter,
-                                          RxJava2CallAdapterFactory factory,
-                                          @Named(COINMARKETCAP_GRAPHS_BASE_URL) String baseUrl) {
+                                 RxJava2CallAdapterFactory factory,
+                                 @Named(COINMARKETCAP_GRAPHS_BASE_URL) String baseUrl,
+                                 OkHttpClient okHttpClient) {
         return new Retrofit.Builder()
                 .baseUrl(baseUrl)
                 .addConverterFactory(converter)
                 .addCallAdapterFactory(factory)
+                .client(okHttpClient)
                 .build();
     }
 
@@ -124,12 +140,14 @@ public class RemoteModule {
     @Provides
     @Named(COINMARKETCAP_S2_RETROFIT)
     Retrofit provideCMCS2Retrofit(@Named(CONVERTER_GSON) Converter.Factory converter,
-                                          RxJava2CallAdapterFactory factory,
-                                          @Named(COINMARKETCAP_S2_BASE_URL) String baseUrl) {
+                                  RxJava2CallAdapterFactory factory,
+                                  @Named(COINMARKETCAP_S2_BASE_URL) String baseUrl,
+                                  OkHttpClient okHttpClient) {
         return new Retrofit.Builder()
                 .baseUrl(baseUrl)
                 .addConverterFactory(converter)
                 .addCallAdapterFactory(factory)
+                .client(okHttpClient)
                 .build();
     }
 
@@ -152,11 +170,13 @@ public class RemoteModule {
     @Named(CRYPTOCOMPARE_RETROFIT)
     Retrofit provideOpenflightsRetrofit(@Named(CONVERTER_GSON) Converter.Factory converter,
                                         RxJava2CallAdapterFactory factory,
-                                        @Named(CRYPTOCOMPARE_BASE_URL) String baseUrl) {
+                                        @Named(CRYPTOCOMPARE_BASE_URL) String baseUrl,
+                                        OkHttpClient okHttpClient) {
         return new Retrofit.Builder()
                 .baseUrl(baseUrl)
                 .addConverterFactory(converter)
                 .addCallAdapterFactory(factory)
+                .client(okHttpClient)
                 .build();
     }
 
