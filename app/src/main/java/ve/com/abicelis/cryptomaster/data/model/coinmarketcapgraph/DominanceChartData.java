@@ -13,10 +13,16 @@ public class DominanceChartData {
 
     private List<Entry> mostDominantCoinEntries;
     private float mostDominantCoinLastEntry;
+    private String mostDominantCoinName;
+
     private List<Entry> lessDominantCoinEntries;
     private float lessDominantCoinLastEntry;
+    private String lessDominantCoinName;
+
     private List<Entry> leastDominantCoinEntries;
     private float leastDominantCoinLastEntry;
+    private String leastDominantCoinName;
+
     private List<Entry> otherCoinsEntries;
     private float otherCoinsLastEntry;
     private List<Long> timestamps;
@@ -24,26 +30,71 @@ public class DominanceChartData {
 
     public DominanceChartData(List<Entry> mostDominantCoinEntries,
                               float mostDominantCoinLastEntry,
+                              String mostDominantCoinName,
                               List<Entry> lessDominantCoinEntries,
                               float lessDominantCoinLastEntry,
+                              String lessDominantCoinName,
                               List<Entry> leastDominantCoinEntries,
                               float leastDominantCoinLastEntry,
+                              String leastDominantCoinName,
                               List<Entry> otherCoinsEntries,
                               float otherCoinsLastEntry,
                               List<Long> timestamps,
                               ChartTimeSpan chartTimeSpan) {
         this.mostDominantCoinEntries = mostDominantCoinEntries;
         this.mostDominantCoinLastEntry = mostDominantCoinLastEntry;
+        this.mostDominantCoinName = mostDominantCoinName;
         this.lessDominantCoinEntries = lessDominantCoinEntries;
         this.lessDominantCoinLastEntry = lessDominantCoinLastEntry;
+        this.lessDominantCoinName = lessDominantCoinName;
         this.leastDominantCoinEntries = leastDominantCoinEntries;
         this.leastDominantCoinLastEntry = leastDominantCoinLastEntry;
+        this.leastDominantCoinName = leastDominantCoinName;
         this.otherCoinsEntries = otherCoinsEntries;
         this.otherCoinsLastEntry = otherCoinsLastEntry;
         this.timestamps = timestamps;
         this.chartTimeSpan = chartTimeSpan;
     }
 
+    public void setMostDominantCoinLastEntry(float mostDominantCoinLastEntry) {
+        this.mostDominantCoinLastEntry = mostDominantCoinLastEntry;
+    }
+
+    public String getMostDominantCoinName() {
+        return mostDominantCoinName;
+    }
+
+    public void setMostDominantCoinName(String mostDominantCoinName) {
+        this.mostDominantCoinName = mostDominantCoinName;
+    }
+
+    public void setLessDominantCoinLastEntry(float lessDominantCoinLastEntry) {
+        this.lessDominantCoinLastEntry = lessDominantCoinLastEntry;
+    }
+
+    public String getLessDominantCoinName() {
+        return lessDominantCoinName;
+    }
+
+    public void setLessDominantCoinName(String lessDominantCoinName) {
+        this.lessDominantCoinName = lessDominantCoinName;
+    }
+
+    public void setLeastDominantCoinLastEntry(float leastDominantCoinLastEntry) {
+        this.leastDominantCoinLastEntry = leastDominantCoinLastEntry;
+    }
+
+    public String getLeastDominantCoinName() {
+        return leastDominantCoinName;
+    }
+
+    public void setLeastDominantCoinName(String leastDominantCoinName) {
+        this.leastDominantCoinName = leastDominantCoinName;
+    }
+
+    public void setOtherCoinsLastEntry(float otherCoinsLastEntry) {
+        this.otherCoinsLastEntry = otherCoinsLastEntry;
+    }
 
     public List<Entry> getMostDominantCoinEntries() {
         return mostDominantCoinEntries;

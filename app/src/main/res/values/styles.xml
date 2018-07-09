@@ -13,6 +13,9 @@
         <item name="chart_highlight">@color/chart_highlight</item>
         <item name="chart_line">@color/chart_line</item>
         <item name="chart_line_2">@color/chart_line_2</item>
+        <item name="chart_line_3">@color/chart_line_3</item>
+        <item name="chart_line_4">@color/chart_line_4</item>
+        <item name="chart_line_5">@color/chart_line_5</item>
         <item name="chart_grid_line">@color/chart_grid_line</item>
         <item name="chart_loading_background">@color/chart_loading_background</item>
         <item name="chart_button_active">@color/chart_button_active</item>
@@ -44,6 +47,9 @@
         <item name="chart_highlight">@color/dark_chart_highlight</item>
         <item name="chart_line">@color/dark_chart_line</item>
         <item name="chart_line_2">@color/dark_chart_line_2</item>
+        <item name="chart_line_3">@color/dark_chart_line_3</item>
+        <item name="chart_line_4">@color/dark_chart_line_4</item>
+        <item name="chart_line_5">@color/dark_chart_line_5</item>
         <item name="chart_grid_line">@color/dark_chart_grid_line</item>
         <item name="chart_loading_background">@color/dark_chart_loading_background</item>
         <item name="chart_button_active">@color/dark_chart_button_active</item>

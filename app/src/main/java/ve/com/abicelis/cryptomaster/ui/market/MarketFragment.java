@@ -242,6 +242,7 @@ public class MarketFragment extends BaseFragment implements MarketMvpView, View.
         yAxisR.setLabelCount(4, true);
         yAxisR.setDrawAxisLine(false);
         yAxisR.setValueFormatter(new YAxisMcapFormatter());
+        //yAxisR.setAxisMinimum(0f);
 
         XAxis xAxis = mMarketCapChart.getXAxis();
         //xAxis.setTextSize(10f);
@@ -372,6 +373,8 @@ public class MarketFragment extends BaseFragment implements MarketMvpView, View.
         yAxisR.setLabelCount(4, true);
         yAxisR.setDrawAxisLine(false);
         yAxisR.setValueFormatter(new YAxisDominanceFormatter());
+        yAxisR.setAxisMaximum(100f);
+        yAxisR.setAxisMinimum(0f);
 
         XAxis xAxis = mDominanceChart.getXAxis();
         //xAxis.setTextSize(10f);
@@ -386,45 +389,54 @@ public class MarketFragment extends BaseFragment implements MarketMvpView, View.
 
 
         //Data set and customization
-        LineDataSet dataSetMostDominant = new LineDataSet(data.getMostDominantCoinEntries(), "MostDominant");
+        LineDataSet dataSetMostDominant = new LineDataSet(data.getMostDominantCoinEntries(), data.getMostDominantCoinName());
         dataSetMostDominant.setColor(AttrUtil.getAttributeColor(mContext, R.attr.chart_line));
         dataSetMostDominant.setLineWidth(2f);
         dataSetMostDominant.setDrawCircles(false);
-        dataSetMostDominant.setFillFormatter(new MyFillFormatter(dataSetMostDominant));
+        dataSetMostDominant.setAxisDependency(YAxis.AxisDependency.RIGHT);
+        //dataSetMostDominant.setFillFormatter(new MyFillFormatter(dataSetMostDominant));
         dataSetMostDominant.setDrawFilled(true);
+        dataSetMostDominant.setFillColor(AttrUtil.getAttributeColor(mContext, R.attr.chart_line));
 
-        LineDataSet dataSetLessDominant = new LineDataSet(data.getLessDominantCoinEntries(), "LessDominant");
-        dataSetLessDominant.setColor(AttrUtil.getAttributeColor(mContext, R.attr.chart_grid_line));
+        LineDataSet dataSetLessDominant = new LineDataSet(data.getLessDominantCoinEntries(), data.getLessDominantCoinName());
+        dataSetLessDominant.setColor(AttrUtil.getAttributeColor(mContext, R.attr.chart_line_3));
         dataSetLessDominant.setLineWidth(2f);
         dataSetLessDominant.setDrawCircles(false);
+        dataSetLessDominant.setAxisDependency(YAxis.AxisDependency.RIGHT);
         dataSetLessDominant.setFillFormatter(new MyFillFormatter(dataSetMostDominant));
         dataSetLessDominant.setDrawFilled(true);
+        dataSetLessDominant.setFillColor(AttrUtil.getAttributeColor(mContext, R.attr.chart_line_3));
 
-        LineDataSet dataSetLeastDominant = new LineDataSet(data.getLessDominantCoinEntries(), "LeastDominant");
-        dataSetLeastDominant.setColor(AttrUtil.getAttributeColor(mContext, R.attr.chart_button_active));
+        LineDataSet dataSetLeastDominant = new LineDataSet(data.getLeastDominantCoinEntries(), data.getLeastDominantCoinName());
+        dataSetLeastDominant.setColor(AttrUtil.getAttributeColor(mContext, R.attr.chart_line_4));
         dataSetLeastDominant.setLineWidth(2f);
         dataSetLeastDominant.setDrawCircles(false);
+        dataSetLeastDominant.setAxisDependency(YAxis.AxisDependency.RIGHT);
         dataSetLeastDominant.setFillFormatter(new MyFillFormatter(dataSetLessDominant));
         dataSetLeastDominant.setDrawFilled(true);
+        dataSetLeastDominant.setFillColor(AttrUtil.getAttributeColor(mContext, R.attr.chart_line_4));
 
-        LineDataSet dataSetOthers = new LineDataSet(data.getOtherCoinsEntries(), "Others");
-        dataSetOthers.setColor(AttrUtil.getAttributeColor(mContext, R.attr.chart_button_inactive));
-        dataSetOthers.setLineWidth(2f);
-        dataSetOthers.setDrawCircles(false);
-        dataSetOthers.setFillFormatter(new MyFillFormatter(dataSetLeastDominant));
-        dataSetOthers.setDrawFilled(true);
+
+        //LineDataSet dataSetOthers = new LineDataSet(data.getOtherCoinsEntries(), "Others");
+        //dataSetOthers.setColor(AttrUtil.getAttributeColor(mContext, R.attr.chart_line_5));
+        //dataSetOthers.setLineWidth(2f);
+        //dataSetOthers.setDrawCircles(false);
+        //dataSetOthers.setAxisDependency(YAxis.AxisDependency.RIGHT);
+        //dataSetOthers.setFillFormatter(new MyFillFormatter(dataSetLeastDominant));
+        //dataSetOthers.setDrawFilled(true);
 
         List<ILineDataSet> dataSets = new ArrayList<>();
         dataSets.add(dataSetMostDominant);
         dataSets.add(dataSetLessDominant);
-        dataSets.add(dataSetOthers);
+        dataSets.add(dataSetLeastDominant);
+        //dataSets.add(dataSetOthers);
 
         //Chart customization
         LineData lineData = new LineData(dataSets);
         mDominanceChart.setData(lineData);
         mDominanceChart.setTouchEnabled(false);
         mDominanceChart.getDescription().setEnabled(false);
-        //mDominanceChart.getLegend().setEnabled(false);
+        mDominanceChart.getLegend().setTextColor(color);
         mDominanceChart.setRenderer(new StackedLineChartRenderer(mDominanceChart, mDominanceChart.getAnimator(), mDominanceChart.getViewPortHandler()));
         mDominanceChart.invalidate(); // refresh
     }

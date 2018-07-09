@@ -276,17 +276,21 @@ public class DataManager {
                         mostDominantCoinEntries.add(    new Entry(i,     (float)btcVals[i][1])                                                             );
                         lessDominantCoinEntries.add(    new Entry(i,  (float)ethVals[i][1] + (float)btcVals[i][1])                                      );
                         leastDominantCoinEntries.add(   new Entry(i,  (float)xrpVals[i][1] + (float)ethVals[i][1] + (float)btcVals[i][1])               );
-                        otherCoinEntries.add(           new Entry(i,     (100f - (float)btcVals[i][1] - (float)ethVals[i][1] - (float)xrpVals[i][1]))      );
+                        //otherCoinEntries.add(           new Entry(i,     (100f - (float)btcVals[i][1] - (float)ethVals[i][1] - (float)xrpVals[i][1]))      );
+                        otherCoinEntries.add(           new Entry(i,     100f)                                                                          );
                         timestamps.add((long)btcVals[i][0]);
                     }
 
                     //Collections.sort(entries, new EntryXComparator());
                     return new DominanceChartData(mostDominantCoinEntries,
                             (float)btcVals[btcVals.length-1][1],
+                            "Bitcoin",
                             lessDominantCoinEntries,
                             (float)ethVals[ethVals.length-1][1],
+                            "Ethereum",
                             leastDominantCoinEntries,
                             (float)xrpVals[ethVals.length-1][1],
+                            "Ripple",
                             otherCoinEntries,
                             (100f - (float)btcVals[btcVals.length-1][1] - (float)ethVals[btcVals.length-1][1] - (float)xrpVals[btcVals.length-1][1]),
                             timestamps, chartTimeSpan);

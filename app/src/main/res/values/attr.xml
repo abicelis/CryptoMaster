@@ -8,6 +8,9 @@
     <attr name="chart_highlight" format="reference|color" />
     <attr name="chart_line" format="reference|color" />
     <attr name="chart_line_2" format="reference|color" />
+    <attr name="chart_line_3" format="reference|color" />
+    <attr name="chart_line_4" format="reference|color" />
+    <attr name="chart_line_5" format="reference|color" />
     <attr name="chart_grid_line" format="reference|color" />
     <attr name="chart_loading_background" format="reference|color" />
     <attr name="chart_button_active" format="reference|color" />
