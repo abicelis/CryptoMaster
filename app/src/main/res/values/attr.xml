@@ -5,6 +5,7 @@
     <attr name="default_background" format="reference|color" />
     <attr name="default_foreground" format="reference|color" />
     <attr name="default_accent" format="reference|color" />
+    <attr name="chart_highlight" format="reference|color" />
     <attr name="chart_line" format="reference|color" />
     <attr name="chart_line_2" format="reference|color" />
     <attr name="chart_grid_line" format="reference|color" />
