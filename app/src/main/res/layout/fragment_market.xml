@@ -54,7 +54,7 @@
 
             <include layout="@layout/fragment_market_total_mcap" />
 
-            <!--<include layout="@layout/fragment_market_altcoin_mcap" />-->
+            <include layout="@layout/fragment_market_dominance" />
 
         </LinearLayout>
 
