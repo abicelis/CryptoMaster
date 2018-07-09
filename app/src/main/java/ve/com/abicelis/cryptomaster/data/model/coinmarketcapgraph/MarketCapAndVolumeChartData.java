@@ -2,10 +2,9 @@ package ve.com.abicelis.cryptomaster.data.model.coinmarketcapgraph;
 
 import com.github.mikephil.charting.data.Entry;
 
-import java.math.BigDecimal;
 import java.util.List;
 
-import ve.com.abicelis.cryptomaster.data.model.ChartTimespan;
+import ve.com.abicelis.cryptomaster.data.model.ChartTimeSpan;
 
 /**
  * Created by abicelis on 3/7/2018.
@@ -17,15 +16,15 @@ public class MarketCapAndVolumeChartData {
     private List<Entry> volumeEntries;
     private long lastVolume;
     private List<Long> timestamps;
-    private ChartTimespan chartTimespan;
+    private ChartTimeSpan chartTimeSpan;
 
-    public MarketCapAndVolumeChartData(List<Entry> marketCapEntries, long lastMarketCap, List<Entry> volumeEntries, long lastVolume, List<Long> timestamps, ChartTimespan chartTimespan) {
+    public MarketCapAndVolumeChartData(List<Entry> marketCapEntries, long lastMarketCap, List<Entry> volumeEntries, long lastVolume, List<Long> timestamps, ChartTimeSpan chartTimeSpan) {
         this.marketCapEntries = marketCapEntries;
         this.lastMarketCap = lastMarketCap;
         this.volumeEntries = volumeEntries;
         this.lastVolume = lastVolume;
         this.timestamps = timestamps;
-        this.chartTimespan = chartTimespan;
+        this.chartTimeSpan = chartTimeSpan;
     }
 
     public List<Entry> getMarketCapEntries() { return marketCapEntries; }
@@ -43,7 +42,7 @@ public class MarketCapAndVolumeChartData {
     public List<Long> getTimestamps() { return timestamps; }
     public void setTimestamps(List<Long> timestamps) { this.timestamps = timestamps; }
 
-    public ChartTimespan getChartTimespan() { return chartTimespan; }
-    public void setChartTimespan(ChartTimespan chartTimespan) { this.chartTimespan = chartTimespan; }
+    public ChartTimeSpan getChartTimeSpan() { return chartTimeSpan; }
+    public void setChartTimeSpan(ChartTimeSpan chartTimeSpan) { this.chartTimeSpan = chartTimeSpan; }
 
 }
