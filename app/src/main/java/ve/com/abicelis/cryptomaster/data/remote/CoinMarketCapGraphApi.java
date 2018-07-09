@@ -3,6 +3,7 @@ package ve.com.abicelis.cryptomaster.data.remote;
 import io.reactivex.Single;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
+import ve.com.abicelis.cryptomaster.data.model.coinmarketcapgraph.DominanceResult;
 import ve.com.abicelis.cryptomaster.data.model.coinmarketcapgraph.MarketCapAndVolumeResult;
 import ve.com.abicelis.cryptomaster.data.model.coinmarketcapgraph.MarketCapPriceAndVolumeResult;
 
@@ -28,5 +29,10 @@ public interface CoinMarketCapGraphApi {
     Single<MarketCapPriceAndVolumeResult> getCurrencyMarketCapPriceAndVolumeGraphData(@Path("slug") String slug,         //Slug, name of coin
                                                                                       @Path("time_start") long timestart,      //Start timestamp (in millis)
                                                                                       @Path("time_end") long timeEnd);         //End timestamp (in millis)
+
+
+    @GET("global/dominance/{time_start}/{time_end}/")
+    Single<DominanceResult> getDominanceGraphData(@Path("time_start") long timestart,      //Start timestamp (in millis)
+                                                  @Path("time_end") long timeEnd);         //End timestamp (in millis)
 
 }
