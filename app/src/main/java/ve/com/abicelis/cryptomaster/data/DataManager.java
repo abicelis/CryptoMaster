@@ -1,7 +1,6 @@
 package ve.com.abicelis.cryptomaster.data;
 
 import com.github.mikephil.charting.data.Entry;
-import com.github.mikephil.charting.utils.EntryXComparator;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -15,12 +14,13 @@ import io.reactivex.Single;
 import io.reactivex.functions.Function;
 import ve.com.abicelis.cryptomaster.data.local.AppDatabase;
 import ve.com.abicelis.cryptomaster.data.local.SharedPreferenceHelper;
-import ve.com.abicelis.cryptomaster.data.model.ChartTimespan;
+import ve.com.abicelis.cryptomaster.data.model.ChartTimeSpan;
 import ve.com.abicelis.cryptomaster.data.model.Coin;
 import ve.com.abicelis.cryptomaster.data.model.Currency;
 import ve.com.abicelis.cryptomaster.data.model.FavoriteCoin;
 import ve.com.abicelis.cryptomaster.data.model.coinmarketcap.GlobalResult;
 import ve.com.abicelis.cryptomaster.data.model.coinmarketcap.TickerResult;
+import ve.com.abicelis.cryptomaster.data.model.coinmarketcapgraph.DominanceChartData;
 import ve.com.abicelis.cryptomaster.data.model.coinmarketcapgraph.MarketCapAndVolumeChartData;
 import ve.com.abicelis.cryptomaster.data.model.coinmarketcaps2.CurrencyResult;
 import ve.com.abicelis.cryptomaster.data.remote.CoinMarketCapApi;
@@ -232,7 +232,7 @@ public class DataManager {
 
 
 
-    public Single<MarketCapAndVolumeChartData> getMaketCapAndVolumeGraphData(long timeStart, long timeEnd, ChartTimespan chartTimespan) {
+    public Single<MarketCapAndVolumeChartData> getMaketCapAndVolumeGraphData(long timeStart, long timeEnd, ChartTimeSpan chartTimeSpan) {
         return mCoinMarketCapGraphApi.getTotalMarketCapAndVolumeGraphData(timeStart, timeEnd)
                 .map(result -> {
 
@@ -255,7 +255,41 @@ public class DataManager {
                     }
 
                     //Collections.sort(entries, new EntryXComparator());
-                    return new MarketCapAndVolumeChartData(marketCapEntries, mcapVals[mcapVals.length-1][1], volumeEntries, volumeVals[volumeVals.length-1][1], timestamps, chartTimespan);
+                    return new MarketCapAndVolumeChartData(marketCapEntries, mcapVals[mcapVals.length-1][1], volumeEntries, volumeVals[volumeVals.length-1][1], timestamps, chartTimeSpan);
+                });
+    }
+
+
+    public Single<DominanceChartData> getDominanceGraphData(long timeStart, long timeEnd, ChartTimeSpan chartTimeSpan) {
+        return mCoinMarketCapGraphApi.getDominanceGraphData(timeStart, timeEnd)
+                .map(result -> {
+                    List<Entry> mostDominantCoinEntries = new ArrayList<>();
+                    List<Entry> lessDominantCoinEntries = new ArrayList<>();
+                    List<Entry> leastDominantCoinEntries = new ArrayList<>();
+                    List<Entry> otherCoinEntries = new ArrayList<>();
+                    List<Long> timestamps = new ArrayList<>();
+
+                    double[][] btcVals = result.getBitcoin();
+                    double[][] ethVals = result.getEthereum();
+                    double[][] xrpVals = result.getRipple();
+                    for (int i = 0; i < result.getBitcoin().length; i++) {
+                        mostDominantCoinEntries.add(    new Entry(i,     (float)btcVals[i][1])                                                             );
+                        lessDominantCoinEntries.add(    new Entry(i,  (float)ethVals[i][1] + (float)btcVals[i][1])                                      );
+                        leastDominantCoinEntries.add(   new Entry(i,  (float)xrpVals[i][1] + (float)ethVals[i][1] + (float)btcVals[i][1])               );
+                        otherCoinEntries.add(           new Entry(i,     (100f - (float)btcVals[i][1] - (float)ethVals[i][1] - (float)xrpVals[i][1]))      );
+                        timestamps.add((long)btcVals[i][0]);
+                    }
+
+                    //Collections.sort(entries, new EntryXComparator());
+                    return new DominanceChartData(mostDominantCoinEntries,
+                            (float)btcVals[btcVals.length-1][1],
+                            lessDominantCoinEntries,
+                            (float)ethVals[ethVals.length-1][1],
+                            leastDominantCoinEntries,
+                            (float)xrpVals[ethVals.length-1][1],
+                            otherCoinEntries,
+                            (100f - (float)btcVals[btcVals.length-1][1] - (float)ethVals[btcVals.length-1][1] - (float)xrpVals[btcVals.length-1][1]),
+                            timestamps, chartTimeSpan);
                 });
     }
 
