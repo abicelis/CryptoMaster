@@ -24,7 +24,7 @@
             android:fontFamily="@font/nunito_semibold"
             android:text="@string/fragment_market_total_title"
             android:textColor="?attr/text_primary"
-            android:textSize="18sp" />
+            android:textSize="22sp" />
         <TextView
             android:id="@+id/fragment_market_total_last"
             android:layout_width="wrap_content"
