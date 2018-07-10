@@ -2,7 +2,6 @@
 <android.support.design.widget.CoordinatorLayout android:id="@+id/fragment_coins_container"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="?attr/default_foreground"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -51,6 +50,7 @@
         android:id="@+id/fragment_coins_swipe_refresh"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="?attr/default_background"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         >
         <android.support.v7.widget.RecyclerView
