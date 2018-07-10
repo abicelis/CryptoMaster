@@ -12,14 +12,14 @@ import java.util.List;
  * Custom FillFormator to return the dataset of another line.
  * Taken from https://stackoverflow.com/questions/43342597/android-fill-the-color-between-two-lines-using-mpandroidchart/43452404#43452404 on 7/7/2018.
  */
-public class MyFillFormatter implements IFillFormatter {
+public class StackedLineFillFormatter implements IFillFormatter {
     private ILineDataSet boundaryDataSet;
 
-    public MyFillFormatter() {
+    public StackedLineFillFormatter() {
         this(null);
     }
     //Pass the dataset of other line in the Constructor
-    public MyFillFormatter(ILineDataSet boundaryDataSet) {
+    public StackedLineFillFormatter(ILineDataSet boundaryDataSet) {
         this.boundaryDataSet = boundaryDataSet;
     }
 

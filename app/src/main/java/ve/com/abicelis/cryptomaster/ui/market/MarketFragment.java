@@ -12,7 +12,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.LinearInterpolator;
 import android.widget.FrameLayout;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -236,10 +235,10 @@ public class MarketFragment extends BaseFragment implements MarketMvpView, View.
         YAxis yAxisR = mMarketCapChart.getAxisRight();
         //yAxisR.setPosition(YAxis.YAxisLabelPosition.INSIDE_CHART);
         //yAxisR.setYOffset(-3f);
-        yAxisR.setSpaceBottom(20);
+        //yAxisR.setSpaceBottom(20);
         yAxisR.setTextColor(color);
         yAxisR.setGridColor(color);
-        yAxisR.setLabelCount(4, true);
+        yAxisR.setLabelCount(4);
         yAxisR.setDrawAxisLine(false);
         yAxisR.setValueFormatter(new YAxisMcapFormatter());
         //yAxisR.setAxisMinimum(0f);
@@ -262,18 +261,21 @@ public class MarketFragment extends BaseFragment implements MarketMvpView, View.
         dataSetMcap.setLineWidth(2f);
         dataSetMcap.setAxisDependency(YAxis.AxisDependency.RIGHT);
         dataSetMcap.setDrawCircles(false);
-        //dataSetMcap.setMode(LineDataSet.Mode.HORIZONTAL_BEZIER);
+        dataSetMcap.setDrawValues(false);
+        dataSetMcap.setMode(LineDataSet.Mode.HORIZONTAL_BEZIER);
         //dataSetMcap.setHighlightEnabled(false);
         //dataSetMcap.setHighLightColor(AttrUtil.getAttributeColor(mContext, R.attr.chart_highlight));
 
         LineDataSet dataSetVolume = new LineDataSet(data.getVolumeEntries(), "Volume"); // add entries to dataset
         dataSetVolume.setColor(AttrUtil.getAttributeColor(mContext, R.attr.chart_line_2));
-        //dataSetVolume.setHighlightEnabled(false);
-        dataSetVolume.setDrawFilled(true);
-        dataSetVolume.setFillColor(AttrUtil.getAttributeColor(mContext, R.attr.chart_line_2));
         //dataSetVolume.setLineWidth(1f);
         dataSetVolume.setAxisDependency(YAxis.AxisDependency.LEFT);
         dataSetVolume.setDrawCircles(false);
+        dataSetVolume.setDrawValues(false);
+        dataSetMcap.setMode(LineDataSet.Mode.HORIZONTAL_BEZIER);
+        dataSetVolume.setDrawFilled(true);
+        dataSetVolume.setFillColor(AttrUtil.getAttributeColor(mContext, R.attr.chart_line_2));
+        //dataSetVolume.setHighlightEnabled(false);
 
 
         List<ILineDataSet> dataSets = new ArrayList<>();
@@ -394,7 +396,8 @@ public class MarketFragment extends BaseFragment implements MarketMvpView, View.
         dataSetMostDominant.setLineWidth(2f);
         dataSetMostDominant.setDrawCircles(false);
         dataSetMostDominant.setAxisDependency(YAxis.AxisDependency.RIGHT);
-        //dataSetMostDominant.setFillFormatter(new MyFillFormatter(dataSetMostDominant));
+        dataSetMostDominant.setMode(LineDataSet.Mode.HORIZONTAL_BEZIER);
+        //dataSetMostDominant.setFillFormatter(new StackedLineFillFormatter(dataSetMostDominant));
         dataSetMostDominant.setDrawFilled(true);
         dataSetMostDominant.setFillColor(AttrUtil.getAttributeColor(mContext, R.attr.chart_line));
 
@@ -403,7 +406,8 @@ public class MarketFragment extends BaseFragment implements MarketMvpView, View.
         dataSetLessDominant.setLineWidth(2f);
         dataSetLessDominant.setDrawCircles(false);
         dataSetLessDominant.setAxisDependency(YAxis.AxisDependency.RIGHT);
-        dataSetLessDominant.setFillFormatter(new MyFillFormatter(dataSetMostDominant));
+        dataSetLessDominant.setMode(LineDataSet.Mode.HORIZONTAL_BEZIER);
+        dataSetLessDominant.setFillFormatter(new StackedLineFillFormatter(dataSetMostDominant));
         dataSetLessDominant.setDrawFilled(true);
         dataSetLessDominant.setFillColor(AttrUtil.getAttributeColor(mContext, R.attr.chart_line_3));
 
@@ -412,7 +416,8 @@ public class MarketFragment extends BaseFragment implements MarketMvpView, View.
         dataSetLeastDominant.setLineWidth(2f);
         dataSetLeastDominant.setDrawCircles(false);
         dataSetLeastDominant.setAxisDependency(YAxis.AxisDependency.RIGHT);
-        dataSetLeastDominant.setFillFormatter(new MyFillFormatter(dataSetLessDominant));
+        dataSetLeastDominant.setMode(LineDataSet.Mode.HORIZONTAL_BEZIER);
+        dataSetLeastDominant.setFillFormatter(new StackedLineFillFormatter(dataSetLessDominant));
         dataSetLeastDominant.setDrawFilled(true);
         dataSetLeastDominant.setFillColor(AttrUtil.getAttributeColor(mContext, R.attr.chart_line_4));
 
@@ -422,7 +427,7 @@ public class MarketFragment extends BaseFragment implements MarketMvpView, View.
         //dataSetOthers.setLineWidth(2f);
         //dataSetOthers.setDrawCircles(false);
         //dataSetOthers.setAxisDependency(YAxis.AxisDependency.RIGHT);
-        //dataSetOthers.setFillFormatter(new MyFillFormatter(dataSetLeastDominant));
+        //dataSetOthers.setFillFormatter(new StackedLineFillFormatter(dataSetLeastDominant));
         //dataSetOthers.setDrawFilled(true);
 
         List<ILineDataSet> dataSets = new ArrayList<>();

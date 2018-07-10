@@ -25,6 +25,68 @@ public class StackedLineChartRenderer extends LineChartRenderer {
         super(chart, animator, viewPortHandler);
     }
 
+    // This method defines the perimeter of the area to be filled for horizontal bezier data sets.
+    @Override
+    protected void drawCubicFill(Canvas c, ILineDataSet dataSet, Path spline, Transformer trans, XBounds bounds) {
+
+        if(dataSet.getFillFormatter() instanceof StackedLineFillFormatter) {
+            final float phaseY = mAnimator.getPhaseY();
+
+            //Call the custom method to retrieve the dataset for other line
+            final List<Entry> boundaryEntries = ((StackedLineFillFormatter) dataSet.getFillFormatter()).getFillLineBoundary();
+
+            // We are currently at top-last point, so draw down to the last boundary point
+            Entry boundaryEntry = boundaryEntries.get(bounds.min + bounds.range);
+            spline.lineTo(boundaryEntry.getX(), boundaryEntry.getY() * phaseY);
+
+            // Draw a cubic line going back through all the previous boundary points
+            Entry prev = dataSet.getEntryForIndex(bounds.min + bounds.range);
+            Entry cur = prev;
+            for (int x = bounds.min + bounds.range; x >= bounds.min; x--) {
+
+                prev = cur;
+                cur = boundaryEntries.get(x);
+
+                final float cpx = (prev.getX()) + (cur.getX() - prev.getX()) / 2.0f;
+
+                spline.cubicTo(
+                        cpx, prev.getY() * phaseY,
+                        cpx, cur.getY() * phaseY,
+                        cur.getX(), cur.getY() * phaseY);
+            }
+
+            // Join up the perimeter
+            spline.close();
+
+            trans.pathValueToPixel(spline);
+
+            final Drawable drawable = dataSet.getFillDrawable();
+            if (drawable != null) {
+                drawFilledPath(c, spline, drawable);
+            } else {
+                drawFilledPath(c, spline, dataSet.getFillColor(), dataSet.getFillAlpha());
+            }
+        } else {
+            float fillMin = dataSet.getFillFormatter()
+                    .getFillLinePosition(dataSet, mChart);
+
+            spline.lineTo(dataSet.getEntryForIndex(bounds.min + bounds.range).getX(), fillMin);
+            spline.lineTo(dataSet.getEntryForIndex(bounds.min).getX(), fillMin);
+            spline.close();
+
+            trans.pathValueToPixel(spline);
+
+            final Drawable drawable = dataSet.getFillDrawable();
+            if (drawable != null) {
+
+                drawFilledPath(c, spline, drawable);
+            } else {
+
+                drawFilledPath(c, spline, dataSet.getFillColor(), dataSet.getFillAlpha());
+            }
+        }
+    }
+
     //This method is same as it's parent implementation
     @Override
     protected void drawLinearFill(Canvas c, ILineDataSet dataSet, Transformer trans, XBounds bounds) {
@@ -67,10 +129,10 @@ public class StackedLineChartRenderer extends LineChartRenderer {
     //This is where we define the area to be filled.
     private void generateFilledPath(final ILineDataSet dataSet, final int startIndex, final int endIndex, final Path outputPath) {
 
-        if(dataSet.getFillFormatter() instanceof MyFillFormatter) {
+        if(dataSet.getFillFormatter() instanceof StackedLineFillFormatter) {
 
             //Call the custom method to retrieve the dataset for other line
-            final List<Entry> boundaryEntry = ((MyFillFormatter)dataSet.getFillFormatter()).getFillLineBoundary();
+            final List<Entry> boundaryEntry = ((StackedLineFillFormatter)dataSet.getFillFormatter()).getFillLineBoundary();
 
             final float phaseY = mAnimator.getPhaseY();
             final Path filled = outputPath;
