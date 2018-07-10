@@ -23,6 +23,7 @@ public class Constants {
     public static final int MISC_UI_DEBOUNCE_TIME_MILLISECONDS = 300;
     public static final int MISC_OK_HTTP_READ_TIMEOUT_SECONDS = 5;
     public static final int MISC_OK_HTTP_CONNECT_TIMEOUT_SECONDS = 5;
+    public static final int MISC_MAX_CHART_ENTRIES = 100;
 
 
     /* HOME ACTIVITY */
