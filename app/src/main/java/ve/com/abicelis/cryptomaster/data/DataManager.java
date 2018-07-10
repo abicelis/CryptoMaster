@@ -12,6 +12,7 @@ import javax.inject.Inject;
 import io.reactivex.Completable;
 import io.reactivex.Single;
 import io.reactivex.functions.Function;
+import ve.com.abicelis.cryptomaster.application.Constants;
 import ve.com.abicelis.cryptomaster.data.local.AppDatabase;
 import ve.com.abicelis.cryptomaster.data.local.SharedPreferenceHelper;
 import ve.com.abicelis.cryptomaster.data.model.ChartTimeSpan;
@@ -243,15 +244,19 @@ public class DataManager {
 
                     long[][] mcapVals = result.getMarketCapByAvailableSupply();
                     long[][] volumeVals = result.getVolumeUsd();
-                    for (int i = 0; i < result.getMarketCapByAvailableSupply().length; i++) {
+
+                    int increment = calculateIncrementFor(result.getMarketCapByAvailableSupply().length);
+                    int count = 0;
+                    for (int i = 0; i < result.getMarketCapByAvailableSupply().length; i+=increment) {
 
                         long x = mcapVals[i][0];
                         float yMcap = ((float) mcapVals[i][1]) / 1000000000;
                         float yVol = ((float) volumeVals[i][1]) / 1000000000;
 
-                        marketCapEntries.add(new Entry(i, yMcap));
-                        volumeEntries.add(new Entry(i, yVol));
+                        marketCapEntries.add(new Entry(count, yMcap));
+                        volumeEntries.add(new Entry(count, yVol));
                         timestamps.add(x);
+                        count++;
                     }
 
                     //Collections.sort(entries, new EntryXComparator());
@@ -272,13 +277,17 @@ public class DataManager {
                     double[][] btcVals = result.getBitcoin();
                     double[][] ethVals = result.getEthereum();
                     double[][] xrpVals = result.getRipple();
-                    for (int i = 0; i < result.getBitcoin().length; i++) {
-                        mostDominantCoinEntries.add(    new Entry(i,     (float)btcVals[i][1])                                                             );
-                        lessDominantCoinEntries.add(    new Entry(i,  (float)ethVals[i][1] + (float)btcVals[i][1])                                      );
-                        leastDominantCoinEntries.add(   new Entry(i,  (float)xrpVals[i][1] + (float)ethVals[i][1] + (float)btcVals[i][1])               );
-                        //otherCoinEntries.add(           new Entry(i,     (100f - (float)btcVals[i][1] - (float)ethVals[i][1] - (float)xrpVals[i][1]))      );
-                        otherCoinEntries.add(           new Entry(i,     100f)                                                                          );
+
+                    int count = 0;
+                    int increment = calculateIncrementFor(result.getBitcoin().length);
+                    for (int i = 0; i < result.getBitcoin().length; i+=increment) {
+                        mostDominantCoinEntries.add(    new Entry(count,     (float)btcVals[i][1])                                                             );
+                        lessDominantCoinEntries.add(    new Entry(count,  (float)ethVals[i][1] + (float)btcVals[i][1])                                      );
+                        leastDominantCoinEntries.add(   new Entry(count,  (float)xrpVals[i][1] + (float)ethVals[i][1] + (float)btcVals[i][1])               );
+                        //otherCoinEntries.add(           new Entry(count,     (100f - (float)btcVals[i][1] - (float)ethVals[i][1] - (float)xrpVals[i][1]))      );
+                        otherCoinEntries.add(           new Entry(count,     100f)                                                                          );
                         timestamps.add((long)btcVals[i][0]);
+                        count++;
                     }
 
                     //Collections.sort(entries, new EntryXComparator());
@@ -295,6 +304,14 @@ public class DataManager {
                             (100f - (float)btcVals[btcVals.length-1][1] - (float)ethVals[btcVals.length-1][1] - (float)xrpVals[btcVals.length-1][1]),
                             timestamps, chartTimeSpan);
                 });
+    }
+
+    private int calculateIncrementFor(int length) {
+        if(length < Constants.MISC_MAX_CHART_ENTRIES)
+            return length;
+        else {
+            return Math.round(length/Constants.MISC_MAX_CHART_ENTRIES);
+        }
     }
 
 
