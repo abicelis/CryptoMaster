@@ -392,49 +392,51 @@ public class MarketFragment extends BaseFragment implements MarketMvpView, View.
 
         //Data set and customization
         LineDataSet dataSetMostDominant = new LineDataSet(data.getMostDominantCoinEntries(), data.getMostDominantCoinName());
-        dataSetMostDominant.setColor(AttrUtil.getAttributeColor(mContext, R.attr.chart_line));
+        dataSetMostDominant.setColor(AttrUtil.getAttributeColor(mContext, R.attr.chart_line_3));
         dataSetMostDominant.setLineWidth(2f);
         dataSetMostDominant.setDrawCircles(false);
         dataSetMostDominant.setAxisDependency(YAxis.AxisDependency.RIGHT);
         dataSetMostDominant.setMode(LineDataSet.Mode.HORIZONTAL_BEZIER);
         //dataSetMostDominant.setFillFormatter(new StackedLineFillFormatter(dataSetMostDominant));
         dataSetMostDominant.setDrawFilled(true);
-        dataSetMostDominant.setFillColor(AttrUtil.getAttributeColor(mContext, R.attr.chart_line));
+        dataSetMostDominant.setFillColor(AttrUtil.getAttributeColor(mContext, R.attr.chart_line_3));
 
         LineDataSet dataSetLessDominant = new LineDataSet(data.getLessDominantCoinEntries(), data.getLessDominantCoinName());
-        dataSetLessDominant.setColor(AttrUtil.getAttributeColor(mContext, R.attr.chart_line_3));
+        dataSetLessDominant.setColor(AttrUtil.getAttributeColor(mContext, R.attr.chart_line_4));
         dataSetLessDominant.setLineWidth(2f);
         dataSetLessDominant.setDrawCircles(false);
         dataSetLessDominant.setAxisDependency(YAxis.AxisDependency.RIGHT);
         dataSetLessDominant.setMode(LineDataSet.Mode.HORIZONTAL_BEZIER);
         dataSetLessDominant.setFillFormatter(new StackedLineFillFormatter(dataSetMostDominant));
         dataSetLessDominant.setDrawFilled(true);
-        dataSetLessDominant.setFillColor(AttrUtil.getAttributeColor(mContext, R.attr.chart_line_3));
+        dataSetLessDominant.setFillColor(AttrUtil.getAttributeColor(mContext, R.attr.chart_line_4));
 
         LineDataSet dataSetLeastDominant = new LineDataSet(data.getLeastDominantCoinEntries(), data.getLeastDominantCoinName());
-        dataSetLeastDominant.setColor(AttrUtil.getAttributeColor(mContext, R.attr.chart_line_4));
+        dataSetLeastDominant.setColor(AttrUtil.getAttributeColor(mContext, R.attr.chart_line_5));
         dataSetLeastDominant.setLineWidth(2f);
         dataSetLeastDominant.setDrawCircles(false);
         dataSetLeastDominant.setAxisDependency(YAxis.AxisDependency.RIGHT);
         dataSetLeastDominant.setMode(LineDataSet.Mode.HORIZONTAL_BEZIER);
         dataSetLeastDominant.setFillFormatter(new StackedLineFillFormatter(dataSetLessDominant));
         dataSetLeastDominant.setDrawFilled(true);
-        dataSetLeastDominant.setFillColor(AttrUtil.getAttributeColor(mContext, R.attr.chart_line_4));
+        dataSetLeastDominant.setFillColor(AttrUtil.getAttributeColor(mContext, R.attr.chart_line_5));
 
 
-        //LineDataSet dataSetOthers = new LineDataSet(data.getOtherCoinsEntries(), "Others");
-        //dataSetOthers.setColor(AttrUtil.getAttributeColor(mContext, R.attr.chart_line_5));
-        //dataSetOthers.setLineWidth(2f);
-        //dataSetOthers.setDrawCircles(false);
-        //dataSetOthers.setAxisDependency(YAxis.AxisDependency.RIGHT);
-        //dataSetOthers.setFillFormatter(new StackedLineFillFormatter(dataSetLeastDominant));
-        //dataSetOthers.setDrawFilled(true);
+        LineDataSet dataSetOthers = new LineDataSet(data.getOtherCoinsEntries(), "Others");
+        dataSetOthers.setColor(AttrUtil.getAttributeColor(mContext, R.attr.chart_line_6));
+        dataSetOthers.setLineWidth(2f);
+        dataSetOthers.setDrawCircles(false);
+        dataSetOthers.setAxisDependency(YAxis.AxisDependency.RIGHT);
+        dataSetOthers.setMode(LineDataSet.Mode.HORIZONTAL_BEZIER);
+        dataSetOthers.setFillFormatter(new StackedLineFillFormatter(dataSetLeastDominant));
+        dataSetOthers.setDrawFilled(true);
+        dataSetOthers.setFillColor(AttrUtil.getAttributeColor(mContext, R.attr.chart_line_6));
 
         List<ILineDataSet> dataSets = new ArrayList<>();
         dataSets.add(dataSetMostDominant);
         dataSets.add(dataSetLessDominant);
         dataSets.add(dataSetLeastDominant);
-        //dataSets.add(dataSetOthers);
+        dataSets.add(dataSetOthers);
 
         //Chart customization
         LineData lineData = new LineData(dataSets);
