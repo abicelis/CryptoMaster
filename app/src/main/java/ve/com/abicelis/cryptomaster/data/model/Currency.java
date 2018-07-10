@@ -4,51 +4,56 @@ package ve.com.abicelis.cryptomaster.data.model;
  * Created by abicelis on 31/5/2018.
  */
 public enum Currency {
-    AUD("Australian Dollar"),
-    BRL("Brazilian Real"),
-    CAD("Canadian Dollar"),
-    CHF("Swiss Franc"),
-    CLP("Chilean Peso"),
-    CNY("Chinese Yuan"),
-    CZK("Czech Koruna"),
-    DKK("Danish Krone"),
-    EUR("Euro"),
-    GBP("Pound Sterling"),
-    HKD("Hong Kong Dollar"),
-    HUF("Hungarian Forint"),
-    IDR("Indonesian Rupiah"),
-    ILS("Israeli Shekel"),
-    INR("Indian Rupee"),
-    JPY("Japanese Yen"),
-    KRW("Korean Won"),
-    MXN("Mexican Peso"),
-    MYR("Malaysian Ringgit"),
-    NOK("Norwegian Krone"),
-    NZD("New Zealand Dollar"),
-    PHP("Philippine Piso"),
-    PKR("Pakistani Rupee"),
-    PLN("Polish Zloty"),
-    RUB("Russian Ruble"),
-    SEK("Swedish Krona"),
-    SGD("Singapore Dollar"),
-    THB("Thai Baht"),
-    TRY("Turkish lira"),
-    TWD("Taiwan Dollar"),
-    USD("United States Dollar"),
-    ZAR("South African Rand"),
-    BTC("Bitcoin"),
-    ETH("Ethereum"),
-    XRP("Ripple"),
-    LTC("Litecoin"),
-    BCH("Bitcoin Cash")
+    AUD("Australia Dollar",         "$",        "AUD"),
+    BRL("Brazil Real",              "R$",       "BRL"),
+    CAD("Canada Dollar",            "$",        "CAD"),
+    CHF("Swiss Franc",              "",         "CHF"),
+    CLP("Chile Peso",               "$",        "CLP"),
+    CNY("China Yuan",               "¥",        "CNY"),
+    CZK("Czech Koruna",             "Kč",       "CZK"),
+    DKK("Denmark Krone",            "kr",       "DKK"),
+    EUR("Euro",                     "€",        "EUR"),
+    GBP("United Kingdom Pound",     "£",        "GBP"),
+    HKD("Hong Kong Dollar",         "$",        "HKD"),
+    HUF("Hungary Forint",           "Ft",       "HUF"),
+    IDR("Indonesia Rupiah",         "Rp",       "IDR"),
+    ILS("Israel Shekel",            "₪",        "ILS"),
+    INR("India Rupee",              "",         "INR"),
+    JPY("Japan Yen",                "¥",        "JPY"),
+    KRW("Korea Won",                "₩",        "KRW"),
+    MXN("Mexico Peso",              "$",        "MXN"),
+    MYR("Malaysia Ringgit",         "RM",       "MYR"),
+    NOK("Norway Krone",             "kr",       "NOK"),
+    NZD("New Zealand Dollar",       "$",        "NZD"),
+    PHP("Philippines Piso",         "₱",        "PHP"),
+    PKR("Pakistan Rupee",           "₨",        "PKR"),
+    PLN("Poland Zloty",             "zł",       "PLN"),
+    RUB("Russia Ruble",             "\u20BD",   "RUB"),
+    SEK("Sweden Krona",             "kr",       "SEK"),
+    SGD("Singapore Dollar",         "$",        "SGD"),
+    THB("Thai Baht",                "฿",        "THB"),
+    TRY("Turkey lira",              "",         "TRY"),
+    TWD("Taiwan New Dollar",        "$",        "TWD"),
+    USD("United States Dollar",     "$",        "USD"),
+    ZAR("South Africa Rand",        "",         "ZAR"),
+    BTC("Bitcoin",                  "฿",        "BTC"),
+    ETH("Ethereum",                 "",         "ETH"),
+    XRP("Ripple",                   "",         "XRP"),
+    LTC("Litecoin",                 "",         "LTC"),
+    BCH("Bitcoin Cash",             "",         "BCH")
     ;
 
     private String friendlyName;
+    private String symbol;
+    private String code;
 
-    Currency(String friendlyName) {
+    Currency(String friendlyName, String symbol, String code) {
         this.friendlyName = friendlyName;
+        this.symbol = symbol;
+        this.code = code;
     }
 
     public String getFriendlyName() { return friendlyName; }
-
+    public String getSymbol() { return symbol; }
+    public String getCode() { return code; }
 }
