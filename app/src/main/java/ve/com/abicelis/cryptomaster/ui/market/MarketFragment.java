@@ -129,8 +129,8 @@ public class MarketFragment extends BaseFragment implements MarketMvpView, View.
         View rootView = inflater.inflate(R.layout.fragment_market, container, false);
         ButterKnife.bind(this, rootView);
 
-        mMarketPresenter.getMarketCapAndVolumeGraphData(ChartTimeSpan._24H);
-        mMarketPresenter.getDominanceGraphData(ChartTimeSpan._3M);
+        mMarketPresenter.getMarketCapAndVolumeGraphData(ChartTimeSpan._3M);
+        mMarketPresenter.getDominanceGraphData(ChartTimeSpan._1Y);
 
         mMarketCapChart.setNoDataText("");
         mDominanceChart.setNoDataText("");

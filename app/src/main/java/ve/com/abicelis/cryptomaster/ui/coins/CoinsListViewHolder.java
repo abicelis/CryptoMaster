@@ -22,10 +22,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import ve.com.abicelis.cryptomaster.R;
 import ve.com.abicelis.cryptomaster.application.Constants;
-import ve.com.abicelis.cryptomaster.data.local.SharedPreferenceHelper;
 import ve.com.abicelis.cryptomaster.data.model.Coin;
-import ve.com.abicelis.cryptomaster.data.model.CoinsFragmentType;
 import ve.com.abicelis.cryptomaster.data.model.CoinsListViewHolderState;
+import ve.com.abicelis.cryptomaster.data.model.Currency;
 import ve.com.abicelis.cryptomaster.util.AttrUtil;
 import ve.com.abicelis.cryptomaster.util.StringUtil;
 
@@ -102,9 +101,9 @@ public class CoinsListViewHolder extends RecyclerView.ViewHolder implements View
 
         Glide.with(mIcon).load(String.format(Constants.COINMARKETCAP_ICONS_BASE_URL, mCurrent.getId())).into(mIcon);
 
-        mPrice.setText(StringUtil.doubleMaxTwoDecimals(mCurrent.getPrice()));
-        mMcap.setText(StringUtil.withSuffix(mCurrent.getMarketCap()));
-        mVolume.setText(StringUtil.withSuffix(mCurrent.getVolume24h()));
+        mPrice.setText(Currency.USD.getSymbol() + StringUtil.limitDecimals(mCurrent.getPrice()));
+        mMcap.setText(Currency.USD.getSymbol() + StringUtil.withSuffix(mCurrent.getMarketCap()));
+        mVolume.setText(Currency.USD.getSymbol() + StringUtil.withSuffix(mCurrent.getVolume24h()));
 
         mPercent1h.setText(String.valueOf(mCurrent.getPercentChange1h()));
         mPercent24h.setText(String.valueOf(mCurrent.getPercentChange24h()));

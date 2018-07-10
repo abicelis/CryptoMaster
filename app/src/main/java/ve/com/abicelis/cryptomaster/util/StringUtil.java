@@ -17,8 +17,8 @@ public class StringUtil {
     }
 
 
-    public static String doubleMaxTwoDecimals(double input) {
-        DecimalFormat df = new DecimalFormat("0.####");
+    public static String limitDecimals(double input) {
+        DecimalFormat df = new DecimalFormat("0.###");
         return df.format(input);
     }
 

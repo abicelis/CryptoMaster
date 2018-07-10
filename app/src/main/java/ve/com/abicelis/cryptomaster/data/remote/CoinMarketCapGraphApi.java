@@ -12,8 +12,6 @@ import ve.com.abicelis.cryptomaster.data.model.coinmarketcapgraph.MarketCapPrice
  */
 public interface CoinMarketCapGraphApi {
 
-    //https://graphs2.coinmarketcap.com/global/dominance/1520873220000/1520874220000/
-
     @GET("global/marketcap-total/{time_start}/{time_end}/")
     Single<MarketCapAndVolumeResult> getTotalMarketCapAndVolumeGraphData(@Path("time_start") long timestart,        //Start timestamp (in millis)
                                                                          @Path("time_end") long timeEnd);           //End timestamp (in millis)
