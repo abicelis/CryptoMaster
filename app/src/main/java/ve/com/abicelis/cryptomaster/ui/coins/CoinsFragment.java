@@ -114,7 +114,7 @@ public class CoinsFragment extends BaseFragment implements CoinsMvpView {
 
         if(mCoinsHeader != null){
             mCoinsHeader.setCoinsHeaderSortListener(coinsSortType -> {
-                Timber.d(coinsSortType.name());
+                mCoinsListAdapter.changeSortingType(coinsSortType);
             });
         }
 
@@ -135,7 +135,7 @@ public class CoinsFragment extends BaseFragment implements CoinsMvpView {
 
     private void setupRecycler() {
         mLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
-        mCoinsListAdapter = new CoinsListAdapter(getActivity(), mCoinFragmentType);
+        mCoinsListAdapter = new CoinsListAdapter(getActivity(), mCoinFragmentType, Constants.EXTRA_DEFAULT_COINS_SORT_TYPE);
         mCoinsListAdapter.setListener(new CoinsListAdapter.CoinsListAdapterListener() {
             @Override
             public void showLoading() {

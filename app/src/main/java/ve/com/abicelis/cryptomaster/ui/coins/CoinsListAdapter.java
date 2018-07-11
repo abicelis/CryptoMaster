@@ -8,15 +8,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
-import java.util.List;
-
 import javax.inject.Inject;
 
 import ve.com.abicelis.cryptomaster.R;
 import ve.com.abicelis.cryptomaster.application.CryptoMasterApplication;
 import ve.com.abicelis.cryptomaster.application.Message;
-import ve.com.abicelis.cryptomaster.data.model.Coin;
 import ve.com.abicelis.cryptomaster.data.model.CoinsFragmentType;
+import ve.com.abicelis.cryptomaster.data.model.CoinsSortType;
 import ve.com.abicelis.cryptomaster.injection.presenter.PresenterModule;
 
 /**
@@ -32,7 +30,7 @@ public class CoinsListAdapter extends RecyclerView.Adapter<CoinsListViewHolder> 
     private LayoutInflater mInflater;
 
 
-    public CoinsListAdapter(Activity activity, CoinsFragmentType coinsFragmentType) {
+    public CoinsListAdapter(Activity activity, CoinsFragmentType coinsFragmentType, CoinsSortType coinsSortType) {
         mInflater = LayoutInflater.from(activity);
 
         //Injection!
@@ -42,6 +40,7 @@ public class CoinsListAdapter extends RecyclerView.Adapter<CoinsListViewHolder> 
 
         mCoinsListPresenter.attachView(this);
         mCoinsListPresenter.setCoinFragmentType(coinsFragmentType);
+        mCoinsListPresenter.setCoinsSortType(coinsSortType);
     }
 
 
@@ -65,6 +64,11 @@ public class CoinsListAdapter extends RecyclerView.Adapter<CoinsListViewHolder> 
 
     public void fetchNewData() {
         mCoinsListPresenter.fetchNewData();
+    }
+
+
+    public void changeSortingType(CoinsSortType coinsSortType) {
+        mCoinsListPresenter.changeSortingType(coinsSortType);
     }
 
 
@@ -99,6 +103,8 @@ public class CoinsListAdapter extends RecyclerView.Adapter<CoinsListViewHolder> 
     public void setListener(CoinsListAdapterListener listener) {
         mListener = listener;
     }
+
+
 
     public interface CoinsListAdapterListener {
         void showLoading();

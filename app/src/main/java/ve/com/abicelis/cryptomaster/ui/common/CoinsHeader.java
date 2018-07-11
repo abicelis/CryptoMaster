@@ -13,6 +13,7 @@ import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import ve.com.abicelis.cryptomaster.R;
+import ve.com.abicelis.cryptomaster.application.Constants;
 import ve.com.abicelis.cryptomaster.data.model.CoinsSortType;
 
 /**
@@ -20,7 +21,7 @@ import ve.com.abicelis.cryptomaster.data.model.CoinsSortType;
  */
 public class CoinsHeader extends ConstraintLayout implements View.OnClickListener {
 
-    private CoinsSortType mCurrentCoinsSortType = CoinsSortType.MCAP_DESCENDING;
+    private CoinsSortType mCurrentCoinsSortType = Constants.EXTRA_DEFAULT_COINS_SORT_TYPE;
     boolean isAnimating = false;
 
     @BindView(R.id.fragment_coin_header_name_container)

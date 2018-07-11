@@ -3,6 +3,8 @@ package ve.com.abicelis.cryptomaster.ui.coins;
 import android.arch.persistence.room.EmptyResultSetException;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -16,6 +18,21 @@ import ve.com.abicelis.cryptomaster.data.DataManager;
 import ve.com.abicelis.cryptomaster.data.model.Coin;
 import ve.com.abicelis.cryptomaster.data.model.CoinsFragmentType;
 import ve.com.abicelis.cryptomaster.data.model.CoinsListViewHolderState;
+import ve.com.abicelis.cryptomaster.data.model.CoinsSortType;
+import ve.com.abicelis.cryptomaster.data.model.coinsort.CoinComparatorBy1hAsc;
+import ve.com.abicelis.cryptomaster.data.model.coinsort.CoinComparatorBy1hDesc;
+import ve.com.abicelis.cryptomaster.data.model.coinsort.CoinComparatorBy24hAsc;
+import ve.com.abicelis.cryptomaster.data.model.coinsort.CoinComparatorBy24hDesc;
+import ve.com.abicelis.cryptomaster.data.model.coinsort.CoinComparatorBy7dAsc;
+import ve.com.abicelis.cryptomaster.data.model.coinsort.CoinComparatorBy7dDesc;
+import ve.com.abicelis.cryptomaster.data.model.coinsort.CoinComparatorByMcapAsc;
+import ve.com.abicelis.cryptomaster.data.model.coinsort.CoinComparatorByMcapDesc;
+import ve.com.abicelis.cryptomaster.data.model.coinsort.CoinComparatorByNameAsc;
+import ve.com.abicelis.cryptomaster.data.model.coinsort.CoinComparatorByNameDesc;
+import ve.com.abicelis.cryptomaster.data.model.coinsort.CoinComparatorByPriceAsc;
+import ve.com.abicelis.cryptomaster.data.model.coinsort.CoinComparatorByPriceDesc;
+import ve.com.abicelis.cryptomaster.data.model.coinsort.CoinComparatorByVolAsc;
+import ve.com.abicelis.cryptomaster.data.model.coinsort.CoinComparatorByVolDesc;
 import ve.com.abicelis.cryptomaster.ui.base.BasePresenter;
 
 import static android.support.v7.widget.RecyclerView.NO_POSITION;
@@ -29,6 +46,7 @@ public class CoinsListPresenter extends BasePresenter<CoinsListMvpView> {
 
     //DATA
     private List<Coin> mItems = new ArrayList<>();
+    private CoinsSortType mCoinsSortType;
 
     private boolean isLoading;
     private CoinsFragmentType mCoinsFragmentType = null;
@@ -42,9 +60,11 @@ public class CoinsListPresenter extends BasePresenter<CoinsListMvpView> {
     public void setCoinFragmentType(CoinsFragmentType fragmentType){ mCoinsFragmentType = fragmentType; }
     public CoinsFragmentType getCoinFragmentType() { return mCoinsFragmentType; }
 
+    public void setCoinsSortType(CoinsSortType coinsSortType) { mCoinsSortType = coinsSortType; }
+    public CoinsSortType getCoinsSortType() { return mCoinsSortType; }
+
 
     public void onBindRepositoryRowViewAtPosition(int position, CoinsListRowView rowView) {
-
         Coin current = mItems.get(position);
         rowView.setData(this, current);
         rowView.setListeners();
@@ -266,7 +286,56 @@ public class CoinsListPresenter extends BasePresenter<CoinsListMvpView> {
                 }));
     }
 
+    public void changeSortingType(CoinsSortType coinsSortType) {
+        mCoinsSortType = coinsSortType;
 
+        switch (coinsSortType) {
+            case NAME_ASCENDING:
+                Collections.sort(mItems, new CoinComparatorByNameAsc());
+                break;
+            case NAME_DESCENDING:
+                Collections.sort(mItems, new CoinComparatorByNameDesc());
+                break;
+            case PRICE_ASCENDING:
+                Collections.sort(mItems, new CoinComparatorByPriceAsc());
+                break;
+            case PRICE_DESCENDING:
+                Collections.sort(mItems, new CoinComparatorByPriceDesc());
+                break;
+            case MCAP_ASCENDING:
+                Collections.sort(mItems, new CoinComparatorByMcapAsc());
+                break;
+            case MCAP_DESCENDING:
+                Collections.sort(mItems, new CoinComparatorByMcapDesc());
+                break;
+            case VOL_ASCENDING:
+                Collections.sort(mItems, new CoinComparatorByVolAsc());
+                break;
+            case VOL_DESCENDING:
+                Collections.sort(mItems, new CoinComparatorByVolDesc());
+                break;
+            case _1H_ASCENDING:
+                Collections.sort(mItems, new CoinComparatorBy1hAsc());
+                break;
+            case _1H_DESCENDING:
+                Collections.sort(mItems, new CoinComparatorBy1hDesc());
+                break;
+            case _24H_ASCENDING:
+                Collections.sort(mItems, new CoinComparatorBy24hAsc());
+                break;
+            case _24H_DESCENDING:
+                Collections.sort(mItems, new CoinComparatorBy24hDesc());
+                break;
+            case _7D_ASCENDING:
+                Collections.sort(mItems, new CoinComparatorBy7dAsc());
+                break;
+            case _7D_DESCENDING:
+                Collections.sort(mItems, new CoinComparatorBy7dDesc());
+                break;
+        }
+
+        getMvpView().refreshCoinsList();
+    }
 
     public void onItemLongClickedAtPosition(int adapterPosition, CoinsListRowView rowView) {
         Coin coin = mItems.get(adapterPosition);
@@ -345,4 +414,6 @@ public class CoinsListPresenter extends BasePresenter<CoinsListMvpView> {
             rowView.cancelFavoriteView();
         }
     }
+
+
 }
