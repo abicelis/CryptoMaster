@@ -1,108 +1,280 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/fragment_coin_header_container"
     android:layout_width="match_parent"
     android:layout_height="38dp"
-    android:padding="8dp">
+    android:padding="0dp">
 
 
-
-    <TextView
-        android:id="@+id/fragment_coin_header_name"
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/fragment_coin_header_name_container"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:maxLines="1"
-        android:textColor="?attr/text_secondary"
-        android:text="@string/fragment_coins_header_title_name"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        android:layout_height="match_parent"
         app:layout_constraintWidth_percent="0.2"
-        />
+        >
 
-    <TextView
-        android:id="@+id/fragment_coin_header_price"
+        <TextView
+            android:id="@+id/fragment_coin_header_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/fragment_coins_header_title_name"
+            android:textColor="?attr/text_secondary"
+            android:maxLines="1"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@id/fragment_coin_header_name_sort"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            />
+        <TextView
+            android:id="@+id/fragment_coin_header_name_sort"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/fragment_coins_header_sort_symbol"
+            android:textColor="?attr/default_accent"
+            android:layout_marginTop="4dp"
+            android:paddingBottom="2dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/fragment_coin_header_name"
+            app:layout_constraintRight_toRightOf="parent"
+            android:visibility="gone"
+            />
+
+    </android.support.constraint.ConstraintLayout>
+
+
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/fragment_coin_header_price_container"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:maxLines="1"
-        android:textColor="?attr/text_secondary"
-        android:text="@string/fragment_coins_header_title_price"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@id/fragment_coin_header_name"
-        app:layout_constraintTop_toTopOf="parent"
+        android:layout_height="match_parent"
+        app:layout_constraintLeft_toRightOf="@id/fragment_coin_header_name_container"
         app:layout_constraintWidth_percent="0.2"
-        />
+        >
 
-    <TextView
-        android:id="@+id/fragment_coin_header_mcap"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:maxLines="1"
-        android:textColor="?attr/text_secondary"
-        android:text="@string/fragment_coins_header_title_marketcap"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@id/fragment_coin_header_price"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintWidth_percent="0.15" />
+        <TextView
+            android:id="@+id/fragment_coin_header_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/fragment_coins_header_title_price"
+            android:textColor="?attr/text_secondary"
+            android:maxLines="1"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@id/fragment_coin_header_price_sort"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            />
+        <TextView
+            android:id="@+id/fragment_coin_header_price_sort"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/fragment_coins_header_sort_symbol"
+            android:textColor="?attr/default_accent"
+            android:layout_marginTop="4dp"
+            android:paddingBottom="2dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/fragment_coin_header_price"
+            app:layout_constraintRight_toRightOf="parent"
+            android:visibility="gone"
+            />
 
-    <TextView
-        android:id="@+id/fragment_coin_header_vol"
+    </android.support.constraint.ConstraintLayout>
+
+
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/fragment_coin_header_mcap_container"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:maxLines="1"
-        android:textColor="?attr/text_secondary"
-        android:text="@string/fragment_coins_header_title_volume"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@id/fragment_coin_header_mcap"
-        app:layout_constraintTop_toTopOf="parent"
+        android:layout_height="match_parent"
+        app:layout_constraintLeft_toRightOf="@id/fragment_coin_header_price_container"
         app:layout_constraintWidth_percent="0.15"
+        >
 
-        />
+        <TextView
+            android:id="@+id/fragment_coin_header_mcap"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/fragment_coins_header_title_marketcap"
+            android:textColor="?attr/text_secondary"
+            android:maxLines="1"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@id/fragment_coin_header_mcap_sort"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            />
+        <TextView
+            android:id="@+id/fragment_coin_header_mcap_sort"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/fragment_coins_header_sort_symbol"
+            android:textColor="?attr/default_accent"
+            android:layout_marginTop="4dp"
+            android:paddingBottom="2dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/fragment_coin_header_mcap"
+            app:layout_constraintRight_toRightOf="parent"
+            />
 
-    <TextView
-        android:id="@+id/fragment_coin_header_1h"
+    </android.support.constraint.ConstraintLayout>
+
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/fragment_coin_header_vol_container"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:maxLines="1"
-        android:textColor="?attr/text_secondary"
-        android:text="@string/fragment_coins_header_title_1h"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@id/fragment_coin_header_vol"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintWidth_percent="0.1" />
+        android:layout_height="match_parent"
+        app:layout_constraintLeft_toRightOf="@id/fragment_coin_header_mcap_container"
+        app:layout_constraintWidth_percent="0.15"
+        >
 
-    <TextView
-        android:id="@+id/fragment_coin_header_24h"
+        <TextView
+            android:id="@+id/fragment_coin_header_vol"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/fragment_coins_header_title_volume"
+            android:textColor="?attr/text_secondary"
+            android:maxLines="1"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@id/fragment_coin_header_vol_sort"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            />
+        <TextView
+            android:id="@+id/fragment_coin_header_vol_sort"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/fragment_coins_header_sort_symbol"
+            android:textColor="?attr/default_accent"
+            android:layout_marginTop="4dp"
+            android:paddingBottom="2dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/fragment_coin_header_vol"
+            app:layout_constraintRight_toRightOf="parent"
+            android:visibility="gone"
+            />
+
+    </android.support.constraint.ConstraintLayout>
+
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/fragment_coin_header_1h_container"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:maxLines="1"
-        android:textColor="?attr/text_secondary"
-        android:text="@string/fragment_coins_header_title_24h"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@id/fragment_coin_header_1h"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintWidth_percent="0.1" />
+        android:layout_height="match_parent"
+        app:layout_constraintLeft_toRightOf="@id/fragment_coin_header_vol_container"
+        app:layout_constraintWidth_percent="0.1"
+        >
 
-    <TextView
-        android:id="@+id/fragment_coin_header_7d"
+        <TextView
+            android:id="@+id/fragment_coin_header_1h"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/fragment_coins_header_title_1h"
+            android:textColor="?attr/text_secondary"
+            android:maxLines="1"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@id/fragment_coin_header_1h_sort"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            />
+        <TextView
+            android:id="@+id/fragment_coin_header_1h_sort"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/fragment_coins_header_sort_symbol"
+            android:textColor="?attr/default_accent"
+            android:layout_marginTop="4dp"
+            android:paddingBottom="2dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/fragment_coin_header_1h"
+            app:layout_constraintRight_toRightOf="parent"
+            android:visibility="gone"
+            />
+
+    </android.support.constraint.ConstraintLayout>
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/fragment_coin_header_24h_container"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:maxLines="1"
-        android:textColor="?attr/text_secondary"
-        android:text="@string/fragment_coins_header_title_7d"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@id/fragment_coin_header_24h"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintWidth_percent="0.1" />
+        android:layout_height="match_parent"
+        app:layout_constraintLeft_toRightOf="@id/fragment_coin_header_1h_container"
+        app:layout_constraintWidth_percent="0.1"
+        >
 
+        <TextView
+            android:id="@+id/fragment_coin_header_24h"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/fragment_coins_header_title_24h"
+            android:textColor="?attr/text_secondary"
+            android:maxLines="1"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@id/fragment_coin_header_24h_sort"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            />
+        <TextView
+            android:id="@+id/fragment_coin_header_24h_sort"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/fragment_coins_header_sort_symbol"
+            android:textColor="?attr/default_accent"
+            android:layout_marginTop="4dp"
+            android:paddingBottom="2dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/fragment_coin_header_24h"
+            app:layout_constraintRight_toRightOf="parent"
+            android:visibility="gone"
+            />
+
+    </android.support.constraint.ConstraintLayout>
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/fragment_coin_header_7d_container"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        app:layout_constraintLeft_toRightOf="@id/fragment_coin_header_24h_container"
+        app:layout_constraintWidth_percent="0.1"
+        >
+
+        <TextView
+            android:id="@+id/fragment_coin_header_7d"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/fragment_coins_header_title_7d"
+            android:textColor="?attr/text_secondary"
+            android:maxLines="1"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@id/fragment_coin_header_7d_sort"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            />
+        <TextView
+            android:id="@+id/fragment_coin_header_7d_sort"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/fragment_coins_header_sort_symbol"
+            android:textColor="?attr/default_accent"
+            android:layout_marginTop="4dp"
+            android:paddingBottom="2dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/fragment_coin_header_7d"
+            app:layout_constraintRight_toRightOf="parent"
+            android:visibility="gone"
+            />
+
+    </android.support.constraint.ConstraintLayout>
 
 </android.support.constraint.ConstraintLayout>
-

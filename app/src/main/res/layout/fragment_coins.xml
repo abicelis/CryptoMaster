@@ -40,9 +40,12 @@
 
         </android.support.v7.widget.Toolbar>
 
-        <include layout="@layout/fragment_coins_header"
-            app:layout_scrollFlags="enterAlways" />
-
+        <ve.com.abicelis.cryptomaster.ui.common.CoinsHeader
+            android:id="@+id/fragment_coin_header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_scrollFlags="enterAlways"
+            />
 
     </android.support.design.widget.AppBarLayout>
 

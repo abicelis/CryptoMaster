@@ -31,6 +31,7 @@
     <string name="fragment_coins_header_title_1h">1h</string>
     <string name="fragment_coins_header_title_24h">24h</string>
     <string name="fragment_coins_header_title_7d">7d</string>
+    <string name="fragment_coins_header_sort_symbol">▼</string>
 
 
     <!--FAVORITE COINS FRAGMENT-->

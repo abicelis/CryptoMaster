@@ -15,8 +15,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import javax.inject.Inject;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import timber.log.Timber;
@@ -25,6 +23,7 @@ import ve.com.abicelis.cryptomaster.application.Constants;
 import ve.com.abicelis.cryptomaster.application.Message;
 import ve.com.abicelis.cryptomaster.data.model.CoinsFragmentType;
 import ve.com.abicelis.cryptomaster.ui.base.BaseFragment;
+import ve.com.abicelis.cryptomaster.ui.common.CoinsHeader;
 import ve.com.abicelis.cryptomaster.util.SnackbarUtil;
 
 /**
@@ -37,7 +36,6 @@ public class CoinsFragment extends BaseFragment implements CoinsMvpView {
     CoinsFragmentType mCoinFragmentType;
     boolean mIsVisibleToUser;
 
-
     @BindView(R.id.fragment_coins_container)
     CoordinatorLayout mContainer;
     @BindView(R.id.fragment_coin_toolbar_title)
@@ -48,6 +46,9 @@ public class CoinsFragment extends BaseFragment implements CoinsMvpView {
     SwipeRefreshLayout mSwipeRefresh;
     private LinearLayoutManager mLayoutManager;
     private CoinsListAdapter mCoinsListAdapter;
+
+    @BindView(R.id.fragment_coin_header)
+    CoinsHeader mCoinsHeader;
 
     public CoinsFragment() {
         // Required empty public constructor
@@ -61,13 +62,14 @@ public class CoinsFragment extends BaseFragment implements CoinsMvpView {
 
         mIsVisibleToUser = false;
         Bundle bundle = getArguments();
-        if(bundle != null && bundle.containsKey(Constants.COINS_FRAGMENT_TYPE)) {
+        if (bundle != null && bundle.containsKey(Constants.COINS_FRAGMENT_TYPE)) {
             mCoinFragmentType = ((CoinsFragmentType) getArguments().getSerializable(Constants.COINS_FRAGMENT_TYPE));
         } else {
             Timber.i(Message.COIN_FRAGMENT_TYPE_MISSING.getFriendlyName(getContext()));
             showMessage(Message.COIN_FRAGMENT_TYPE_MISSING, null);
             mCoinFragmentType = CoinsFragmentType.NORMAL;
         }
+
     }
 
     @Override
@@ -82,8 +84,8 @@ public class CoinsFragment extends BaseFragment implements CoinsMvpView {
     public void onResume() {
         super.onResume();
         //if(mIsVisibleToUser) {
-            //mCoinsListAdapter.fetchNewData();
-            //mIsVisibleToUser = false;
+        //mCoinsListAdapter.fetchNewData();
+        //mIsVisibleToUser = false;
         //}
     }
 
@@ -106,9 +108,15 @@ public class CoinsFragment extends BaseFragment implements CoinsMvpView {
 
         setupRecycler();
         //if(mIsVisibleToUser) {
-           mCoinsListAdapter.fetchNewData();
-            //mIsVisibleToUser = false;
+        mCoinsListAdapter.fetchNewData();
+        //mIsVisibleToUser = false;
         //}
+
+        if(mCoinsHeader != null){
+            mCoinsHeader.setCoinsHeaderSortListener(coinsSortType -> {
+                Timber.d(coinsSortType.name());
+            });
+        }
 
         return rootView;
     }
