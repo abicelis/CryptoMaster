@@ -33,7 +33,7 @@
             android:textColor="?attr/text_primary"
             android:textSize="26sp"
             android:fontFamily="@font/nunito_light"
-            android:text="$123,321,232"
+            android:text=""
             />
 
         <FrameLayout
