@@ -30,9 +30,9 @@
     <color name="text_secondary">#9FA8DA</color>
     <color name="text_positive">#0ED696</color>
     <color name="text_negative">#F1563A</color>
-    <color name="bottom_nav_background">#673AB7</color>
-    <color name="bottom_nav_icon_selected">#EDE7F6</color>
-    <color name="bottom_nav_icon_unselected">#9575CD</color>
+    <color name="bottom_nav_background">#3f51b5</color>
+    <color name="bottom_nav_icon_selected">#e8eaf6</color>
+    <color name="bottom_nav_icon_unselected">#7986cb</color>
     <color name="bottom_nav_notification_background">#e53935</color>
     <color name="bottom_nav_notification_text">#FFFFFF</color>
 
@@ -57,9 +57,9 @@
     <color name="dark_text_secondary">#9FA8DA</color>
     <color name="dark_text_positive">#0ED696</color>
     <color name="dark_text_negative">#F1563A</color>
-    <color name="dark_bottom_nav_background">#673AB7</color>
-    <color name="dark_bottom_nav_icon_selected">#EDE7F6</color>
-    <color name="dark_bottom_nav_icon_unselected">#9575CD</color>
+    <color name="dark_bottom_nav_background">#3f51b5</color>
+    <color name="dark_bottom_nav_icon_selected">#e8eaf6</color>
+    <color name="dark_bottom_nav_icon_unselected">#7986cb</color>
     <color name="dark_bottom_nav_notification_background">#e53935</color>
     <color name="dark_bottom_nav_notification_text">#FFFFFF</color>
 
