@@ -24,6 +24,7 @@ import ve.com.abicelis.cryptomaster.application.Message;
 import ve.com.abicelis.cryptomaster.data.model.CoinsFragmentType;
 import ve.com.abicelis.cryptomaster.ui.base.BaseFragment;
 import ve.com.abicelis.cryptomaster.ui.common.CoinsHeader;
+import ve.com.abicelis.cryptomaster.util.AttrUtil;
 import ve.com.abicelis.cryptomaster.util.SnackbarUtil;
 
 /**
@@ -156,8 +157,11 @@ public class CoinsFragment extends BaseFragment implements CoinsMvpView {
         mRecycler.setLayoutManager(mLayoutManager);
         mRecycler.setAdapter(mCoinsListAdapter);
 
-        mSwipeRefresh.setColorSchemeResources(R.color.dark_bottom_nav_icon_unselected, R.color.dark_bottom_nav_icon_selected, R.color.dark_bottom_nav_icon_unselected);
-        mSwipeRefresh.setProgressBackgroundColorSchemeResource(R.color.dark_bottom_nav_background);
+        mSwipeRefresh.setColorSchemeResources(
+                AttrUtil.getAttributeColorResource(mContext, R.attr.bottom_nav_icon_unselected),
+                AttrUtil.getAttributeColorResource(mContext, R.attr.bottom_nav_icon_selected),
+                AttrUtil.getAttributeColorResource(mContext, R.attr.bottom_nav_icon_unselected));
+        mSwipeRefresh.setProgressBackgroundColorSchemeResource(AttrUtil.getAttributeColorResource(mContext, R.attr.bottom_nav_background));
         mSwipeRefresh.setOnRefreshListener(() -> mCoinsListAdapter.fetchNewData());
     }
 
