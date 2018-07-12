@@ -11,8 +11,10 @@ import java.util.Map;
 public class TickerResult {
 
     private List<TickerData> data;
+    private MetaData metadata;
 
     public List<TickerData> getData() { return data; }
+    public MetaData getMetadata() { return metadata; }
 
     public class TickerData {
 
@@ -95,5 +97,17 @@ public class TickerResult {
             public double getPercentChange7d() { return percentChange7d; }
         }
 
+    }
+
+    public class MetaData {
+
+        private long timestamp;
+        @SerializedName("num_cryptocurrencies")
+        private String numCryptocurrencies;
+        private String error;
+
+        public long getTimestamp() { return timestamp; }
+        public String getNumCryptocurrencies() { return numCryptocurrencies; }
+        public String getError() { return error; }
     }
 }
