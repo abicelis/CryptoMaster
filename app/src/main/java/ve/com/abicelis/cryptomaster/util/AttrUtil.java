@@ -11,12 +11,13 @@ import timber.log.Timber;
  */
 public class AttrUtil {
 
-    public static int getAttributeColor(
-            Context context,
-            int attributeId) {
+    public static int getAttributeColorResource(Context context, int attributeId) {
         TypedValue typedValue = new TypedValue();
         context.getTheme().resolveAttribute(attributeId, typedValue, true);
-        int colorRes = typedValue.resourceId;
+        return typedValue.resourceId;
+    }
+    public static int getAttributeColor(Context context, int attributeId) {
+        int colorRes = getAttributeColorResource(context, attributeId);
         int color = -1;
         try {
             color = context.getResources().getColor(colorRes);
@@ -25,4 +26,6 @@ public class AttrUtil {
         }
         return color;
     }
+
+
 }
