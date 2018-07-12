@@ -26,6 +26,7 @@ import ve.com.abicelis.cryptomaster.data.model.CoinsFragmentType;
 import ve.com.abicelis.cryptomaster.ui.base.BaseActivity;
 import ve.com.abicelis.cryptomaster.ui.coins.CoinsFragment;
 import ve.com.abicelis.cryptomaster.ui.market.MarketFragment;
+import ve.com.abicelis.cryptomaster.util.AttrUtil;
 import ve.com.abicelis.cryptomaster.util.SnackbarUtil;
 
 /**
@@ -116,9 +117,9 @@ public class HomeActivity extends BaseActivity implements HomeMvpView {
             return true;
         });
 
-        mBottomNavigation.setDefaultBackgroundColor(ContextCompat.getColor(this, R.color.bottom_nav_background));
-        mBottomNavigation.setAccentColor(ContextCompat.getColor(this, R.color.bottom_nav_icon_selected));
-        mBottomNavigation.setInactiveColor(ContextCompat.getColor(this, R.color.bottom_nav_icon_unselected));
+        mBottomNavigation.setDefaultBackgroundColor(AttrUtil.getAttributeColor(this, R.attr.bottom_nav_background));
+        mBottomNavigation.setAccentColor(AttrUtil.getAttributeColor(this, R.attr.bottom_nav_icon_selected));
+        mBottomNavigation.setInactiveColor(AttrUtil.getAttributeColor(this, R.attr.bottom_nav_icon_unselected));
         mBottomNavigation.setTitleState(AHBottomNavigation.TitleState.ALWAYS_HIDE);
 
     }
@@ -129,8 +130,8 @@ public class HomeActivity extends BaseActivity implements HomeMvpView {
             public void run() {
                 AHNotification notification = new AHNotification.Builder()
                         .setText("1")
-                        .setBackgroundColor(ContextCompat.getColor(HomeActivity.this, R.color.bottom_nav_notification_background))
-                        .setTextColor(ContextCompat.getColor(HomeActivity.this, R.color.bottom_nav_notification_text))
+                        .setBackgroundColor(AttrUtil.getAttributeColor(HomeActivity.this, R.attr.bottom_nav_notification_background))
+                        .setTextColor(AttrUtil.getAttributeColor(HomeActivity.this, R.attr.bottom_nav_notification_text))
                         .build();
                 // Adding notification to last item.
 
