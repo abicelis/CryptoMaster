@@ -103,11 +103,11 @@ public class TickerResult {
 
         private long timestamp;
         @SerializedName("num_cryptocurrencies")
-        private String numCryptocurrencies;
+        private int numCryptocurrencies;
         private String error;
 
         public long getTimestamp() { return timestamp; }
-        public String getNumCryptocurrencies() { return numCryptocurrencies; }
+        public int getNumCryptocurrencies() { return numCryptocurrencies; }
         public String getError() { return error; }
     }
 }
