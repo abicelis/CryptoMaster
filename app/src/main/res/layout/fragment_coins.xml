@@ -14,7 +14,7 @@
         >
 
         <android.support.v7.widget.Toolbar
-            android:id="@+id/fragment_coins_toolbar"
+            android:id="@+id/fragment_coin_toolbar"
             android:layout_width="match_parent"
             android:layout_height="?android:attr/actionBarSize"
             app:layout_scrollFlags="scroll|enterAlways|snap"
@@ -28,15 +28,9 @@
                 android:textSize="34sp"
                 android:layout_marginBottom="10dp"
                 android:textColor="?attr/text_primary"
+                android:visibility="visible"
                 android:text="@string/activity_home_bottom_navigation_title_coins" />
 
-            <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:layout_gravity="end|center_vertical"
-                android:layout_marginEnd="12dp"
-                android:src="@drawable/ic_nav_bottom_coin"
-                />
 
         </android.support.v7.widget.Toolbar>
 

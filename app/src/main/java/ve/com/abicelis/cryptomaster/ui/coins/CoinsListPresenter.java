@@ -106,7 +106,7 @@ public class CoinsListPresenter extends BasePresenter<CoinsListMvpView> {
                         Timber.d("FAV: Local data is old, fetching remote coins data. TimeSinceLastUpdate=%1$d secs", timeSinceLastUpdate);
 
                         //Local data is old, try to grab remote data
-                        addDisposable(mDataManager.getRemoteCoins(1, 100, "USD")
+                        addDisposable(mDataManager.getRemoteCoins("USD")
                                 .subscribeOn(Schedulers.io())
                                 .observeOn(AndroidSchedulers.mainThread())
                                 .subscribe(coins -> {
@@ -115,6 +115,7 @@ public class CoinsListPresenter extends BasePresenter<CoinsListMvpView> {
                                     isLoading = false;
                                     getMvpView().hideLoading();
                                     mItems = coins;
+                                    applySorting();
                                     getMvpView().refreshCoinsList();
                                 }, throwable -> {
 
@@ -129,6 +130,7 @@ public class CoinsListPresenter extends BasePresenter<CoinsListMvpView> {
                                                 isLoading = false;
                                                 getMvpView().hideLoading();
                                                 mItems = coins;
+                                                applySorting();
                                                 getMvpView().refreshCoinsList();
                                                 Timber.d("Got local coins data");
 
@@ -151,6 +153,7 @@ public class CoinsListPresenter extends BasePresenter<CoinsListMvpView> {
                                     isLoading = false;
                                     getMvpView().hideLoading();
                                     mItems = coins;
+                                    applySorting();
                                     getMvpView().refreshCoinsList();
                                     Timber.d("Got local coins data");
 
@@ -169,7 +172,7 @@ public class CoinsListPresenter extends BasePresenter<CoinsListMvpView> {
                         //No coins in db, try to grab remote data
                         Timber.d("No coins saved locally, fetching remote data");
 
-                        addDisposable(mDataManager.getRemoteCoins(1, 100, "USD")
+                        addDisposable(mDataManager.getRemoteCoins("USD")
                                 .subscribeOn(Schedulers.io())
                                 .observeOn(AndroidSchedulers.mainThread())
                                 .subscribe(coins -> {
@@ -178,6 +181,7 @@ public class CoinsListPresenter extends BasePresenter<CoinsListMvpView> {
                                     isLoading = false;
                                     getMvpView().hideLoading();
                                     mItems = coins;
+                                    applySorting();
                                     getMvpView().refreshCoinsList();
                                 }, throwable3 -> {
                                     isLoading = false;
@@ -222,6 +226,7 @@ public class CoinsListPresenter extends BasePresenter<CoinsListMvpView> {
                                     isLoading = false;
                                     getMvpView().hideLoading();
                                     mItems = coins;
+                                    applySorting();
                                     getMvpView().refreshCoinsList();
                                 }, throwable -> {
 
@@ -236,6 +241,7 @@ public class CoinsListPresenter extends BasePresenter<CoinsListMvpView> {
                                                 isLoading = false;
                                                 getMvpView().hideLoading();
                                                 mItems = coins;
+                                                applySorting();
                                                 getMvpView().refreshCoinsList();
                                                 Timber.d("FAV: Got local favorite coins data");
 
@@ -259,6 +265,7 @@ public class CoinsListPresenter extends BasePresenter<CoinsListMvpView> {
                                     isLoading = false;
                                     getMvpView().hideLoading();
                                     mItems = coins;
+                                    applySorting();
                                     getMvpView().refreshCoinsList();
                                     Timber.d("FAV: Got local favorite coins data");
 
@@ -288,8 +295,14 @@ public class CoinsListPresenter extends BasePresenter<CoinsListMvpView> {
 
     public void changeSortingType(CoinsSortType coinsSortType) {
         mCoinsSortType = coinsSortType;
+        applySorting();
+        getMvpView().refreshCoinsList();
+    }
 
-        switch (coinsSortType) {
+
+    private void applySorting() {
+
+        switch (mCoinsSortType) {
             case NAME_ASCENDING:
                 Collections.sort(mItems, new CoinComparatorByNameAsc());
                 break;
@@ -334,7 +347,6 @@ public class CoinsListPresenter extends BasePresenter<CoinsListMvpView> {
                 break;
         }
 
-        getMvpView().refreshCoinsList();
     }
 
     public void onItemLongClickedAtPosition(int adapterPosition, CoinsListRowView rowView) {
