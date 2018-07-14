@@ -19,10 +19,6 @@ import ve.com.abicelis.cryptomaster.data.model.CoinsSortType;
 public class Constants {
 
     /* MISC */
-    public static final int MISC_IMAGE_JPEG_COMPRESSION_PERCENTAGE = 50;
-    public static final int MISC_ALPHA_ANIMATIONS_DURATION = 200;
-    public static final int MISC_REVEAL_ANIMATION_DURATION = 1000;
-    public static final int MISC_UI_DEBOUNCE_TIME_MILLISECONDS = 300;
     public static final int MISC_OK_HTTP_READ_TIMEOUT_SECONDS = 5;
     public static final int MISC_OK_HTTP_CONNECT_TIMEOUT_SECONDS = 5;
     public static final int MISC_MAX_CHART_ENTRIES = 100;
@@ -35,7 +31,8 @@ public class Constants {
     /* COIN FRAGMENT */
     public static final int     COINS_FRAGMENT_FAVORITE_DELAY = 3000;
     public static final String  COINS_FRAGMENT_TYPE = "COINS_FRAGMENT_TYPE";
-    public static final long    COINS_FRAGMENT_MAX_SECONDS_SINCE_LAST_UPDATE = 30;    //60 * 30. 30min
+    //public static final long    COINS_FRAGMENT_MAX_SECONDS_SINCE_LAST_UPDATE = 300;    //60 * 5. 5min
+    public static final long    COINS_FRAGMENT_MAX_SECONDS_SINCE_LAST_UPDATE = 30000;    //60 * 5. 5min
 
 
     /* FLIGHT ACTIVITY */
