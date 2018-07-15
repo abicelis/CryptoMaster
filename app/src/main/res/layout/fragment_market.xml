@@ -28,7 +28,7 @@
                 android:layout_gravity="center"
                 android:textSize="34sp"
                 android:textColor="?attr/text_primary"
-                android:text="@string/activity_home_bottom_navigation_title_market" />
+                android:text="@string/title_market" />
 
         </android.support.v7.widget.Toolbar>
 

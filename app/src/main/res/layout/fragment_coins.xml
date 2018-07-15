@@ -29,7 +29,7 @@
                 android:layout_marginBottom="10dp"
                 android:textColor="?attr/text_primary"
                 android:visibility="visible"
-                android:text="@string/activity_home_bottom_navigation_title_coins" />
+                android:text="@string/title_coins" />
 
 
         </android.support.v7.widget.Toolbar>

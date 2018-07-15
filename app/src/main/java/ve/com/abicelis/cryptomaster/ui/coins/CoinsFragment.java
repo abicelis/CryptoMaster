@@ -15,7 +15,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import javax.inject.Inject;
 
@@ -100,7 +99,7 @@ public class CoinsFragment extends BaseFragment implements CoinsMvpView {
                 mToolbarTitle.setText(mSharedPreferenceHelper.getCoinsToFetch().getFriendlyName(mContext));
                 break;
             case FAVORITES:
-                mToolbarTitle.setText(getResources().getString(R.string.activity_home_bottom_navigation_title_favorites));
+                mToolbarTitle.setText(getResources().getString(R.string.title_favorites));
                 break;
         }
 
