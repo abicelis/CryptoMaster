@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+
+    <PreferenceCategory android:title="@string/fragment_preference_category_settings_title"/>
+    <Preference
+        android:key="@string/fragment_preference_backup_key"
+        android:title="@string/fragment_preference_backup_title"
+        android:summary="@string/fragment_preference_backup_summary" />
+
+
+
+    <PreferenceCategory android:title="@string/fragment_preference_category_about_title"/>
+    <Preference
+        android:key="@string/fragment_preference_about_key"
+        android:title="@string/fragment_preference_about_title"
+        android:summary="@string/fragment_preference_about_summary"/>
+    <Preference
+        android:key="@string/fragment_preference_rate_key"
+        android:title="@string/fragment_preference_rate_title"
+        android:summary="@string/fragment_preference_rate_summary"/>
+    <Preference
+        android:key="@string/fragment_preference_contact_key"
+        android:title="@string/fragment_preference_contact_title"
+        android:summary="@string/fragment_preference_contact_summary"/>
+
+
+
+</PreferenceScreen>
