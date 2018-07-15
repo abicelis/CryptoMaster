@@ -32,12 +32,14 @@
     <string name="fragment_coins_header_title_24h">24h</string>
     <string name="fragment_coins_header_title_7d">7d</string>
     <string name="fragment_coins_header_sort_symbol">▼</string>
-    <string name="fragment_coins_menu_get_all">All Coins</string>
-    <string name="fragment_coins_menu_get_top_100">Top 100 Coins</string>
 
 
-    <!--FAVORITE COINS FRAGMENT-->
 
+    <!--ENUM COINS TO FETCH-->
+    <string name="coins_to_fetch_top_50">Top 50 Coins</string>
+    <string name="coins_to_fetch_top_100">Top 100 Coins</string>
+    <string name="coins_to_fetch_top_500">Top 500 Coins</string>
+    <string name="coins_to_fetch_all">All Coins</string>
 
 
     <!--ENUM APP THEME TYPE-->

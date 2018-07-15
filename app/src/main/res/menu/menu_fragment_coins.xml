@@ -5,15 +5,20 @@
     <group android:id="@+id/menu_fragment_coins_group"
         android:checkableBehavior="single">
         <item
-            android:id="@+id/menu_fragment_coins_top_100"
-            android:title="@string/fragment_coins_menu_get_top_100"
+            android:id="@+id/menu_fragment_coins_top_50"
+            android:title="@string/coins_to_fetch_top_50"
             app:showAsAction="never"/>
-
+        <item
+            android:id="@+id/menu_fragment_coins_top_100"
+            android:title="@string/coins_to_fetch_top_100"
+            app:showAsAction="never"/>
+        <item
+            android:id="@+id/menu_fragment_coins_top_500"
+            android:title="@string/coins_to_fetch_top_500"
+            app:showAsAction="never"/>
         <item
             android:id="@+id/menu_fragment_coins_all"
-            android:title="@string/fragment_coins_menu_get_all"
+            android:title="@string/coins_to_fetch_all"
             app:showAsAction="never"/>
-
-
     </group>
 </menu>

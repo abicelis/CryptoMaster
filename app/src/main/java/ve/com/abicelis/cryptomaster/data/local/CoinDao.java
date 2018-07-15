@@ -47,6 +47,13 @@ public abstract class CoinDao {
     public abstract Maybe<List<Coin>> getByNames(String names);
 
 
+    @Query("SELECT * FROM coin ORDER BY market_cap DESC LIMIT :limit")
+    public abstract Single<List<Coin>> getTopByMarketCap(int limit);
+
+    @Query("SELECT * FROM coin ORDER BY market_cap DESC")
+    public abstract Single<List<Coin>> getAllByMarketCap();
+
+
     //@SuppressWarnings(RoomWarnings.CURSOR_MISMATCH) //favorite_coin_id not used...
     @Query("SELECT last_updated FROM coin ORDER BY last_updated ASC LIMIT 1")
     public abstract Single<Long> getOldestLastUpdated();

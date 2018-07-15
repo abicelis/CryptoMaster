@@ -7,6 +7,7 @@ import timber.log.Timber;
 import ve.com.abicelis.cryptomaster.application.Constants;
 import ve.com.abicelis.cryptomaster.application.CryptoMasterApplication;
 import ve.com.abicelis.cryptomaster.data.model.AppThemeType;
+import ve.com.abicelis.cryptomaster.data.model.CoinsToFetch;
 import ve.com.abicelis.cryptomaster.util.LongUtil;
 
 /**
@@ -21,122 +22,27 @@ public class SharedPreferenceHelper {
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(CryptoMasterApplication.getAppContext());
     }
 
+    /* COINS TO FETCH */
+    public CoinsToFetch getCoinsToFetch() {
+        String value = mSharedPreferences.getString(Constants.SHARED_PREFERENCE_COINS_TO_FETCH, null);
+        CoinsToFetch pref;
+        try {
+            pref = CoinsToFetch.valueOf(value);
+        } catch (Exception e) {
+            pref = null;
+        }
 
-//    /* RECENT AIRPORTS */
-//    public long[] getFavoriteCoins() {
-//        String favoriteCoins = mSharedPreferences.getString(Constants.SHARED_PREFERENCE_FAVORITE_COINS, null);
-//
-//        if(favoriteCoins != null)
-//            return LongUtil.ToLongArray(favoriteCoins.split(Constants.SHARED_PREFERENCE_SEPARATOR));
-//
-//        return new long[0];
-//    }
-//
-//    public boolean isFavoriteCoin(long coinId) {
-//        String favoriteCoins = mSharedPreferences.getString(Constants.SHARED_PREFERENCE_FAVORITE_COINS, null);
-//
-//        if(favoriteCoins == null)
-//            return false;
-//
-//        long[] coinArray = LongUtil.ToLongArray(favoriteCoins.split(Constants.SHARED_PREFERENCE_SEPARATOR));
-//
-//
-//        for (long coin : coinArray) {
-//            if (coinId == coin)
-//                return true;
-//        }
-//        return false;
-//    }
-//
-//    public void setCoinAsFavorite(long coinId) {
-//        String favoriteCoins = mSharedPreferences.getString(Constants.SHARED_PREFERENCE_FAVORITE_COINS, null);
-//
-//        if(favoriteCoins == null) {
-//            mSharedPreferences.edit().putString(Constants.SHARED_PREFERENCE_FAVORITE_COINS, String.valueOf(coinId)).apply();
-//            return;
-//        }
-//
-//        long[] coinArray = LongUtil.ToLongArray(favoriteCoins.split(Constants.SHARED_PREFERENCE_SEPARATOR));
-//
-//        //Skip if already favorite
-//        for (long coin : coinArray) {
-//            if (coin == coinId)
-//                return;
-//        }
-//
-//            mSharedPreferences.edit().putString(Constants.SHARED_PREFERENCE_FAVORITE_COINS, favoriteCoins
-//                    + Constants.SHARED_PREFERENCE_SEPARATOR
-//                    + String.valueOf(coinId)).apply();
-//    }
-//
-//    public void removeCoinFromFavorites(long coinId) {
-//        String favoriteCoins = mSharedPreferences.getString(Constants.SHARED_PREFERENCE_FAVORITE_COINS, null);
-//
-//        //If null, we're done
-//        if(favoriteCoins == null)
-//            return;
-//
-//        long[] coinArray = LongUtil.ToLongArray(favoriteCoins.split(Constants.SHARED_PREFERENCE_SEPARATOR));
-//
-//        //Skip if already favorite
-//        String newCoins = "";
-//        for (long coin : coinArray) {
-//            if (coin != coinId)
-//                newCoins += String.valueOf(coin) + Constants.SHARED_PREFERENCE_SEPARATOR;
-//        }
-//        if(newCoins.length() > 0) {
-//            newCoins = newCoins.substring(0, newCoins.length() - 1);
-//            mSharedPreferences.edit().putString(Constants.SHARED_PREFERENCE_FAVORITE_COINS, newCoins).apply();
-//        } else {
-//            mSharedPreferences.edit().putString(Constants.SHARED_PREFERENCE_FAVORITE_COINS, null).apply();
-//        }
-//
-//    }
+        if(pref == null) {
+            Timber.d("getDateFormat() found null, setting TOP_50");
+            pref = CoinsToFetch.TOP_50;
+            setCoinsToFetch(pref);
+        }
 
-
-//    /* TIME FORMAT */
-//    public TimeFormat getTimeFormat() {
-//        String value = mSharedPreferences.getString(Constants.SHARED_PREFERENCE_TIME_FORMAT, null);
-//        TimeFormat pref;
-//        try {
-//            pref = TimeFormat.valueOf(value);
-//        } catch (Exception e) {
-//            pref = null;
-//        }
-//
-//        if(pref == null) {
-//            Timber.d("getTimeFormat() found null, setting HOUR_24");
-//            pref = TimeFormat.HOUR_24;
-//            setTimeFormat(pref);
-//        }
-//
-//        return pref;
-//    }
-//    public void setTimeFormat(TimeFormat value) {
-//        mSharedPreferences.edit().putString(Constants.SHARED_PREFERENCE_TIME_FORMAT, value.name()).apply();
-//    }
-//
-//    /* DATE FORMAT */
-//    public DateFormat getDateFormat() {
-//        String value = mSharedPreferences.getString(Constants.SHARED_PREFERENCE_DATE_FORMAT, null);
-//        DateFormat pref;
-//        try {
-//            pref = DateFormat.valueOf(value);
-//        } catch (Exception e) {
-//            pref = null;
-//        }
-//
-//        if(pref == null) {
-//            Timber.d("getDateFormat() found null, setting PRETTY_DATE");
-//            pref = DateFormat.PRETTY_DATE;
-//            setDateFormat(pref);
-//        }
-//
-//        return pref;
-//    }
-//    public void setDateFormat(DateFormat value) {
-//        mSharedPreferences.edit().putString(Constants.SHARED_PREFERENCE_DATE_FORMAT, value.name()).apply();
-//    }
+        return pref;
+    }
+    public void setCoinsToFetch(CoinsToFetch value) {
+        mSharedPreferences.edit().putString(Constants.SHARED_PREFERENCE_COINS_TO_FETCH, value.name()).apply();
+    }
 
 
 

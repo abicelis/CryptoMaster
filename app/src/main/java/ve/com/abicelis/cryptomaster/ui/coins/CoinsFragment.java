@@ -27,6 +27,7 @@ import ve.com.abicelis.cryptomaster.application.Constants;
 import ve.com.abicelis.cryptomaster.application.Message;
 import ve.com.abicelis.cryptomaster.data.local.SharedPreferenceHelper;
 import ve.com.abicelis.cryptomaster.data.model.CoinsFragmentType;
+import ve.com.abicelis.cryptomaster.data.model.CoinsToFetch;
 import ve.com.abicelis.cryptomaster.ui.base.BaseFragment;
 import ve.com.abicelis.cryptomaster.ui.common.CoinsHeader;
 import ve.com.abicelis.cryptomaster.util.AttrUtil;
@@ -38,7 +39,7 @@ import ve.com.abicelis.cryptomaster.util.SnackbarUtil;
 public class CoinsFragment extends BaseFragment implements CoinsMvpView {
 
     @Inject
-    SharedPreferenceHelper sharedPreferenceHelper;
+    SharedPreferenceHelper mSharedPreferenceHelper;
 
     //DATA
     Context mContext;
@@ -96,7 +97,7 @@ public class CoinsFragment extends BaseFragment implements CoinsMvpView {
 
         switch(mCoinFragmentType) {
             case NORMAL:
-                mToolbarTitle.setText(getResources().getString(R.string.activity_home_bottom_navigation_title_coins));
+                mToolbarTitle.setText(mSharedPreferenceHelper.getCoinsToFetch().getFriendlyName(mContext));
                 break;
             case FAVORITES:
                 mToolbarTitle.setText(getResources().getString(R.string.activity_home_bottom_navigation_title_favorites));
@@ -171,22 +172,47 @@ public class CoinsFragment extends BaseFragment implements CoinsMvpView {
 
     private void setUpToolbar() {
         if(mCoinFragmentType == CoinsFragmentType.NORMAL) {
+
             mToolbar.inflateMenu(R.menu.menu_fragment_coins);
             mToolbar.setOnMenuItemClickListener(item -> {
                 item.setChecked(true);
-                int id = item.getItemId();
-                switch (id) {
+
+                switch (item.getItemId()) {
+                    case R.id.menu_fragment_coins_top_50:
+                        mSharedPreferenceHelper.setCoinsToFetch(CoinsToFetch.TOP_50);
+                        break;
+
                     case R.id.menu_fragment_coins_top_100:
-                        Toast.makeText(mContext, "menu_fragment_coins_top_100", Toast.LENGTH_SHORT).show();
-                        return true;
+                        mSharedPreferenceHelper.setCoinsToFetch(CoinsToFetch.TOP_100);
+                        break;
+
+                    case R.id.menu_fragment_coins_top_500:
+                        mSharedPreferenceHelper.setCoinsToFetch(CoinsToFetch.TOP_500);
+                        break;
 
                     case R.id.menu_fragment_coins_all:
-                        Toast.makeText(mContext, "menu_fragment_coins_all", Toast.LENGTH_SHORT).show();
-                        return true;
-
+                        mSharedPreferenceHelper.setCoinsToFetch(CoinsToFetch.ALL);
+                        break;
                 }
-                return false;
+                mToolbarTitle.setText(mSharedPreferenceHelper.getCoinsToFetch().getFriendlyName(mContext));
+                mCoinsListAdapter.fetchNewData();
+                return true;
             });
+
+            switch (mSharedPreferenceHelper.getCoinsToFetch()) {
+                case TOP_50:
+                    mToolbar.getMenu().findItem(R.id.menu_fragment_coins_top_50).setChecked(true);
+                    break;
+                case TOP_100:
+                    mToolbar.getMenu().findItem(R.id.menu_fragment_coins_top_100).setChecked(true);
+                    break;
+                case TOP_500:
+                    mToolbar.getMenu().findItem(R.id.menu_fragment_coins_top_500).setChecked(true);
+                    break;
+                case ALL:
+                    mToolbar.getMenu().findItem(R.id.menu_fragment_coins_all).setChecked(true);
+                    break;
+            }
         }
     }
 
