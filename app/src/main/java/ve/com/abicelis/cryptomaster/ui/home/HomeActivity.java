@@ -6,7 +6,6 @@ import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BaseTransientBottomBar;
 import android.support.design.widget.Snackbar;
-import android.support.v4.content.ContextCompat;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.RelativeLayout;
@@ -14,8 +13,6 @@ import android.widget.RelativeLayout;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
 import com.aurelhubert.ahbottomnavigation.notification.AHNotification;
-
-import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -26,6 +23,7 @@ import ve.com.abicelis.cryptomaster.data.model.CoinsFragmentType;
 import ve.com.abicelis.cryptomaster.ui.base.BaseActivity;
 import ve.com.abicelis.cryptomaster.ui.coins.CoinsFragment;
 import ve.com.abicelis.cryptomaster.ui.market.MarketFragment;
+import ve.com.abicelis.cryptomaster.ui.preference.PreferenceFragment;
 import ve.com.abicelis.cryptomaster.util.AttrUtil;
 import ve.com.abicelis.cryptomaster.util.SnackbarUtil;
 
@@ -85,28 +83,19 @@ public class HomeActivity extends BaseActivity implements HomeMvpView {
         coinsFragment.setArguments(bundle);
         mViewpagerAdapter.addFragment(coinsFragment);
 
-        bundle = new Bundle();
-        bundle.putInt(ColorFragment.COLOR_OF_FRAGMENT, Color.YELLOW);
-        fragment = new ColorFragment();
-        fragment.setArguments(bundle);
-        mViewpagerAdapter.addFragment(fragment);
-
-        bundle = new Bundle();
-        bundle.putInt(ColorFragment.COLOR_OF_FRAGMENT, Color.CYAN);
-        fragment = new ColorFragment();
-        fragment.setArguments(bundle);
-        mViewpagerAdapter.addFragment(fragment);
+        PreferenceFragment preferenceFragment = new PreferenceFragment();
+        mViewpagerAdapter.addFragment(preferenceFragment);
 
         mViewPager.setAdapter(mViewpagerAdapter);
         mViewPager.setCurrentItem(Constants.MISC_START_HOME_PAGE);
     }
 
     private void setupBottomNavigation() {
-        mBottomNavigation.addItem(new AHBottomNavigationItem(getString(R.string.activity_home_bottom_navigation_title_alarms), R.drawable.ic_nav_bottom_alarm));
-        mBottomNavigation.addItem(new AHBottomNavigationItem(getString(R.string.activity_home_bottom_navigation_title_market), R.drawable.ic_nav_bottom_market));
-        mBottomNavigation.addItem(new AHBottomNavigationItem(getString(R.string.activity_home_bottom_navigation_title_coins), R.drawable.ic_nav_bottom_coin));
-        mBottomNavigation.addItem(new AHBottomNavigationItem(getString(R.string.activity_home_bottom_navigation_title_favorites), R.drawable.ic_nav_bottom_favorite));
-        mBottomNavigation.addItem(new AHBottomNavigationItem(getString(R.string.activity_home_bottom_navigation_title_settings), R.drawable.ic_nav_bottom_settings));
+        mBottomNavigation.addItem(new AHBottomNavigationItem(getString(R.string.title_alarms), R.drawable.ic_nav_bottom_alarm));
+        mBottomNavigation.addItem(new AHBottomNavigationItem(getString(R.string.title_market), R.drawable.ic_nav_bottom_market));
+        mBottomNavigation.addItem(new AHBottomNavigationItem(getString(R.string.title_coins), R.drawable.ic_nav_bottom_coin));
+        mBottomNavigation.addItem(new AHBottomNavigationItem(getString(R.string.title_favorites), R.drawable.ic_nav_bottom_favorite));
+        mBottomNavigation.addItem(new AHBottomNavigationItem(getString(R.string.title_settings), R.drawable.ic_nav_bottom_settings));
         mBottomNavigation.setCurrentItem(Constants.MISC_START_HOME_PAGE);
 
 
