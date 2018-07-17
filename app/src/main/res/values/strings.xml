@@ -108,5 +108,6 @@
     <!--MESSAGES-->
     <string name="error_unexpected">Unexpected error, please report this error</string>
     <string name="coin_fragment_type_missing">Missing COIN FRAGMENT TYPE argument, using NORMAL</string>
-    <string name="could_not_fetch_fresh_coin_data">Could not fetch fresh data, showing cached version</string>
+    <string name="could_not_fetch_fresh_coin_data">No internet, showing local coin data</string>
+    <string name="could_not_fetch_graph_data">No internet, could not fetch data</string>
 </resources>
