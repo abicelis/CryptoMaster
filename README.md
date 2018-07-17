@@ -40,6 +40,8 @@ This Project uses external dependencies and SDK's
 * [Room](https://developer.android.com/topic/libraries/architecture/room.html) - Room mobile database by google
 * [Glide](https://github.com/bumptech/glide) - Fast and efficient image loading and caching library by bumptech
 * [MPAndroidChart](https://github.com/PhilJay/MPAndroidChart) - A powerful & easy to use chart library for Android by PhilJay
+* [Android-Support-Preference-fix](https://github.com/Gericop/Android-Support-Preference-V7-Fix) - Android preference-v7 support library has some issues, this lib tries to fix them.
+ by Gericop
 
 
 ## External APIs
