@@ -7,9 +7,13 @@ import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.design.widget.BaseTransientBottomBar;
 import android.support.design.widget.Snackbar;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
+import android.view.accessibility.AccessibilityManager;
 import android.widget.TextView;
+
+import java.lang.reflect.Field;
 
 import ve.com.abicelis.cryptomaster.R;
 
@@ -20,6 +24,21 @@ import ve.com.abicelis.cryptomaster.R;
 public class SnackbarUtil {
 
 
+    //Taken from https://stackoverflow.com/questions/37221914/snackbar-and-other-animations-stopped-working-on-some-android-devices
+    private static void accessibilityBypass(Snackbar snackbar) {
+        try {
+            Field mAccessibilityManagerField = BaseTransientBottomBar.class.getDeclaredField("mAccessibilityManager");
+            mAccessibilityManagerField.setAccessible(true);
+            AccessibilityManager accessibilityManager = (AccessibilityManager) mAccessibilityManagerField.get(snackbar);
+            Field mIsEnabledField = AccessibilityManager.class.getDeclaredField("mIsEnabled");
+            mIsEnabledField.setAccessible(true);
+            mIsEnabledField.setBoolean(accessibilityManager, false);
+            mAccessibilityManagerField.set(snackbar, accessibilityManager);
+        } catch (Exception e) {
+            Log.d("Snackbar", "Reflection error: " + e.toString());
+        }
+    }
+
     public static void showSnackbar(View container, @NonNull SnackbarType snackbarType,
                                     @StringRes int textStringRes, @Nullable SnackbarDuration duration,
                                     @Nullable BaseTransientBottomBar.BaseCallback<Snackbar> callback) {
@@ -27,6 +46,8 @@ public class SnackbarUtil {
         duration = (duration == null ? SnackbarDuration.LONG : duration);
 
         Snackbar snackbar = Snackbar.make(container, textStringRes, duration.getDuration());
+        accessibilityBypass(snackbar);
+
         snackbar.getView().setBackgroundResource(snackbarType.getColorRes());
         TextView snackbarText = (TextView) snackbar.getView().findViewById(android.support.design.R.id.snackbar_text);
         snackbarText.setCompoundDrawablesWithIntrinsicBounds(0, 0,snackbarType.getIconRes(), 0);
