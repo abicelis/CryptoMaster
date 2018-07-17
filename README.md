@@ -6,9 +6,12 @@ Please check out the prototype by clicking [right here!](https://abicelis.github
 
 <a target="_blank" href='https://play.google.com/store/apps/details?id=ve.com.abicelis.cryptomaster&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png' width="240px"/></a>
 
-## Screenshots
+## Screenshots (v0.1)
 
-Coming soon!
+[ ![](https://github.com/abicelis/CryptoMaster/blob/master/graphics/play_store/screens/v1.0/thumbs/Screenshot_1531800405.jpg) ](https://github.com/abicelis/CryptoMaster/blob/master/graphics/play_store/screens/v1.0/Screenshot_1531800405.png)
+[ ![](https://github.com/abicelis/CryptoMaster/blob/master/graphics/play_store/screens/v1.0/thumbs/Screenshot_1531800420.jpg) ](https://github.com/abicelis/CryptoMaster/blob/master/graphics/play_store/screens/v1.0/Screenshot_1531800420.png)
+[ ![](https://github.com/abicelis/CryptoMaster/blob/master/graphics/play_store/screens/v1.0/thumbs/Screenshot_1531800435.jpg) ](https://github.com/abicelis/CryptoMaster/blob/master/graphics/play_store/screens/v1.0/Screenshot_1531800435.png)
+[ ![](https://github.com/abicelis/CryptoMaster/blob/master/graphics/play_store/screens/v1.0/thumbs/Screenshot_1531800442.jpg) ](https://github.com/abicelis/CryptoMaster/blob/master/graphics/play_store/screens/v1.0/Screenshot_1531800442.png)
 
 
 
@@ -33,7 +36,6 @@ This Project uses external dependencies and SDK's
 * [Dagger 2](https://github.com/google/dagger) - Dependency Injection by Square
 * [Gradle Retrolambda](https://github.com/evant/gradle-retrolambda) - Java lambda support by evant
 * [RxJava 2](https://github.com/ReactiveX/RxJava) - Reactive Extensions by ReactiveX
-* [RxAndroid](https://github.com/ReactiveX/RxAndroid) - RxJava bindings for Android by ReactiveX
 * [Retrofit](https://github.com/square/retrofit) - Type-safe HTTP client for Android by square
 * [Room](https://developer.android.com/topic/libraries/architecture/room.html) - Room mobile database by google
 * [Glide](https://github.com/bumptech/glide) - Fast and efficient image loading and caching library by bumptech
