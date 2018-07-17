@@ -63,7 +63,6 @@ public class DataManager {
      * Fetches remote ticker data, returns a List of Coins
      */
     public Single<List<Coin>> getRemoteCoins(String currency) {
-
         switch (mSharedPreferenceHelper.getCoinsToFetch()) {
             case TOP_50:
                 return getRemoteCoinsSingleRequest(50, currency);
@@ -187,7 +186,6 @@ public class DataManager {
      * Fetches remote ticker data, filtered by favorites, returns a List of Coins
      */
     public Single<List<Coin>> getRemoteFavoriteCoins(String currency) {
-        //TODO: update this code according to CoinsToFetch
         return mAppDatabase.favoriteCoinDao().getAll()
                 .map(new Function<List<Coin>, List<Coin>>() {
                     @Override
@@ -240,8 +238,6 @@ public class DataManager {
      * Fetches locally saved Coins, filtered by favorites
      */
     public Single<List<Coin>> getLocalFavoriteCoins() {
-        //TODO: update this code according to CoinsToFetch
-
         return mAppDatabase.favoriteCoinDao().getAll()
                 .map(coins -> {
                     Collections.sort(coins);
