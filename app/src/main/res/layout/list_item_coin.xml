@@ -18,7 +18,8 @@
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintWidth_percent="0.2">
+            app:layout_constraintWidth_percent="0.2"
+            android:paddingEnd="2dp">
 
             <TextView
                 android:id="@+id/list_item_coin_name"
@@ -69,8 +70,9 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@id/list_item_coin_name_container"
             app:layout_constraintTop_toTopOf="parent"
-
-            app:layout_constraintWidth_percent="0.2" />
+            app:layout_constraintWidth_percent="0.2"
+            android:paddingStart="2dp"
+            android:paddingEnd="2dp"/>
 
         <TextView
             android:id="@+id/list_item_coin_mcap"

@@ -31,7 +31,7 @@
             android:layout_gravity="bottom"
             android:textColor="?attr/text_primary"
             android:textSize="26sp"
-            android:layout_marginEnd="2dp"/>
+            android:layout_marginEnd="0dp"/>
 
         <TextView
             android:id="@+id/activity_coin_detail_main_price_fiat_integer_part"
@@ -59,7 +59,7 @@
             android:layout_gravity="bottom"
             android:textColor="?attr/text_primary"
             android:textSize="26sp"
-            android:layout_marginEnd="2dp"/>
+            android:layout_marginStart="4dp"/>
 
     </LinearLayout>
         <TextView
