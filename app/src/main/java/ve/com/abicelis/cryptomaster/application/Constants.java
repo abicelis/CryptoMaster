@@ -28,6 +28,9 @@ public class Constants {
     /* HOME ACTIVITY */
     public static final int    MISC_START_HOME_PAGE = 2;
 
+    /* COIN DETAIL ACTIVITY */
+    public static final String EXTRA_COIN_DETAIL_COIN_ID = "EXTRA_COIN_DETAIL_COIN_ID";
+
     /* COIN FRAGMENT */
     public static final int     COINS_FRAGMENT_FAVORITE_DELAY = 3000;
     public static final String  COINS_FRAGMENT_TYPE = "COINS_FRAGMENT_TYPE";
@@ -38,6 +41,7 @@ public class Constants {
     /* SHARED PREFERENCES */
     public static final String  SHARED_PREFERENCE_APP_THEME_TYPE = "SHARED_PREFERENCE_APP_THEME_TYPE";
     public static final String  SHARED_PREFERENCE_COINS_TO_FETCH = "SHARED_PREFERENCE_COINS_TO_FETCH";
+    public static final String  SHARED_PREFERENCE_CURRENCY = "SHARED_PREFERENCE_CURRENCY";
 
 
     /* ROOM DATABASE */
