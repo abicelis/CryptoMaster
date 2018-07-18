@@ -56,7 +56,7 @@ public class HomeActivity extends BaseActivity implements HomeMvpView {
         ButterKnife.bind(this);
 
         setupBottomNavigation();
-        createFakeNotification();
+        //createFakeNotification();
         setupViewpager();
     }
 
