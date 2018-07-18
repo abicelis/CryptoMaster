@@ -94,7 +94,10 @@ public class CoinsListAdapter extends RecyclerView.Adapter<CoinsListViewHolder> 
         notifyItemRemoved(position);
     }
 
-
+    @Override
+    public void onOpenCoinDetail(long coinId) {
+        mListener.openCoinDetail(coinId);
+    }
 
 
 
@@ -109,6 +112,7 @@ public class CoinsListAdapter extends RecyclerView.Adapter<CoinsListViewHolder> 
     public interface CoinsListAdapterListener {
         void showLoading();
         void hideLoading();
+        void openCoinDetail(long coinId);
         void showMessage(Message message, @Nullable BaseTransientBottomBar.BaseCallback<Snackbar> callback);
 
     }

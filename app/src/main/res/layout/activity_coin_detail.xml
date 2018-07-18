@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout 
+xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+android:id="@+id/activity_coin_detail_container"
+
+android:background="?attr/default_background"
+android:layout_width="match_parent"
+android:layout_height="match_parent">
+
+<android.support.design.widget.AppBarLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:fitsSystemWindows="true"
+    android:background="?attr/default_foreground"
+    android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+    >
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/fragment_market_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?android:attr/actionBarSize"
+        app:layout_scrollFlags="enterAlways"
+        >
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_horizontal"
+            >
+            <TextView
+                android:id="@+id/activity_coin_detail_toolbar_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="28sp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:fontFamily="@font/nunito_light"
+                android:textColor="?attr/text_primary"
+                android:text="Ethereum" />
+
+            <TextView
+                android:id="@+id/activity_coin_detail_toolbar_subtitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:fontFamily="@font/nunito_semibold"
+                android:textColor="?attr/text_secondary"
+                android:text="ETH" />
+
+
+        </android.support.constraint.ConstraintLayout>
+
+    </android.support.v7.widget.Toolbar>
+
+
+</android.support.design.widget.AppBarLayout>
+
+<android.support.v4.widget.NestedScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/default_background"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingRight="4dp"
+        android:paddingStart="4dp"
+        android:paddingLeft="4dp"
+        android:paddingEnd="4dp"
+        >
+
+        <include layout="@layout/activity_coin_detail_main" />
+
+    </LinearLayout>
+
+</android.support.v4.widget.NestedScrollView>
+
+
+</android.support.design.widget.CoordinatorLayout>

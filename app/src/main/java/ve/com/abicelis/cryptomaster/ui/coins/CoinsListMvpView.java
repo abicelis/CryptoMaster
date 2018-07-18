@@ -10,4 +10,6 @@ public interface CoinsListMvpView extends MvpView {
     void hideLoading();
     void refreshCoinsList();
     void refreshAfterItemRemoved(int position, int total);
+
+    void onOpenCoinDetail(long coinId);
 }

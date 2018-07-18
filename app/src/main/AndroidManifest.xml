@@ -23,6 +23,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".ui.about.AboutActivity"/>
+        <activity android:name=".ui.coindetail.CoinDetailActivity"/>
+
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />

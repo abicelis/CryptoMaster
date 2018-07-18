@@ -131,6 +131,7 @@ public class CoinsListViewHolder extends RecyclerView.ViewHolder implements View
     @SuppressLint("ClickableViewAccessibility")
     public void setListeners() {
         mContainer.setOnLongClickListener(this);
+        mContainer.setOnClickListener(this);
         mContainer.setOnTouchListener(this);
         mFavoriteCancel.setOnClickListener(this);
     }
@@ -208,6 +209,9 @@ public class CoinsListViewHolder extends RecyclerView.ViewHolder implements View
     public void onClick(View v) {
         int id = v.getId();
         switch (id) {
+            case R.id.list_item_coin_container:
+                mPresenter.onOpenCoinDetail(mCurrent.getId());
+                break;
             case R.id.list_item_coin_favorite_cancel:
                 mPresenter.onFavoriteCanceledAtPosition(getAdapterPosition(), this);
                 break;

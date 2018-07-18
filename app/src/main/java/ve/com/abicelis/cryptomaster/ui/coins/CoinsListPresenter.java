@@ -1,6 +1,7 @@
 package ve.com.abicelis.cryptomaster.ui.coins;
 
 import android.arch.persistence.room.EmptyResultSetException;
+import android.content.Intent;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -428,4 +429,8 @@ public class CoinsListPresenter extends BasePresenter<CoinsListMvpView> {
     }
 
 
+    public void onOpenCoinDetail(long coinId) {
+        getMvpView().onOpenCoinDetail(coinId);
+
+    }
 }

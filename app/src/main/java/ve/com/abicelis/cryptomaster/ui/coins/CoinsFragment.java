@@ -1,6 +1,7 @@
 package ve.com.abicelis.cryptomaster.ui.coins;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -28,6 +29,7 @@ import ve.com.abicelis.cryptomaster.data.local.SharedPreferenceHelper;
 import ve.com.abicelis.cryptomaster.data.model.CoinsFragmentType;
 import ve.com.abicelis.cryptomaster.data.model.CoinsToFetch;
 import ve.com.abicelis.cryptomaster.ui.base.BaseFragment;
+import ve.com.abicelis.cryptomaster.ui.coindetail.CoinDetailActivity;
 import ve.com.abicelis.cryptomaster.ui.common.CoinsHeader;
 import ve.com.abicelis.cryptomaster.util.AttrUtil;
 import ve.com.abicelis.cryptomaster.util.SnackbarUtil;
@@ -150,6 +152,13 @@ public class CoinsFragment extends BaseFragment implements CoinsMvpView {
             @Override
             public void hideLoading() {
                 mSwipeRefresh.setRefreshing(false);
+            }
+
+            @Override
+            public void openCoinDetail(long coinId) {
+                Intent goToCoinDetailIntent = new Intent(mContext, CoinDetailActivity.class);
+                goToCoinDetailIntent.putExtra(Constants.EXTRA_COIN_DETAIL_COIN_ID, coinId);
+                mContext.startActivity(goToCoinDetailIntent);
             }
 
             @Override
