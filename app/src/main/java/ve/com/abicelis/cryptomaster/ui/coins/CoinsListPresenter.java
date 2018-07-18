@@ -107,7 +107,7 @@ public class CoinsListPresenter extends BasePresenter<CoinsListMvpView> {
                         Timber.d("FAV: Local data is old, fetching remote coins data. TimeSinceLastUpdate=%1$d secs", timeSinceLastUpdate);
 
                         //Local data is old, try to grab remote data
-                        addDisposable(mDataManager.getRemoteCoins("USD")
+                        addDisposable(mDataManager.getRemoteCoins()
                                 .subscribeOn(Schedulers.io())
                                 .observeOn(AndroidSchedulers.mainThread())
                                 .subscribe(coins -> {
@@ -173,7 +173,7 @@ public class CoinsListPresenter extends BasePresenter<CoinsListMvpView> {
                         //No coins in db, try to grab remote data
                         Timber.d("No coins saved locally, fetching remote data");
 
-                        addDisposable(mDataManager.getRemoteCoins("USD")
+                        addDisposable(mDataManager.getRemoteCoins()
                                 .subscribeOn(Schedulers.io())
                                 .observeOn(AndroidSchedulers.mainThread())
                                 .subscribe(coins -> {
@@ -218,7 +218,7 @@ public class CoinsListPresenter extends BasePresenter<CoinsListMvpView> {
                         Timber.d("FAV: Local data is old, fetching remote favorite coins data. TimeSinceLastUpdate=%1$d secs", timeSinceLastUpdate);
 
                         //Local data is old, try to grab remote data
-                        addDisposable(mDataManager.getRemoteFavoriteCoins("USD")
+                        addDisposable(mDataManager.getRemoteFavoriteCoins()
                                 .subscribeOn(Schedulers.io())
                                 .observeOn(AndroidSchedulers.mainThread())
                                 .subscribe(coins -> {

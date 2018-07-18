@@ -56,4 +56,22 @@ public enum Currency {
     public String getFriendlyName() { return friendlyName; }
     public String getSymbol() { return symbol; }
     public String getCode() { return code; }
+
+
+
+    public static CharSequence[] getEntries() {
+        CharSequence[] array = new CharSequence[values().length];
+        for (int i = 0; i < values().length; i++)
+            array[i] = values()[i].getFriendlyName();
+
+        return array;
+    }
+
+    public static CharSequence[] getEntryValues() {
+        CharSequence[] array = new CharSequence[values().length];
+        for (int i = 0; i < values().length; i++)
+            array[i] = values()[i].getCode();
+
+        return array;
+    }
 }

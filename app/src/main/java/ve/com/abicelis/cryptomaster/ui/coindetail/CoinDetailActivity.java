@@ -41,6 +41,7 @@ import ve.com.abicelis.cryptomaster.application.Constants;
 import ve.com.abicelis.cryptomaster.application.Message;
 import ve.com.abicelis.cryptomaster.data.model.ChartTimeSpan;
 import ve.com.abicelis.cryptomaster.data.model.Coin;
+import ve.com.abicelis.cryptomaster.data.model.Currency;
 import ve.com.abicelis.cryptomaster.ui.base.BaseActivity;
 import ve.com.abicelis.cryptomaster.util.AttrUtil;
 import ve.com.abicelis.cryptomaster.util.SnackbarUtil;
@@ -196,7 +197,7 @@ public class CoinDetailActivity extends BaseActivity implements CoinDetailMvpVie
     public void showBasicCoinData(Coin coin) {
         mToolbarTitle.setText(coin.getName());
         mToolbarSubtitle.setText(coin.getSymbol());
-        mCoinDetailMainPriceFiatSymbol.setText("$");
+        mCoinDetailMainPriceFiatSymbol.setText(Currency.valueOf(coin.getQuoteCurrencySymbol()).getSymbol());
         mCoinDetailMainPriceFiatIntegerPart.setText( String.valueOf((int) Math.floor(coin.getPrice())) + ".");
         mCoinDetailMainPriceFiatFractionalPart.setText( String.valueOf((int) Math.floor(coin.getPrice() * 100)) );
     }

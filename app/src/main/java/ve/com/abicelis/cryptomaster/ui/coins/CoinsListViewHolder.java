@@ -101,9 +101,14 @@ public class CoinsListViewHolder extends RecyclerView.ViewHolder implements View
 
         Glide.with(mIcon).load(String.format(Constants.COINMARKETCAP_ICONS_BASE_URL, mCurrent.getId())).into(mIcon);
 
-        mPrice.setText(Currency.USD.getSymbol() + StringUtil.limitDecimals(mCurrent.getPrice()));
-        mMcap.setText(Currency.USD.getSymbol() + StringUtil.withSuffix(mCurrent.getMarketCap()));
-        mVolume.setText(Currency.USD.getSymbol() + StringUtil.withSuffix(mCurrent.getVolume24h()));
+        Currency currency = Currency.USD;
+        try {
+            currency = Currency.valueOf(mCurrent.getQuoteCurrencySymbol());
+        } catch (Exception e) { }
+
+        mPrice.setText(currency.getSymbol() + StringUtil.limitDecimals(mCurrent.getPrice()));
+        mMcap.setText(currency.getSymbol() + StringUtil.withSuffix(mCurrent.getMarketCap()));
+        mVolume.setText(currency.getSymbol() + StringUtil.withSuffix(mCurrent.getVolume24h()));
 
         mPercent1h.setText(String.valueOf(mCurrent.getPercentChange1h()));
         mPercent24h.setText(String.valueOf(mCurrent.getPercentChange24h()));

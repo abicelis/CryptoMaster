@@ -29,6 +29,9 @@
 
     <!--PREFERENCE FRAGMENT-->
     <string name="fragment_preference_category_settings_title">App settings</string>
+    <string name="fragment_preference_default_currency_key" translatable="false">settings_default_currency</string>
+    <string name="fragment_preference_default_currency_title">Default Currency</string>
+
     <string name="fragment_preference_backup_key" translatable="false">settings_backup</string>
     <string name="fragment_preference_backup_title">Backup</string>
     <string name="fragment_preference_backup_summary">Configure app data backup options</string>

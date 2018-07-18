@@ -10,12 +10,10 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.preference.ListPreference;
 import android.support.v7.preference.Preference;
-import android.transition.Explode;
 import android.transition.Fade;
-import android.transition.Slide;
 import android.transition.Visibility;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +22,8 @@ import android.widget.Toast;
 import com.takisoft.fix.support.v7.preference.PreferenceFragmentCompatDividers;
 
 import ve.com.abicelis.cryptomaster.R;
+import ve.com.abicelis.cryptomaster.data.local.SharedPreferenceHelper;
+import ve.com.abicelis.cryptomaster.data.model.Currency;
 import ve.com.abicelis.cryptomaster.ui.about.AboutActivity;
 
 /**
@@ -31,8 +31,8 @@ import ve.com.abicelis.cryptomaster.ui.about.AboutActivity;
  */
 public class PreferenceFragment extends PreferenceFragmentCompatDividers {
 
-
     //UI
+    private ListPreference mDefaultCurrency;
     private Preference mBackup;
     private Preference mAbout;
     private Preference mRate;
@@ -56,6 +56,16 @@ public class PreferenceFragment extends PreferenceFragmentCompatDividers {
     @Override
     public void onCreatePreferencesFix(@Nullable Bundle savedInstanceState, String rootKey) {
         setPreferencesFromResource(R.xml.fragment_preference, rootKey);
+
+        mDefaultCurrency = (ListPreference) findPreference(getResources().getString(R.string.fragment_preference_default_currency_key));
+        mDefaultCurrency.setEntries(Currency.getEntries());
+        mDefaultCurrency.setEntryValues(Currency.getEntryValues());
+        mDefaultCurrency.setOnPreferenceChangeListener((Preference preference, Object newValue) -> {
+            Currency currency = Currency.valueOf((String) newValue);
+            mDefaultCurrency.setSummary(currency.getFriendlyName());
+            new SharedPreferenceHelper().setDefaultCurrency(currency);
+            return true;
+        });
 
 //        mBackup = findPreference(getString(R.string.fragment_preference_backup_key));
 //        mBackup.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {

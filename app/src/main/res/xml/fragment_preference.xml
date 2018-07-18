@@ -4,6 +4,11 @@
 
 
     <PreferenceCategory android:title="@string/fragment_preference_category_settings_title"/>
+    <ListPreference
+        android:key="@string/fragment_preference_default_currency_key"
+        android:title="@string/fragment_preference_default_currency_title"
+        />
+
     <Preference
         android:key="@string/fragment_preference_backup_key"
         android:title="@string/fragment_preference_backup_title"
@@ -24,6 +29,7 @@
         android:key="@string/fragment_preference_contact_key"
         android:title="@string/fragment_preference_contact_title"
         android:summary="@string/fragment_preference_contact_summary"/>
+
 
 
 
