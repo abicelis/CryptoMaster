@@ -8,7 +8,7 @@ import ve.com.abicelis.cryptomaster.application.Constants;
 import ve.com.abicelis.cryptomaster.application.CryptoMasterApplication;
 import ve.com.abicelis.cryptomaster.data.model.AppThemeType;
 import ve.com.abicelis.cryptomaster.data.model.CoinsToFetch;
-import ve.com.abicelis.cryptomaster.util.LongUtil;
+import ve.com.abicelis.cryptomaster.data.model.Currency;
 
 /**
  * Created by abice on 1/4/2017.
@@ -33,7 +33,7 @@ public class SharedPreferenceHelper {
         }
 
         if(pref == null) {
-            Timber.d("getDateFormat() found null, setting TOP_50");
+            Timber.d("getCoinsToFetch() found null, setting TOP_50");
             pref = CoinsToFetch.TOP_50;
             setCoinsToFetch(pref);
         }
@@ -43,6 +43,38 @@ public class SharedPreferenceHelper {
     public void setCoinsToFetch(CoinsToFetch value) {
         mSharedPreferences.edit().putString(Constants.SHARED_PREFERENCE_COINS_TO_FETCH, value.name()).apply();
     }
+
+
+
+
+
+
+
+    /* CURRENCY */
+    public Currency getDefaultCurrency() {
+        String value = mSharedPreferences.getString(Constants.SHARED_PREFERENCE_CURRENCY, null);
+        Currency pref;
+        try {
+            pref = Currency.valueOf(value);
+        } catch (Exception e) {
+            pref = null;
+        }
+
+        if(pref == null) {
+            Timber.d("getDefaultCurrency() found null, setting USD");
+            pref = Currency.USD;
+            setDefaultCurrency(pref);
+        }
+
+        return pref;
+    }
+    public void setDefaultCurrency(Currency value) {
+        mSharedPreferences.edit().putString(Constants.SHARED_PREFERENCE_CURRENCY, value.name()).apply();
+    }
+
+
+
+
 
 
 

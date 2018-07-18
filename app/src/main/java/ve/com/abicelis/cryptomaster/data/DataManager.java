@@ -10,7 +10,9 @@ import java.util.List;
 import javax.inject.Inject;
 
 import io.reactivex.Completable;
+import io.reactivex.Maybe;
 import io.reactivex.Single;
+import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Function;
 import ve.com.abicelis.cryptomaster.application.Constants;
 import ve.com.abicelis.cryptomaster.data.local.AppDatabase;
@@ -62,17 +64,17 @@ public class DataManager {
     /**
      * Fetches remote ticker data, returns a List of Coins
      */
-    public Single<List<Coin>> getRemoteCoins(String currency) {
+    public Single<List<Coin>> getRemoteCoins() {
         switch (mSharedPreferenceHelper.getCoinsToFetch()) {
             case TOP_50:
-                return getRemoteCoinsSingleRequest(50, currency);
+                return getRemoteCoinsSingleRequest(50, mSharedPreferenceHelper.getDefaultCurrency().getCode());
             case TOP_100:
-                return getRemoteCoinsSingleRequest(100, currency);
+                return getRemoteCoinsSingleRequest(100, mSharedPreferenceHelper.getDefaultCurrency().getCode());
             case TOP_500:
-                return getRemoteCoinsMultipleRequests(500, currency);
+                return getRemoteCoinsMultipleRequests(500, mSharedPreferenceHelper.getDefaultCurrency().getCode());
             case ALL:
             default:
-                return getRemoteCoinsMultipleRequests(-1, currency);
+                return getRemoteCoinsMultipleRequests(-1, mSharedPreferenceHelper.getDefaultCurrency().getCode());
         }
     }
 
@@ -182,10 +184,15 @@ public class DataManager {
         }
     }
 
+    public Maybe<Coin> getLocalCoin(long coinId) {
+        return  mAppDatabase.coinDao().getById(coinId);
+    }
+
     /**
      * Fetches remote ticker data, filtered by favorites, returns a List of Coins
      */
-    public Single<List<Coin>> getRemoteFavoriteCoins(String currency) {
+    public Single<List<Coin>> getRemoteFavoriteCoins() {
+        final String currency = mSharedPreferenceHelper.getDefaultCurrency().getCode();
         return mAppDatabase.favoriteCoinDao().getAll()
                 .map(new Function<List<Coin>, List<Coin>>() {
                     @Override
@@ -390,6 +397,7 @@ public class DataManager {
     public Single<CurrencyResult[]> getCurrencies() {
         return mCoinMarketCapS2Api.getCurrencies();
     }
+
 
 
 }
