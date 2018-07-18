@@ -10,14 +10,6 @@
 
 
     <!--MARKET FRAGMENT-->
-    <string name="fragment_market_loading">Loading&#8230;</string>
-    <string name="fragment_market_error">Could not load data.</string>
-    <string name="fragment_market_button_24h">24H</string>
-    <string name="fragment_market_button_7d">7D</string>
-    <string name="fragment_market_button_1m">1M</string>
-    <string name="fragment_market_button_3m">3M</string>
-    <string name="fragment_market_button_1y">1Y</string>
-    <string name="fragment_market_button_all">ALL</string>
     <string name="fragment_market_total_title">Total Market Capitalization</string>
     <string name="fragment_market_dominance_title">Market Dominance</string>
 
@@ -68,6 +60,15 @@
     <string name="address_email" translatable="false">alejandro@alejandrobicelis.com.ve</string>
 
 
+    <!-- CHARTS -->
+    <string name="chart_loading">Loading&#8230;</string>
+    <string name="chart_error">Could not load data.</string>
+    <string name="chart_button_24h">24H</string>
+    <string name="chart_button_7d">7D</string>
+    <string name="chart_button_1m">1M</string>
+    <string name="chart_button_3m">3M</string>
+    <string name="chart_button_1y">1Y</string>
+    <string name="chart_button_all">ALL</string>
 
 
     <!--ENUM COINS TO FETCH-->
@@ -108,6 +109,7 @@
     <!--MESSAGES-->
     <string name="error_unexpected">Unexpected error, please report this error</string>
     <string name="coin_fragment_type_missing">Missing COIN FRAGMENT TYPE argument, using NORMAL</string>
+    <string name="coin_detail_coin_id_missing">Missing COIN ID extra</string>
     <string name="could_not_fetch_fresh_coin_data">No internet, showing local coin data</string>
     <string name="could_not_fetch_graph_data">No internet, could not fetch data</string>
 </resources>

@@ -65,7 +65,7 @@
                         android:layout_height="wrap_content"
                         android:textSize="16sp"
                         android:fontFamily="@font/nunito_semibold"
-                        android:text="@string/fragment_market_loading"/>
+                        android:text="@string/chart_loading"/>
 
                     <ProgressBar
                         android:id="@+id/fragment_market_total_chart_loading_progressbar"
@@ -84,7 +84,7 @@
                 android:gravity="center"
                 android:textSize="16sp"
                 android:fontFamily="@font/nunito_semibold"
-                android:text="@string/fragment_market_error"/>
+                android:text="@string/chart_error"/>
         </FrameLayout>
 
 
@@ -108,7 +108,7 @@
                 android:textColor="?attr/chart_button_inactive"
                 android:padding="12dp"
                 android:background="?android:attr/selectableItemBackgroundBorderless"
-                android:text="@string/fragment_market_button_24h"/>
+                android:text="@string/chart_button_24h"/>
             <TextView
                 android:id="@+id/fragment_market_total_7d"
                 android:layout_height="wrap_content"
@@ -119,7 +119,7 @@
                 android:textColor="?attr/chart_button_inactive"
                 android:padding="12dp"
                 android:background="?android:attr/selectableItemBackgroundBorderless"
-                android:text="@string/fragment_market_button_7d"/>
+                android:text="@string/chart_button_7d"/>
             <TextView
                 android:id="@+id/fragment_market_total_1m"
                 android:layout_height="wrap_content"
@@ -130,7 +130,7 @@
                 android:textColor="?attr/chart_button_inactive"
                 android:padding="12dp"
                 android:background="?android:attr/selectableItemBackgroundBorderless"
-                android:text="@string/fragment_market_button_1m"/>
+                android:text="@string/chart_button_1m"/>
             <TextView
                 android:id="@+id/fragment_market_total_3m"
                 android:layout_height="wrap_content"
@@ -141,7 +141,7 @@
                 android:textColor="?attr/chart_button_inactive"
                 android:padding="12dp"
                 android:background="?android:attr/selectableItemBackgroundBorderless"
-                android:text="@string/fragment_market_button_3m"/>
+                android:text="@string/chart_button_3m"/>
             <TextView
                 android:id="@+id/fragment_market_total_1y"
                 android:layout_height="wrap_content"
@@ -152,7 +152,7 @@
                 android:textColor="?attr/chart_button_inactive"
                 android:padding="12dp"
                 android:background="?android:attr/selectableItemBackgroundBorderless"
-                android:text="@string/fragment_market_button_1y"/>
+                android:text="@string/chart_button_1y"/>
             <TextView
                 android:id="@+id/fragment_market_total_all"
                 android:layout_height="wrap_content"
@@ -163,7 +163,7 @@
                 android:textColor="?attr/chart_button_inactive"
                 android:padding="12dp"
                 android:background="?android:attr/selectableItemBackgroundBorderless"
-                android:text="@string/fragment_market_button_all"/>
+                android:text="@string/chart_button_all"/>
 
         </LinearLayout>
 
