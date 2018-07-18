@@ -58,6 +58,7 @@ public class PreferenceFragment extends PreferenceFragmentCompatDividers {
         setPreferencesFromResource(R.xml.fragment_preference, rootKey);
 
         mDefaultCurrency = (ListPreference) findPreference(getResources().getString(R.string.fragment_preference_default_currency_key));
+        mDefaultCurrency.setSummary(new SharedPreferenceHelper().getDefaultCurrency().getFriendlyName());
         mDefaultCurrency.setEntries(Currency.getEntries());
         mDefaultCurrency.setEntryValues(Currency.getEntryValues());
         mDefaultCurrency.setOnPreferenceChangeListener((Preference preference, Object newValue) -> {
