@@ -24,6 +24,7 @@ import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -198,8 +199,15 @@ public class CoinDetailActivity extends BaseActivity implements CoinDetailMvpVie
         mToolbarTitle.setText(coin.getName());
         mToolbarSubtitle.setText(coin.getSymbol());
         mCoinDetailMainPriceFiatSymbol.setText(Currency.valueOf(coin.getQuoteCurrencySymbol()).getSymbol());
-        mCoinDetailMainPriceFiatIntegerPart.setText( String.valueOf((int) Math.floor(coin.getPrice())) + ".");
-        mCoinDetailMainPriceFiatFractionalPart.setText( String.valueOf((int) Math.floor(coin.getPrice() * 100)) );
+
+        BigDecimal price = new BigDecimal(coin.getPrice());
+        BigDecimal fractionalPart = price.remainder( BigDecimal.ONE );
+        String fractionalStr = fractionalPart.toPlainString();
+        fractionalStr = fractionalStr.substring(2, Math.min(fractionalStr.length(), 2+Constants.MISC_MAX_DECIMAL_NUMBERS));
+        String integerStr = String.format(Locale.getDefault(), "%d.", price.intValue());
+
+        mCoinDetailMainPriceFiatIntegerPart.setText(integerStr);
+        mCoinDetailMainPriceFiatFractionalPart.setText( fractionalStr );
     }
 
     @Override

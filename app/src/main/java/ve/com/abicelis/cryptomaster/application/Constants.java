@@ -22,6 +22,7 @@ public class Constants {
     public static final int MISC_OK_HTTP_READ_TIMEOUT_SECONDS = 5;
     public static final int MISC_OK_HTTP_CONNECT_TIMEOUT_SECONDS = 5;
     public static final int MISC_MAX_CHART_ENTRIES = 100;
+    public static final int MISC_MAX_DECIMAL_NUMBERS = 5;
     public static final CoinsSortType EXTRA_DEFAULT_COINS_SORT_TYPE = CoinsSortType.MCAP_DESCENDING;
 
 
