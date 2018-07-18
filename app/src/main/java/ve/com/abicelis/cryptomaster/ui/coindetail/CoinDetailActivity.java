@@ -64,6 +64,8 @@ public class CoinDetailActivity extends BaseActivity implements CoinDetailMvpVie
     LinearLayout mCoinDetailMainContainer;
     @BindView(R.id.activity_coin_detail_main_price_fiat_symbol)
     TextView mCoinDetailMainPriceFiatSymbol;
+    @BindView(R.id.activity_coin_detail_main_price_fiat_code)
+    TextView mCoinDetailMainPriceFiatCode;
     @BindView(R.id.activity_coin_detail_main_price_fiat_integer_part)
     TextView mCoinDetailMainPriceFiatIntegerPart;
     @BindView(R.id.activity_coin_detail_main_price_fiat_fractional_part)
@@ -198,7 +200,22 @@ public class CoinDetailActivity extends BaseActivity implements CoinDetailMvpVie
     public void showBasicCoinData(Coin coin) {
         mToolbarTitle.setText(coin.getName());
         mToolbarSubtitle.setText(coin.getSymbol());
-        mCoinDetailMainPriceFiatSymbol.setText(Currency.valueOf(coin.getQuoteCurrencySymbol()).getSymbol());
+
+        Currency currency;
+        try {
+            currency = Currency.valueOf(coin.getQuoteCurrencySymbol());
+        } catch (Exception e) {
+            currency = Currency.USD;
+            Timber.w("Unrecognized mCurrent.getQuoteCurrencySymbol(), using USD: " + coin.getQuoteCurrencySymbol());
+        }
+
+        if(currency.hasSymbol()) {
+            mCoinDetailMainPriceFiatSymbol.setText(currency.getSymbol());
+            mCoinDetailMainPriceFiatCode.setText("");
+        } else {
+            mCoinDetailMainPriceFiatSymbol.setText("");
+            mCoinDetailMainPriceFiatCode.setText(currency.getCode());
+        }
 
         BigDecimal price = new BigDecimal(coin.getPrice());
         BigDecimal fractionalPart = price.remainder( BigDecimal.ONE );

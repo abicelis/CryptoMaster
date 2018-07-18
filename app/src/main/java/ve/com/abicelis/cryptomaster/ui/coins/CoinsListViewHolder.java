@@ -17,9 +17,9 @@ import com.bumptech.glide.Glide;
 
 import java.util.Locale;
 
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import timber.log.Timber;
 import ve.com.abicelis.cryptomaster.R;
 import ve.com.abicelis.cryptomaster.application.Constants;
 import ve.com.abicelis.cryptomaster.data.model.Coin;
@@ -101,14 +101,28 @@ public class CoinsListViewHolder extends RecyclerView.ViewHolder implements View
 
         Glide.with(mIcon).load(String.format(Constants.COINMARKETCAP_ICONS_BASE_URL, mCurrent.getId())).into(mIcon);
 
-        Currency currency = Currency.USD;
+        Currency currency;
         try {
             currency = Currency.valueOf(mCurrent.getQuoteCurrencySymbol());
-        } catch (Exception e) { }
+        } catch (Exception e) {
+            currency = Currency.USD;
+            Timber.w("Unrecognized mCurrent.getQuoteCurrencySymbol(), using USD: " + mCurrent.getQuoteCurrencySymbol());
+        }
 
-        mPrice.setText(currency.getSymbol() + StringUtil.limitDecimals(mCurrent.getPrice()));
-        mMcap.setText(currency.getSymbol() + StringUtil.withSuffix(mCurrent.getMarketCap()));
-        mVolume.setText(currency.getSymbol() + StringUtil.withSuffix(mCurrent.getVolume24h()));
+        String price, mcap, volume;
+        if(currency.hasSymbol()) {
+            price = currency.getSymbol() + StringUtil.limitDecimals(mCurrent.getPrice());
+            mcap = currency.getSymbol() + StringUtil.withSuffix(mCurrent.getMarketCap());
+            volume = currency.getSymbol() + StringUtil.withSuffix(mCurrent.getVolume24h());
+        } else {
+            price = StringUtil.limitDecimals(mCurrent.getPrice())   + " " + currency.getCode();
+            mcap = StringUtil.withSuffix(mCurrent.getMarketCap())   + " " + currency.getCode();
+            volume = StringUtil.withSuffix(mCurrent.getVolume24h()) + " " + currency.getCode();
+        }
+
+        mPrice.setText(price);
+        mMcap.setText(mcap);
+        mVolume.setText(volume);
 
         mPercent1h.setText(String.valueOf(mCurrent.getPercentChange1h()));
         mPercent24h.setText(String.valueOf(mCurrent.getPercentChange24h()));
