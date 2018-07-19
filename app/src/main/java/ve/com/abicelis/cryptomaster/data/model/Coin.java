@@ -31,13 +31,22 @@ public class Coin implements Comparable<Coin> {
     private long maxSupply;
     @ColumnInfo(name = "last_updated")
     private long lastUpdated;
-    @ColumnInfo(name = "quote_currency_symbol")
-    private String quoteCurrencySymbol;             //E.g: USD
-    private double price;
-    @ColumnInfo(name = "volume_24h")
-    private double volume24h;
-    @ColumnInfo(name = "market_cap")
-    private double marketCap;
+
+    //USD Quote
+    private double quoteUsdPrice;
+    @ColumnInfo(name = "quote_usd_volume_24h")
+    private double quoteUsdVolume;
+    @ColumnInfo(name = "quote_usd_market_cap")
+    private double quoteUsdMarketCap;
+
+    //Default currency Quote
+    private double quoteDefaultPrice;
+    @ColumnInfo(name = "quote_default_volume_24h")
+    private double quoteDefaultVolume;
+    @ColumnInfo(name = "quote_default_market_cap")
+    private double quoteDefaultMarketCap;
+
+
     @ColumnInfo(name = "percent_change_1h")
     private double percentChange1h;
     @ColumnInfo(name = "percent_change_24h")
@@ -49,7 +58,9 @@ public class Coin implements Comparable<Coin> {
     public CoinsListViewHolderState coinsListViewHolderState;
 
 
-    public Coin (long id, String name, String symbol, String websiteSlug, int rank, long circulatingSupply, long totalSupply, long maxSupply, long lastUpdated, String quoteCurrencySymbol, double price, double volume24h, double marketCap, double percentChange1h, double percentChange24h, double percentChange7d) {
+    public Coin (long id, String name, String symbol, String websiteSlug, int rank, long circulatingSupply, long totalSupply, long maxSupply, long lastUpdated,
+                 double quoteUsdPrice, double quoteUsdVolume, double quoteUsdMarketCap, double quoteDefaultPrice, double quoteDefaultVolume, double quoteDefaultMarketCap,
+                 double percentChange1h, double percentChange24h, double percentChange7d) {
         this.id = id;
         this.name = name;
         this.symbol = symbol;
@@ -59,10 +70,15 @@ public class Coin implements Comparable<Coin> {
         this.totalSupply = totalSupply;
         this.maxSupply = maxSupply;
         this.lastUpdated = lastUpdated;
-        this.quoteCurrencySymbol = quoteCurrencySymbol;
-        this.price = price;
-        this.volume24h = volume24h;
-        this.marketCap = marketCap;
+
+        this.quoteUsdPrice = quoteUsdPrice;
+        this.quoteUsdVolume = quoteUsdVolume;
+        this.quoteUsdMarketCap = quoteUsdMarketCap;
+
+        this.quoteDefaultPrice = quoteDefaultPrice;
+        this.quoteDefaultVolume = quoteDefaultVolume;
+        this.quoteDefaultMarketCap = quoteDefaultMarketCap;
+
         this.percentChange1h = percentChange1h;
         this.percentChange24h = percentChange24h;
         this.percentChange7d = percentChange7d;
@@ -90,10 +106,12 @@ public class Coin implements Comparable<Coin> {
         return maxSupply;
     }
     public long getLastUpdated() { return lastUpdated; }
-    public String getQuoteCurrencySymbol() { return quoteCurrencySymbol; }
-    public double getPrice() { return price; }
-    public double getVolume24h() { return volume24h; }
-    public double getMarketCap() { return marketCap; }
+    public double getQuoteUsdPrice() { return quoteUsdPrice; }
+    public double getQuoteUsdVolume() { return quoteUsdVolume; }
+    public double getQuoteUsdMarketCap() { return quoteUsdMarketCap; }
+    public double getQuoteDefaultPrice() { return quoteDefaultPrice; }
+    public double getQuoteDefaultVolume() { return quoteDefaultVolume; }
+    public double getQuoteDefaultMarketCap() { return quoteDefaultMarketCap; }
     public double getPercentChange1h() { return percentChange1h; }
     public double getPercentChange24h() { return percentChange24h; }
     public double getPercentChange7d() { return percentChange7d; }
@@ -108,16 +126,18 @@ public class Coin implements Comparable<Coin> {
     public void setTotalSupply(long totalSupply) { this.totalSupply = totalSupply; }
     public void setMaxSupply(long maxSupply) { this.maxSupply = maxSupply; }
     public void setLastUpdated(long lastUpdated) { this.lastUpdated = lastUpdated; }
-    public void setQuoteCurrencySymbol(String quoteCurrencySymbol) { this.quoteCurrencySymbol = quoteCurrencySymbol; }
-    public void setPrice(double price) { this.price = price; }
-    public void setVolume24h(double volume24h) { this.volume24h = volume24h; }
-    public void setMarketCap(double marketCap) { this.marketCap = marketCap; }
+    public void setQuoteUsdPrice(double quoteUsdPrice) { this.quoteUsdPrice = quoteUsdPrice; }
+    public void setQuoteUsdVolume(double quoteUsdVolume) { this.quoteUsdVolume = quoteUsdVolume; }
+    public void setQuoteUsdMarketCap(double quoteUsdMarketCap) { this.quoteUsdMarketCap = quoteUsdMarketCap; }
+    public void setQuoteDefaultPrice(double quoteDefaultPrice) { this.quoteDefaultPrice = quoteDefaultPrice; }
+    public void setQuoteDefaultVolume(double quoteDefaultVolume) { this.quoteDefaultVolume = quoteDefaultVolume; }
+    public void setQuoteDefaultMarketCap(double quoteDefaultMarketCap) { this.quoteDefaultMarketCap = quoteDefaultMarketCap; }
     public void setPercentChange1h(double percentChange1h) { this.percentChange1h = percentChange1h; }
     public void setPercentChange24h(double percentChange24h) { this.percentChange24h = percentChange24h; }
     public void setPercentChange7d(double percentChange7d) { this.percentChange7d = percentChange7d; }
 
     @Override
     public int compareTo(@NonNull Coin o) {
-        return Double.compare(o.marketCap, this.marketCap);
+        return Double.compare(o.quoteUsdMarketCap, this.quoteUsdMarketCap);
     }
 }

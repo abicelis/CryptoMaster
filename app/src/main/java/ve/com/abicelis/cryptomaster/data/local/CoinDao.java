@@ -47,10 +47,10 @@ public abstract class CoinDao {
     public abstract Maybe<List<Coin>> getByNames(String names);
 
 
-    @Query("SELECT * FROM coin ORDER BY market_cap DESC LIMIT :limit")
+    @Query("SELECT * FROM coin ORDER BY quote_usd_market_cap DESC LIMIT :limit")
     public abstract Single<List<Coin>> getTopByMarketCap(int limit);
 
-    @Query("SELECT * FROM coin ORDER BY market_cap DESC")
+    @Query("SELECT * FROM coin ORDER BY quote_usd_market_cap DESC")
     public abstract Single<List<Coin>> getAllByMarketCap();
 
 
