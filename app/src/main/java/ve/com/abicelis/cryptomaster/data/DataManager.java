@@ -12,7 +12,6 @@ import javax.inject.Inject;
 import io.reactivex.Completable;
 import io.reactivex.Maybe;
 import io.reactivex.Single;
-import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Function;
 import ve.com.abicelis.cryptomaster.application.Constants;
 import ve.com.abicelis.cryptomaster.data.local.AppDatabase;
@@ -25,6 +24,7 @@ import ve.com.abicelis.cryptomaster.data.model.coinmarketcap.GlobalResult;
 import ve.com.abicelis.cryptomaster.data.model.coinmarketcap.TickerResult;
 import ve.com.abicelis.cryptomaster.data.model.coinmarketcapgraph.DominanceChartData;
 import ve.com.abicelis.cryptomaster.data.model.coinmarketcapgraph.MarketCapAndVolumeChartData;
+import ve.com.abicelis.cryptomaster.data.model.coinmarketcapgraph.MarketCapPriceAndVolumeChartData;
 import ve.com.abicelis.cryptomaster.data.model.coinmarketcaps2.CurrencyResult;
 import ve.com.abicelis.cryptomaster.data.remote.CoinMarketCapApi;
 import ve.com.abicelis.cryptomaster.data.remote.CoinMarketCapGraphApi;
@@ -67,40 +67,25 @@ public class DataManager {
     public Single<List<Coin>> getRemoteCoins() {
         switch (mSharedPreferenceHelper.getCoinsToFetch()) {
             case TOP_50:
-                return getRemoteCoinsSingleRequest(50, mSharedPreferenceHelper.getDefaultCurrency().getCode());
+                return getRemoteCoinsSingleRequest(50, mSharedPreferenceHelper.getDefaultCurrency());
             case TOP_100:
-                return getRemoteCoinsSingleRequest(100, mSharedPreferenceHelper.getDefaultCurrency().getCode());
+                return getRemoteCoinsSingleRequest(100, mSharedPreferenceHelper.getDefaultCurrency());
             case TOP_500:
-                return getRemoteCoinsMultipleRequests(500, mSharedPreferenceHelper.getDefaultCurrency().getCode());
+                return getRemoteCoinsMultipleRequests(500, mSharedPreferenceHelper.getDefaultCurrency());
             case ALL:
             default:
-                return getRemoteCoinsMultipleRequests(-1, mSharedPreferenceHelper.getDefaultCurrency().getCode());
+                return getRemoteCoinsMultipleRequests(-1, mSharedPreferenceHelper.getDefaultCurrency());
         }
     }
 
-    private Single<List<Coin>> getRemoteCoinsSingleRequest(int limit, String currency) {
-        return mCoinMarketCapApi.getTicker(1, limit, currency)
+    private Single<List<Coin>> getRemoteCoinsSingleRequest(int limit, Currency defaultCurrency) {
+
+        return mCoinMarketCapApi.getTicker(1, limit, defaultCurrency.getCode())
                 .map(tickerResult -> {
                     List<Coin> coins = new ArrayList<>();
                     for (TickerResult.TickerData data : tickerResult.getData()) {
-                        TickerResult.TickerData.QuoteData quoteData = data.getQuotes().get(currency);
-                        coins.add(new Coin(data.getId(),
-                                data.getName(),
-                                data.getSymbol(),
-                                data.getWebsiteSlug(),
-                                data.getRank(),
-                                data.getCirculatingSupply(),
-                                data.getTotalSupply(),
-                                data.getMaxSupply(),
-                                (new Date().getTime()/1000),
-                                currency,
-                                quoteData.getPrice(),
-                                quoteData.getVolume24h(),
-                                quoteData.getMarketCap(),
-                                quoteData.getPercentChange1h(),
-                                quoteData.getPercentChange24h(),
-                                quoteData.getPercentChange7d()));
 
+                        coins.add(buildCoinFromTickerData(data, defaultCurrency));
                     }
 
                     Collections.sort(coins);
@@ -112,50 +97,32 @@ public class DataManager {
                 });
     }
 
-    private Single<List<Coin>> getRemoteCoinsMultipleRequests(int limit, String currency) {
+
+    private Single<List<Coin>> getRemoteCoinsMultipleRequests(int limit, Currency defaultCurrency) {
         if(limit != -1) {
 
-            return mCoinMarketCapApi.getTicker(1,1, currency)
+            return mCoinMarketCapApi.getTicker(1,1, defaultCurrency.getCode())
                     .map(tickerResult -> {
                         final int numCryptoCurrencies = tickerResult.getMetadata().getNumCryptocurrencies();
-                        return doGetRemoteCoinsMultipleRequests(numCryptoCurrencies, currency).blockingGet();
+                        return doGetRemoteCoinsMultipleRequests(numCryptoCurrencies, defaultCurrency).blockingGet();
                     });
         } else
-            return doGetRemoteCoinsMultipleRequests(limit, currency);
+            return doGetRemoteCoinsMultipleRequests(limit, defaultCurrency);
     }
 
-    private Single<List<Coin>> doGetRemoteCoinsMultipleRequests(int limit, String currency) {
+    private Single<List<Coin>> doGetRemoteCoinsMultipleRequests(int limit, Currency defaultCurrency) {
         List<Single<TickerResult>> list = new ArrayList<>();
         for (int i = 1; (i - 1) < limit; i += 100)
-            list.add(mCoinMarketCapApi.getTicker(i, 100, currency));
+            list.add(mCoinMarketCapApi.getTicker(i, 100, defaultCurrency.getCode()));
 
         return Single.zip(list, tickerResults -> {
             List<Coin> coins = new ArrayList<>();
 
-            for (Object o : tickerResults) {
-                if (o instanceof TickerResult) {
-                    for (TickerResult.TickerData data : ((TickerResult) o).getData()) {
+            for (Object o : tickerResults)
+                if (o instanceof TickerResult)
+                    for (TickerResult.TickerData data : ((TickerResult) o).getData())
+                        coins.add(buildCoinFromTickerData(data, defaultCurrency));
 
-                        TickerResult.TickerData.QuoteData quoteData = data.getQuotes().get(currency);
-                        coins.add(new Coin(data.getId(),
-                                data.getName(),
-                                data.getSymbol(),
-                                data.getWebsiteSlug(),
-                                data.getRank(),
-                                data.getCirculatingSupply(),
-                                data.getTotalSupply(),
-                                data.getMaxSupply(),
-                                (new Date().getTime()/1000),
-                                currency,
-                                quoteData.getPrice(),
-                                quoteData.getVolume24h(),
-                                quoteData.getMarketCap(),
-                                quoteData.getPercentChange1h(),
-                                quoteData.getPercentChange24h(),
-                                quoteData.getPercentChange7d()));
-                    }
-                }
-            }
 
             //Save to DB
             //mAppDatabase.coinDao().deleteCoinsAndInsertNewOnes(coins);
@@ -165,6 +132,59 @@ public class DataManager {
 
         });
     }
+
+
+    private Coin buildCoinFromTickerData(TickerResult.TickerData data, Currency defaultCurrency) {
+
+        TickerResult.TickerData.QuoteData usdQuoteData = data.getQuotes().get(Currency.USD.getCode());
+        if(defaultCurrency == Currency.USD) {
+            return new Coin(data.getId(),
+                    data.getName(),
+                    data.getSymbol(),
+                    data.getWebsiteSlug(),
+                    data.getRank(),
+                    data.getCirculatingSupply(),
+                    data.getTotalSupply(),
+                    data.getMaxSupply(),
+                    (new Date().getTime()/1000),
+                    usdQuoteData.getPrice(),
+                    usdQuoteData.getVolume24h(),
+                    usdQuoteData.getMarketCap(),
+                    usdQuoteData.getPrice(),
+                    usdQuoteData.getVolume24h(),
+                    usdQuoteData.getMarketCap(),
+                    usdQuoteData.getPercentChange1h(),
+                    usdQuoteData.getPercentChange24h(),
+                    usdQuoteData.getPercentChange7d());
+        } else {
+
+            TickerResult.TickerData.QuoteData defaultQuoteData = data.getQuotes().get(defaultCurrency.getCode());
+            return new Coin(data.getId(),
+                    data.getName(),
+                    data.getSymbol(),
+                    data.getWebsiteSlug(),
+                    data.getRank(),
+                    data.getCirculatingSupply(),
+                    data.getTotalSupply(),
+                    data.getMaxSupply(),
+                    (new Date().getTime()/1000),
+                    usdQuoteData.getPrice(),
+                    usdQuoteData.getVolume24h(),
+                    usdQuoteData.getMarketCap(),
+                    defaultQuoteData.getPrice(),
+                    defaultQuoteData.getVolume24h(),
+                    defaultQuoteData.getMarketCap(),
+                    usdQuoteData.getPercentChange1h(),
+                    usdQuoteData.getPercentChange24h(),
+                    usdQuoteData.getPercentChange7d());
+        }
+    }
+
+
+
+
+
+
 
     /**
      * Fetches locally saved Coins
@@ -192,7 +212,7 @@ public class DataManager {
      * Fetches remote ticker data, filtered by favorites, returns a List of Coins
      */
     public Single<List<Coin>> getRemoteFavoriteCoins() {
-        final String currency = mSharedPreferenceHelper.getDefaultCurrency().getCode();
+        final Currency currency = mSharedPreferenceHelper.getDefaultCurrency();
         return mAppDatabase.favoriteCoinDao().getAll()
                 .map(new Function<List<Coin>, List<Coin>>() {
                     @Override
@@ -200,35 +220,17 @@ public class DataManager {
 
                         List<Single<TickerResult>> list = new ArrayList<>();
                         for (Coin c: coins)
-                            list.add(mCoinMarketCapApi.getTickerSingleCurrency(c.getId(), currency));
+                            list.add(mCoinMarketCapApi.getTickerSingleCurrency(c.getId(), currency.getCode()));
 
                         return Single.zip(list, new Function<Object[], List<Coin>>() {
                             @Override
                             public List<Coin> apply(Object[] objects) {
                                 List<Coin> coins = new ArrayList<>();
-                                for(int i = 0; i < objects.length; i++) {
-                                    if(objects[i] instanceof TickerResult) {
-                                        for (TickerResult.TickerData data : ((TickerResult)objects[i]).getData()) {
-                                            TickerResult.TickerData.QuoteData quoteData = data.getQuotes().get(currency);
-                                            coins.add(new Coin(data.getId(),
-                                                    data.getName(),
-                                                    data.getSymbol(),
-                                                    data.getWebsiteSlug(),
-                                                    data.getRank(),
-                                                    data.getCirculatingSupply(),
-                                                    data.getTotalSupply(),
-                                                    data.getMaxSupply(),
-                                                    (new Date().getTime()/1000),
-                                                    currency,
-                                                    quoteData.getPrice(),
-                                                    quoteData.getVolume24h(),
-                                                    quoteData.getMarketCap(),
-                                                    quoteData.getPercentChange1h(),
-                                                    quoteData.getPercentChange24h(),
-                                                    quoteData.getPercentChange7d()));
-                                        }
-                                    }
-                                }
+
+                                for(Object o : objects)
+                                    if(o instanceof TickerResult)
+                                        for (TickerResult.TickerData data : ((TickerResult)o).getData())
+                                            coins.add(buildCoinFromTickerData(data, currency));
 
                                 //Save to DB
                                 mAppDatabase.coinDao().insert(coins);
@@ -329,8 +331,8 @@ public class DataManager {
                     for (int i = 0; i < result.getMarketCapByAvailableSupply().length; i+=increment) {
 
                         long x = mcapVals[i][0];
-                        float yMcap = ((float) mcapVals[i][1]) / 1000000000;
-                        float yVol = ((float) volumeVals[i][1]) / 1000000000;
+                        float yMcap = ((float) mcapVals[i][1]) / Constants.MISC_BILLION_DIVIDER;
+                        float yVol = ((float) volumeVals[i][1]) / Constants.MISC_BILLION_DIVIDER;
 
                         marketCapEntries.add(new Entry(count, yMcap));
                         volumeEntries.add(new Entry(count, yVol));
@@ -342,6 +344,45 @@ public class DataManager {
                     return new MarketCapAndVolumeChartData(marketCapEntries, mcapVals[mcapVals.length-1][1], volumeEntries, volumeVals[volumeVals.length-1][1], timestamps, chartTimeSpan);
                 });
     }
+
+
+    public Single<MarketCapPriceAndVolumeChartData> getCurrencyMarketCapPriceAndVolumeGraphData(String websiteSlug, long timeStart, long timeEnd, ChartTimeSpan chartTimeSpan) {
+        return mCoinMarketCapGraphApi.getCurrencyMarketCapPriceAndVolumeGraphData(websiteSlug, timeStart, timeEnd)
+                .map(result -> {
+
+
+                    List<Entry> marketCapEntries = new ArrayList<>();
+                    List<Entry> priceUsdEntries = new ArrayList<>();
+                    List<Entry> priceBtcEntries = new ArrayList<>();
+                    List<Entry> volumeEntries = new ArrayList<>();
+                    List<Long> timestamps = new ArrayList<>();
+
+                    long[][] mcapVals = result.getMarketCapByAvailableSupply();
+                    double[][] priceUsdVals = result.getPriceUsd();
+                    double[][] priceBtcVals = result.getPriceBtc();
+                    long[][] volumeVals = result.getVolumeUsd();
+
+                    int increment = calculateIncrementFor(result.getMarketCapByAvailableSupply().length);
+                    int count = 0;
+                    for (int i = 0; i < result.getMarketCapByAvailableSupply().length; i+=increment) {
+
+                        long x = mcapVals[i][0];
+                        float yMcap = ((float) mcapVals[i][1]) / Constants.MISC_BILLION_DIVIDER;
+                        float yVol = ((float) volumeVals[i][1]) / Constants.MISC_BILLION_DIVIDER;
+
+                        marketCapEntries.add(new Entry(count, yMcap));
+                        priceUsdEntries.add(new Entry(count, (float)priceUsdVals[i][1]));
+                        priceBtcEntries.add(new Entry(count, (float)priceBtcVals[i][1]));
+                        volumeEntries.add(new Entry(count, yVol));
+                        timestamps.add(x);
+                        count++;
+                    }
+
+                    //Collections.sort(entries, new EntryXComparator());
+                    return new MarketCapPriceAndVolumeChartData(marketCapEntries, mcapVals[mcapVals.length-1][1], priceUsdEntries, priceUsdVals[priceUsdVals.length-1][1], priceBtcEntries, priceBtcVals[priceBtcVals.length-1][1],  volumeEntries, volumeVals[volumeVals.length-1][1], timestamps, chartTimeSpan);
+                });
+    }
+
 
 
     public Single<DominanceChartData> getDominanceGraphData(long timeStart, long timeEnd, ChartTimeSpan chartTimeSpan) {
