@@ -22,6 +22,7 @@ import butterknife.ButterKnife;
 import timber.log.Timber;
 import ve.com.abicelis.cryptomaster.R;
 import ve.com.abicelis.cryptomaster.application.Constants;
+import ve.com.abicelis.cryptomaster.data.local.SharedPreferenceHelper;
 import ve.com.abicelis.cryptomaster.data.model.Coin;
 import ve.com.abicelis.cryptomaster.data.model.CoinsListViewHolderState;
 import ve.com.abicelis.cryptomaster.data.model.Currency;
@@ -89,7 +90,6 @@ public class CoinsListViewHolder extends RecyclerView.ViewHolder implements View
         mPresenter = presenter;
         mCurrent = current;
 
-        //TODO this goes here? move to presenter
         mCurrent.coinsListViewHolderState = CoinsListViewHolderState.NORMAL;
 
         if (mFavoriteHandler != null)
@@ -103,21 +103,21 @@ public class CoinsListViewHolder extends RecyclerView.ViewHolder implements View
 
         Currency currency;
         try {
-            currency = Currency.valueOf(mCurrent.getQuoteCurrencySymbol());
+            currency = new SharedPreferenceHelper().getDefaultCurrency();
         } catch (Exception e) {
             currency = Currency.USD;
-            Timber.w("Unrecognized mCurrent.getQuoteCurrencySymbol(), using USD: " + mCurrent.getQuoteCurrencySymbol());
+            Timber.w("Unrecognized mCurrent.getQuoteCurrencySymbol(), using USD: " + currency.getCode());
         }
 
         String price, mcap, volume;
         if(currency.hasSymbol()) {
-            price = currency.getSymbol() + StringUtil.limitDecimals(mCurrent.getPrice());
-            mcap = currency.getSymbol() + StringUtil.withSuffix(mCurrent.getMarketCap());
-            volume = currency.getSymbol() + StringUtil.withSuffix(mCurrent.getVolume24h());
+            price = currency.getSymbol() + StringUtil.limitDecimals(mCurrent.getQuoteDefaultPrice(),3);
+            mcap = currency.getSymbol() + StringUtil.withSuffix(mCurrent.getQuoteDefaultMarketCap());
+            volume = currency.getSymbol() + StringUtil.withSuffix(mCurrent.getQuoteDefaultVolume());
         } else {
-            price = StringUtil.limitDecimals(mCurrent.getPrice())   + " " + currency.getCode();
-            mcap = StringUtil.withSuffix(mCurrent.getMarketCap())   + " " + currency.getCode();
-            volume = StringUtil.withSuffix(mCurrent.getVolume24h()) + " " + currency.getCode();
+            price = StringUtil.limitDecimals(mCurrent.getQuoteDefaultPrice(),3)   + " " + currency.getCode();
+            mcap = StringUtil.withSuffix(mCurrent.getQuoteDefaultMarketCap())   + " " + currency.getCode();
+            volume = StringUtil.withSuffix(mCurrent.getQuoteDefaultVolume()) + " " + currency.getCode();
         }
 
         mPrice.setText(price);

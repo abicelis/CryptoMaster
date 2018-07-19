@@ -10,6 +10,7 @@ import io.reactivex.schedulers.Schedulers;
 import ve.com.abicelis.cryptomaster.application.Message;
 import ve.com.abicelis.cryptomaster.data.DataManager;
 import ve.com.abicelis.cryptomaster.data.model.ChartTimeSpan;
+import ve.com.abicelis.cryptomaster.data.model.Coin;
 import ve.com.abicelis.cryptomaster.ui.base.BasePresenter;
 
 /**
@@ -20,6 +21,7 @@ public class CoinDetailPresenter extends BasePresenter<CoinDetailActivity> {
     //DATA
     private DataManager mDataManager;
     private long mCoinId;
+    private Coin mCoin;
 
     private ChartTimeSpan mMainChartTimeSpan;
     private boolean mLoadingMainChart;
@@ -32,7 +34,6 @@ public class CoinDetailPresenter extends BasePresenter<CoinDetailActivity> {
 
     public void setCoinId(long coinId) {
         mCoinId = coinId;
-        getMvpView().showMessage(Message.ERROR_UNEXPECTED, null);
     }
 
 
@@ -41,6 +42,7 @@ public class CoinDetailPresenter extends BasePresenter<CoinDetailActivity> {
         .subscribeOn(Schedulers.io())
         .observeOn(AndroidSchedulers.mainThread())
         .subscribe(coin -> {
+            mCoin = coin;
             getMvpView().showBasicCoinData(coin);
         }, throwable -> {
             getMvpView().showMessage(Message.ERROR_UNEXPECTED, null);
@@ -58,15 +60,15 @@ public class CoinDetailPresenter extends BasePresenter<CoinDetailActivity> {
             long timeEnd = new GregorianCalendar().getTimeInMillis();
 
             getMvpView().mainChartShowLoading();
-            addDisposable(mDataManager.getMaketCapAndVolumeGraphData(timeStart, timeEnd, chartTimeSpan)
+            addDisposable(mDataManager.getCurrencyMarketCapPriceAndVolumeGraphData(mCoin.getWebsiteSlug(), timeStart, timeEnd, chartTimeSpan)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(data -> {
 
                         //TODO!
-                        getMvpView().mainChartSetInfo();
+                        //getMvpView().mainChartSetInfo();
                         getMvpView().mainChartActivateButton(mMainChartTimeSpan);
-                        getMvpView().showMainChartGraph();
+                        getMvpView().showMainChartGraph(data);
 
                         mLoadingMainChart = false;
                         getMvpView().mainChartHideLoading();

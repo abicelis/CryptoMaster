@@ -1,6 +1,7 @@
 package ve.com.abicelis.cryptomaster.ui.coindetail;
 
 import android.os.Bundle;
+import android.support.annotation.ColorRes;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BaseTransientBottomBar;
 import android.support.design.widget.CoordinatorLayout;
@@ -40,12 +41,15 @@ import timber.log.Timber;
 import ve.com.abicelis.cryptomaster.R;
 import ve.com.abicelis.cryptomaster.application.Constants;
 import ve.com.abicelis.cryptomaster.application.Message;
+import ve.com.abicelis.cryptomaster.data.local.SharedPreferenceHelper;
 import ve.com.abicelis.cryptomaster.data.model.ChartTimeSpan;
 import ve.com.abicelis.cryptomaster.data.model.Coin;
 import ve.com.abicelis.cryptomaster.data.model.Currency;
+import ve.com.abicelis.cryptomaster.data.model.coinmarketcapgraph.MarketCapPriceAndVolumeChartData;
 import ve.com.abicelis.cryptomaster.ui.base.BaseActivity;
 import ve.com.abicelis.cryptomaster.util.AttrUtil;
 import ve.com.abicelis.cryptomaster.util.SnackbarUtil;
+import ve.com.abicelis.cryptomaster.util.StringUtil;
 
 /**
  * Created by abicelis on 17/7/2018.
@@ -134,8 +138,6 @@ public class CoinDetailActivity extends BaseActivity implements CoinDetailMvpVie
         setSupportActionBar(mToolbar);
 
         mCoinDetailPresenter.getBasicCoinData();
-       //mCoinDetailPresenter.getMainChartData(ChartTimeSpan._3M);
-        mainChartShowLoading();
 
         mCoinDetailChart.setNoDataText("");
 
@@ -198,15 +200,19 @@ public class CoinDetailActivity extends BaseActivity implements CoinDetailMvpVie
 
     @Override
     public void showBasicCoinData(Coin coin) {
+
+        mCoinDetailPresenter.getMainChartData(ChartTimeSpan._3M);
+
+
         mToolbarTitle.setText(coin.getName());
         mToolbarSubtitle.setText(coin.getSymbol());
 
         Currency currency;
         try {
-            currency = Currency.valueOf(coin.getQuoteCurrencySymbol());
+            currency = new SharedPreferenceHelper().getDefaultCurrency();
         } catch (Exception e) {
             currency = Currency.USD;
-            Timber.w("Unrecognized mCurrent.getQuoteCurrencySymbol(), using USD: " + coin.getQuoteCurrencySymbol());
+            Timber.w("Unrecognized mCurrent.getQuoteCurrencySymbol(), using USD: " + currency.getCode());
         }
 
         if(currency.hasSymbol()) {
@@ -217,88 +223,89 @@ public class CoinDetailActivity extends BaseActivity implements CoinDetailMvpVie
             mCoinDetailMainPriceFiatCode.setText(currency.getCode());
         }
 
-        BigDecimal price = new BigDecimal(coin.getPrice());
-        BigDecimal fractionalPart = price.remainder( BigDecimal.ONE );
+        BigDecimal price = new BigDecimal(coin.getQuoteDefaultPrice());
+        BigDecimal fractionalPart = price.remainder(BigDecimal.ONE);
         String fractionalStr = fractionalPart.toPlainString();
         fractionalStr = fractionalStr.substring(2, Math.min(fractionalStr.length(), 2+Constants.MISC_MAX_DECIMAL_NUMBERS));
         String integerStr = String.format(Locale.getDefault(), "%d.", price.intValue());
 
         mCoinDetailMainPriceFiatIntegerPart.setText(integerStr);
-        mCoinDetailMainPriceFiatFractionalPart.setText( fractionalStr );
+        mCoinDetailMainPriceFiatFractionalPart.setText(fractionalStr);
     }
 
     @Override
-    public void showMainChartGraph() {
+    public void showMainChartGraph(MarketCapPriceAndVolumeChartData data) {
 
-//        //Axis customization
-//        int color = AttrUtil.getAttributeColor(this, R.attr.chart_grid_line);
-//
-//
-//        YAxis yAxisL = mCoinDetailChart.getAxisLeft();
-//        yAxisL.setEnabled(false);
-//        yAxisL.setSpaceTop(200);
-//
-//        YAxis yAxisR = mCoinDetailChart.getAxisRight();
-//        //yAxisR.setPosition(YAxis.YAxisLabelPosition.INSIDE_CHART);
-//        //yAxisR.setYOffset(-3f);
-//        //yAxisR.setSpaceBottom(20);
-//        yAxisR.setTextColor(color);
-//        yAxisR.setGridColor(color);
-//        yAxisR.setLabelCount(4);
-//        yAxisR.setDrawAxisLine(false);
-//        yAxisR.setValueFormatter(new CoinDetailActivity.YAxisFormatter());
-//        //yAxisR.setAxisMinimum(0f);
-//
-//        XAxis xAxis = mCoinDetailChart.getXAxis();
-//        //xAxis.setTextSize(10f);
-//        xAxis.setTextColor(color);
-//        xAxis.setGridColor(color);
-//        xAxis.setLabelCount(5, true);
-//        xAxis.setAvoidFirstLastClipping(true);
-//        xAxis.setDrawAxisLine(false);
-//        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
-//        xAxis.setGranularity(1f);
-//        xAxis.setValueFormatter(new CoinDetailActivity.XAxisFormatter(data.getTimestamps(), data.getChartTimeSpan()));
-//
-//
-//        //Data set and customization
-//        LineDataSet dataSetMcap = new LineDataSet(data.getMarketCapEntries(), "Mcap"); // add entries to dataset
-//        dataSetMcap.setColor(AttrUtil.getAttributeColor(this, R.attr.chart_line));
-//        dataSetMcap.setLineWidth(2f);
-//        dataSetMcap.setAxisDependency(YAxis.AxisDependency.RIGHT);
-//        dataSetMcap.setDrawCircles(false);
-//        dataSetMcap.setDrawValues(false);
-//        dataSetMcap.setMode(LineDataSet.Mode.HORIZONTAL_BEZIER);
-//        //dataSetMcap.setHighlightEnabled(false);
-//        //dataSetMcap.setHighLightColor(AttrUtil.getAttributeColor(mContext, R.attr.chart_highlight));
-//
-//        LineDataSet dataSetVolume = new LineDataSet(data.getVolumeEntries(), "Volume"); // add entries to dataset
-//        dataSetVolume.setColor(AttrUtil.getAttributeColor(this, R.attr.chart_line_2));
-//        //dataSetVolume.setLineWidth(1f);
-//        dataSetVolume.setAxisDependency(YAxis.AxisDependency.LEFT);
-//        dataSetVolume.setDrawCircles(false);
-//        dataSetVolume.setDrawValues(false);
-//        dataSetMcap.setMode(LineDataSet.Mode.HORIZONTAL_BEZIER);
-//        dataSetVolume.setDrawFilled(true);
-//        dataSetVolume.setFillColor(AttrUtil.getAttributeColor(this, R.attr.chart_line_2));
-//        //dataSetVolume.setHighlightEnabled(false);
-//
-//
-//        List<ILineDataSet> dataSets = new ArrayList<>();
-//        dataSets.add(dataSetMcap);
-//        dataSets.add(dataSetVolume);
-//
-//        //Chart customization
-//        LineData lineData = new LineData(dataSets);
-//        mCoinDetailChart.setData(lineData);
-//        mCoinDetailChart.setTouchEnabled(false);
-//        //mCoinDetailChart.setDragEnabled(false);
-//        //mCoinDetailChart.setPinchZoom(false);
-//        //mCoinDetailChart.setDoubleTapToZoomEnabled(false);
-//        //mCoinDetailChart.setScaleEnabled(false);
-//        mCoinDetailChart.getDescription().setEnabled(false);
-//        mCoinDetailChart.getLegend().setEnabled(false);
-//        mCoinDetailChart.invalidate(); // refresh
+        //Axis customization
+        int btcLineColor = AttrUtil.getAttributeColor(this, R.attr.chart_line);
+        int defaultCurrencyLineColor = AttrUtil.getAttributeColor(this, R.attr.chart_line_3);
+        int color = AttrUtil.getAttributeColor(this, R.attr.chart_grid_line);
+
+
+        YAxis yAxisL = mCoinDetailChart.getAxisLeft();
+        //yAxisL.setPosition(YAxis.YAxisLabelPosition.INSIDE_CHART);
+        yAxisL.setTextColor(defaultCurrencyLineColor);
+        yAxisL.setGridColor(color);
+        yAxisL.setLabelCount(4);
+        yAxisL.setDrawAxisLine(false);
+        yAxisL.setValueFormatter(new YAxisLeftFormatter(new SharedPreferenceHelper().getDefaultCurrency()));
+
+        YAxis yAxisR = mCoinDetailChart.getAxisRight();
+        //yAxisR.setPosition(YAxis.YAxisLabelPosition.INSIDE_CHART);
+        yAxisR.setTextColor(btcLineColor);
+        //yAxisR.setGridColor(color);
+        yAxisR.setDrawGridLines(false);
+        yAxisR.setLabelCount(4, true);
+        yAxisR.setDrawAxisLine(false);
+        yAxisR.setValueFormatter(new YAxisRightFormatter());
+
+        XAxis xAxis = mCoinDetailChart.getXAxis();
+        //xAxis.setTextSize(10f);
+        xAxis.setTextColor(color);
+        xAxis.setGridColor(color);
+        xAxis.setLabelCount(4, true);
+        xAxis.setAvoidFirstLastClipping(true);
+        xAxis.setDrawAxisLine(false);
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+        xAxis.setGranularity(1f);
+        xAxis.setValueFormatter(new CoinDetailActivity.XAxisFormatter(data.getTimestamps(), data.getChartTimeSpan()));
+
+
+        //Data set and customization
+        LineDataSet dataSetBtc = new LineDataSet(data.getPriceBtcEntries(), Currency.BTC.getCode());
+        dataSetBtc.setColor(btcLineColor);
+        dataSetBtc.setLineWidth(2f);
+        dataSetBtc.setAxisDependency(YAxis.AxisDependency.RIGHT);
+        dataSetBtc.setDrawCircles(false);
+        dataSetBtc.setDrawValues(false);
+        dataSetBtc.setMode(LineDataSet.Mode.HORIZONTAL_BEZIER);
+
+        String defaultCurrency = new SharedPreferenceHelper().getDefaultCurrency().getCode();
+        LineDataSet dataSetDefaultCurrency = new LineDataSet(data.getPriceUsdEntries(), defaultCurrency);
+        dataSetDefaultCurrency.setColor(defaultCurrencyLineColor);
+        dataSetDefaultCurrency.setLineWidth(2f);
+        dataSetDefaultCurrency.setAxisDependency(YAxis.AxisDependency.LEFT);
+        dataSetDefaultCurrency.setDrawCircles(false);
+        dataSetDefaultCurrency.setDrawValues(false);
+        dataSetBtc.setMode(LineDataSet.Mode.HORIZONTAL_BEZIER);
+
+
+        List<ILineDataSet> dataSets = new ArrayList<>();
+        dataSets.add(dataSetBtc);
+        dataSets.add(dataSetDefaultCurrency);
+
+        //Chart customization
+        LineData lineData = new LineData(dataSets);
+        mCoinDetailChart.setData(lineData);
+        mCoinDetailChart.setTouchEnabled(false);
+        //mCoinDetailChart.setDragEnabled(false);
+        //mCoinDetailChart.setPinchZoom(false);
+        //mCoinDetailChart.setDoubleTapToZoomEnabled(false);
+        //mCoinDetailChart.setScaleEnabled(false);
+        mCoinDetailChart.getDescription().setEnabled(false);
+        mCoinDetailChart.getLegend().setEnabled(false);
+        //mCoinDetailChart.invalidate(); // refresh
+        mCoinDetailChart.animateX(Constants.MISC_CHART_ANIMATION_DURATION, Constants.MISC_CHART_ANIMATION_EASING);
     }
 
     @Override
@@ -365,11 +372,24 @@ public class CoinDetailActivity extends BaseActivity implements CoinDetailMvpVie
 
 
 
-    class YAxisFormatter implements IAxisValueFormatter {
+    class YAxisRightFormatter implements IAxisValueFormatter {
 
         @Override
         public String getFormattedValue(float value, AxisBase axis) {
-            return "$" + (int)value + "B";
+            return Currency.BTC.getSymbol() + StringUtil.limitDecimals((double)value,6);
+        }
+    }
+    class YAxisLeftFormatter implements IAxisValueFormatter {
+
+        private Currency defaultCurrency;
+
+        public YAxisLeftFormatter(Currency defaultCurrency) {
+            this.defaultCurrency = defaultCurrency;
+        }
+
+        @Override
+        public String getFormattedValue(float value, AxisBase axis) {
+            return defaultCurrency.getSymbol() + value;
         }
     }
 
