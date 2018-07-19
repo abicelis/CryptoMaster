@@ -17,8 +17,13 @@ public class StringUtil {
     }
 
 
-    public static String limitDecimals(double input) {
-        DecimalFormat df = new DecimalFormat("0.###");
+    public static String limitDecimals(double input, int decimals) {
+        String pattern = "0.";
+
+        for (int i = 0; i < decimals; i++)
+            pattern += "#";
+
+        DecimalFormat df = new DecimalFormat(pattern);
         return df.format(input);
     }
 
