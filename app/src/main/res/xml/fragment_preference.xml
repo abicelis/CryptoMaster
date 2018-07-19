@@ -9,6 +9,11 @@
         android:title="@string/fragment_preference_default_currency_title"
         />
 
+    <ListPreference
+        android:key="@string/fragment_preference_start_fragment_key"
+        android:title="@string/fragment_preference_start_fragment_title"
+        />
+
     <Preference
         android:key="@string/fragment_preference_backup_key"
         android:title="@string/fragment_preference_backup_title"

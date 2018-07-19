@@ -16,11 +16,14 @@ import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
 import com.aurelhubert.ahbottomnavigation.notification.AHNotification;
 
+import javax.inject.Inject;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import ve.com.abicelis.cryptomaster.R;
 import ve.com.abicelis.cryptomaster.application.Constants;
 import ve.com.abicelis.cryptomaster.application.Message;
+import ve.com.abicelis.cryptomaster.data.local.SharedPreferenceHelper;
 import ve.com.abicelis.cryptomaster.data.model.CoinsFragmentType;
 import ve.com.abicelis.cryptomaster.ui.base.BaseActivity;
 import ve.com.abicelis.cryptomaster.ui.coins.CoinsFragment;
@@ -35,6 +38,8 @@ import ve.com.abicelis.cryptomaster.util.SnackbarUtil;
 
 public class HomeActivity extends BaseActivity implements HomeMvpView {
 
+    @Inject
+    SharedPreferenceHelper sharedPreferenceHelper;
 
     @BindView(R.id.activity_home_container)
     RelativeLayout mContainer;
@@ -54,6 +59,8 @@ public class HomeActivity extends BaseActivity implements HomeMvpView {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         ButterKnife.bind(this);
+
+        getPresenterComponent().inject(this);
 
         setupBottomNavigation();
         //createFakeNotification();
@@ -92,7 +99,7 @@ public class HomeActivity extends BaseActivity implements HomeMvpView {
         mViewpagerAdapter.addFragment(preferenceFragment);
 
         mViewPager.setAdapter(mViewpagerAdapter);
-        mViewPager.setCurrentItem(Constants.CONST_HOME_ACTIVITY_START_HOME_PAGE);
+        mViewPager.setCurrentItem(sharedPreferenceHelper.getStartFragment().getFragmentIndex());
     }
 
     private void setupBottomNavigation() {
@@ -101,7 +108,7 @@ public class HomeActivity extends BaseActivity implements HomeMvpView {
         mBottomNavigation.addItem(new AHBottomNavigationItem(getString(R.string.title_coins), R.drawable.ic_nav_bottom_coin));
         mBottomNavigation.addItem(new AHBottomNavigationItem(getString(R.string.title_favorites), R.drawable.ic_nav_bottom_favorite));
         mBottomNavigation.addItem(new AHBottomNavigationItem(getString(R.string.title_settings), R.drawable.ic_nav_bottom_settings));
-        mBottomNavigation.setCurrentItem(Constants.CONST_HOME_ACTIVITY_START_HOME_PAGE);
+        mBottomNavigation.setCurrentItem(sharedPreferenceHelper.getStartFragment().getFragmentIndex());
 
 
         mBottomNavigation.setOnTabSelectedListener((position, wasSelected) -> {

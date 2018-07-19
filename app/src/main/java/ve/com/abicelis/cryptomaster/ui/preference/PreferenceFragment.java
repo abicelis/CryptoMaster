@@ -24,6 +24,7 @@ import com.takisoft.fix.support.v7.preference.PreferenceFragmentCompatDividers;
 import ve.com.abicelis.cryptomaster.R;
 import ve.com.abicelis.cryptomaster.data.local.SharedPreferenceHelper;
 import ve.com.abicelis.cryptomaster.data.model.Currency;
+import ve.com.abicelis.cryptomaster.data.model.StartFragment;
 import ve.com.abicelis.cryptomaster.ui.about.AboutActivity;
 
 /**
@@ -33,6 +34,7 @@ public class PreferenceFragment extends PreferenceFragmentCompatDividers {
 
     //UI
     private ListPreference mDefaultCurrency;
+    private ListPreference mStartFragment;
     private Preference mBackup;
     private Preference mAbout;
     private Preference mRate;
@@ -67,6 +69,18 @@ public class PreferenceFragment extends PreferenceFragmentCompatDividers {
             new SharedPreferenceHelper().setDefaultCurrency(currency);
             return true;
         });
+
+        mStartFragment = (ListPreference) findPreference(getResources().getString(R.string.fragment_preference_start_fragment_key));
+        mStartFragment.setSummary(new SharedPreferenceHelper().getStartFragment().getFriendlyName());
+        mStartFragment.setEntries(StartFragment.getEntries());
+        mStartFragment.setEntryValues(StartFragment.getEntryValues());
+        mStartFragment.setOnPreferenceChangeListener((Preference preference, Object newValue) -> {
+            StartFragment startFragment = StartFragment.valueOf((String) newValue);
+            mStartFragment.setSummary(startFragment.getFriendlyName());
+            new SharedPreferenceHelper().setStartFragment(startFragment);
+            return true;
+        });
+
 
 //        mBackup = findPreference(getString(R.string.fragment_preference_backup_key));
 //        mBackup.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {

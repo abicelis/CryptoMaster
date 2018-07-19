@@ -31,10 +31,6 @@ public class Constants {
     public static final int                     MISC_CHART_ANIMATION_DURATION =                     500;
 
 
-    /* HOME ACTIVITY */
-    public static final int                     CONST_HOME_ACTIVITY_START_HOME_PAGE = 2;
-
-
     /* COIN DETAIL ACTIVITY */
     public static final String                  EXTRA_COIN_DETAIL_COIN_ID =                          "EXTRA_COIN_DETAIL_COIN_ID";
 
