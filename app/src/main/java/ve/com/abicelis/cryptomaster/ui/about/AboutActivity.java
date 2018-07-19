@@ -49,8 +49,8 @@ public class AboutActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)              //Enable fancy custom activity transitions
-            getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
+        //if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)              //Enable fancy custom activity transitions
+        //    getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about);
