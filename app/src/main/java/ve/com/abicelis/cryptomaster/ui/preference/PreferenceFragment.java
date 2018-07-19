@@ -84,13 +84,13 @@ public class PreferenceFragment extends PreferenceFragmentCompatDividers {
             public boolean onPreferenceClick(Preference preference) {
                 Intent goToAboutActivity = new Intent(mActivity, AboutActivity.class);
 
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                //if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                     //mActivity.getWindow().setEnterTransition(new Explode());
-                    mActivity.getWindow().setExitTransition(new Fade(Visibility.MODE_OUT));
-                    startActivity(goToAboutActivity, ActivityOptions.makeSceneTransitionAnimation(mActivity).toBundle());
-                } else {
+                    //mActivity.getWindow().setExitTransition(new Fade(Visibility.MODE_OUT));
+                    //startActivity(goToAboutActivity, ActivityOptions.makeSceneTransitionAnimation(mActivity).toBundle());
+                //} else {
                     startActivity(goToAboutActivity);
-                }
+                //}
                 return true;
             }
         });
