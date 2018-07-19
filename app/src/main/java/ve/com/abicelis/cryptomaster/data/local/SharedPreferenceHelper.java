@@ -9,6 +9,7 @@ import ve.com.abicelis.cryptomaster.application.CryptoMasterApplication;
 import ve.com.abicelis.cryptomaster.data.model.AppThemeType;
 import ve.com.abicelis.cryptomaster.data.model.CoinsToFetch;
 import ve.com.abicelis.cryptomaster.data.model.Currency;
+import ve.com.abicelis.cryptomaster.data.model.StartFragment;
 
 /**
  * Created by abice on 1/4/2017.
@@ -33,7 +34,7 @@ public class SharedPreferenceHelper {
         }
 
         if(pref == null) {
-            Timber.d("getCoinsToFetch() found null, setting TOP_50");
+            Timber.w("getCoinsToFetch() found null, setting TOP_50");
             pref = CoinsToFetch.TOP_50;
             setCoinsToFetch(pref);
         }
@@ -61,7 +62,7 @@ public class SharedPreferenceHelper {
         }
 
         if(pref == null) {
-            Timber.d("getDefaultCurrency() found null, setting USD");
+            Timber.w("getDefaultCurrency() found null, setting USD");
             pref = Currency.USD;
             setDefaultCurrency(pref);
         }
@@ -73,6 +74,29 @@ public class SharedPreferenceHelper {
     }
 
 
+
+
+    /* START FRAGMENT */
+    public StartFragment getStartFragment() {
+        String value = mSharedPreferences.getString(Constants.SHARED_PREFERENCE_START_FRAGMENT, null);
+        StartFragment pref;
+        try {
+            pref = StartFragment.valueOf(value);
+        } catch (Exception e) {
+            pref = null;
+        }
+
+        if(pref == null) {
+            Timber.w("getStartFragment() found null, setting COINS");
+            pref = StartFragment.COINS;
+            setStartFragment(pref);
+        }
+
+        return pref;
+    }
+    public void setStartFragment(StartFragment value) {
+        mSharedPreferences.edit().putString(Constants.SHARED_PREFERENCE_START_FRAGMENT, value.name()).apply();
+    }
 
 
 
@@ -90,7 +114,7 @@ public class SharedPreferenceHelper {
         }
 
         if(pref == null) {
-            Timber.d("getAppThemeType() found null, setting DARK");
+            Timber.w("getAppThemeType() found null, setting DARK");
             pref = AppThemeType.DARK;
             setAppThemeType(pref);
         }

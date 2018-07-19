@@ -49,6 +49,7 @@ public class Constants {
     public static final String                  SHARED_PREFERENCE_APP_THEME_TYPE =                  "SHARED_PREFERENCE_APP_THEME_TYPE";
     public static final String                  SHARED_PREFERENCE_COINS_TO_FETCH =                  "SHARED_PREFERENCE_COINS_TO_FETCH";
     public static final String                  SHARED_PREFERENCE_CURRENCY =                        "SHARED_PREFERENCE_CURRENCY";
+    public static final String                  SHARED_PREFERENCE_START_FRAGMENT =                  "SHARED_PREFERENCE_START_FRAGMENT";
 
 
     /* ROOM DATABASE */
