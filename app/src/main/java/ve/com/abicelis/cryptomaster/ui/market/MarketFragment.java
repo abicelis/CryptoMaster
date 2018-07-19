@@ -15,6 +15,7 @@ import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.XAxis;
@@ -36,6 +37,7 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import ve.com.abicelis.cryptomaster.R;
+import ve.com.abicelis.cryptomaster.application.Constants;
 import ve.com.abicelis.cryptomaster.application.Message;
 import ve.com.abicelis.cryptomaster.data.model.ChartTimeSpan;
 import ve.com.abicelis.cryptomaster.data.model.coinmarketcapgraph.DominanceChartData;
@@ -292,7 +294,7 @@ public class MarketFragment extends BaseFragment implements MarketMvpView, View.
         //mMarketCapChart.setScaleEnabled(false);
         mMarketCapChart.getDescription().setEnabled(false);
         mMarketCapChart.getLegend().setEnabled(false);
-        mMarketCapChart.invalidate(); // refresh
+        mMarketCapChart.animateX(Constants.MISC_CHART_ANIMATION_DURATION, Constants.MISC_CHART_ANIMATION_EASING);
     }
     @Override
     public void marketCapSetLast(String text) {
@@ -445,7 +447,7 @@ public class MarketFragment extends BaseFragment implements MarketMvpView, View.
         mDominanceChart.getDescription().setEnabled(false);
         mDominanceChart.getLegend().setTextColor(color);
         mDominanceChart.setRenderer(new StackedLineChartRenderer(mDominanceChart, mDominanceChart.getAnimator(), mDominanceChart.getViewPortHandler()));
-        mDominanceChart.invalidate(); // refresh
+        mDominanceChart.animateX(Constants.MISC_CHART_ANIMATION_DURATION, Constants.MISC_CHART_ANIMATION_EASING);
     }
 
     @Override
