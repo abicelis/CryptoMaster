@@ -92,7 +92,7 @@ public class HomeActivity extends BaseActivity implements HomeMvpView {
         mViewpagerAdapter.addFragment(preferenceFragment);
 
         mViewPager.setAdapter(mViewpagerAdapter);
-        mViewPager.setCurrentItem(Constants.MISC_START_HOME_PAGE);
+        mViewPager.setCurrentItem(Constants.CONST_HOME_ACTIVITY_START_HOME_PAGE);
     }
 
     private void setupBottomNavigation() {
@@ -101,7 +101,7 @@ public class HomeActivity extends BaseActivity implements HomeMvpView {
         mBottomNavigation.addItem(new AHBottomNavigationItem(getString(R.string.title_coins), R.drawable.ic_nav_bottom_coin));
         mBottomNavigation.addItem(new AHBottomNavigationItem(getString(R.string.title_favorites), R.drawable.ic_nav_bottom_favorite));
         mBottomNavigation.addItem(new AHBottomNavigationItem(getString(R.string.title_settings), R.drawable.ic_nav_bottom_settings));
-        mBottomNavigation.setCurrentItem(Constants.MISC_START_HOME_PAGE);
+        mBottomNavigation.setCurrentItem(Constants.CONST_HOME_ACTIVITY_START_HOME_PAGE);
 
 
         mBottomNavigation.setOnTabSelectedListener((position, wasSelected) -> {

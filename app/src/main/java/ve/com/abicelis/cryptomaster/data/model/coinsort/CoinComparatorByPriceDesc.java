@@ -10,6 +10,6 @@ import ve.com.abicelis.cryptomaster.data.model.Coin;
 public class CoinComparatorByPriceDesc implements Comparator<Coin> {
     @Override
     public int compare(Coin o1, Coin o2) {
-        return (Double.compare(o2.getPrice(), o1.getPrice()));
+        return (Double.compare(o2.getQuoteUsdPrice(), o1.getQuoteUsdPrice()));
     }
 }
