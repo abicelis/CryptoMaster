@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "74d4c2353dd173a61878ce7a7f6bb8ae",
+    "identityHash": "e39ef59c986d693170d0c07f46e8d3d2",
     "entities": [
       {
         "tableName": "coin",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`coin_id` INTEGER NOT NULL, `name` TEXT, `symbol` TEXT, `website_slug` TEXT, `rank` INTEGER NOT NULL, `circulating_supply` INTEGER NOT NULL, `total_supply` INTEGER NOT NULL, `max_supply` INTEGER NOT NULL, `last_updated` INTEGER NOT NULL, `quote_currency_symbol` TEXT, `price` REAL NOT NULL, `volume_24h` REAL NOT NULL, `market_cap` REAL NOT NULL, `percent_change_1h` REAL NOT NULL, `percent_change_24h` REAL NOT NULL, `percent_change_7d` REAL NOT NULL, PRIMARY KEY(`coin_id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`coin_id` INTEGER NOT NULL, `name` TEXT, `symbol` TEXT, `website_slug` TEXT, `rank` INTEGER NOT NULL, `circulating_supply` INTEGER NOT NULL, `total_supply` INTEGER NOT NULL, `max_supply` INTEGER NOT NULL, `last_updated` INTEGER NOT NULL, `quoteUsdPrice` REAL NOT NULL, `quote_usd_volume_24h` REAL NOT NULL, `quote_usd_market_cap` REAL NOT NULL, `quoteDefaultPrice` REAL NOT NULL, `quote_default_volume_24h` REAL NOT NULL, `quote_default_market_cap` REAL NOT NULL, `percent_change_1h` REAL NOT NULL, `percent_change_24h` REAL NOT NULL, `percent_change_7d` REAL NOT NULL, PRIMARY KEY(`coin_id`))",
         "fields": [
           {
             "fieldPath": "id",
@@ -63,26 +63,38 @@
             "notNull": true
           },
           {
-            "fieldPath": "quoteCurrencySymbol",
-            "columnName": "quote_currency_symbol",
-            "affinity": "TEXT",
-            "notNull": false
-          },
-          {
-            "fieldPath": "price",
-            "columnName": "price",
+            "fieldPath": "quoteUsdPrice",
+            "columnName": "quoteUsdPrice",
             "affinity": "REAL",
             "notNull": true
           },
           {
-            "fieldPath": "volume24h",
-            "columnName": "volume_24h",
+            "fieldPath": "quoteUsdVolume",
+            "columnName": "quote_usd_volume_24h",
             "affinity": "REAL",
             "notNull": true
           },
           {
-            "fieldPath": "marketCap",
-            "columnName": "market_cap",
+            "fieldPath": "quoteUsdMarketCap",
+            "columnName": "quote_usd_market_cap",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "quoteDefaultPrice",
+            "columnName": "quoteDefaultPrice",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "quoteDefaultVolume",
+            "columnName": "quote_default_volume_24h",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "quoteDefaultMarketCap",
+            "columnName": "quote_default_market_cap",
             "affinity": "REAL",
             "notNull": true
           },
@@ -154,7 +166,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"74d4c2353dd173a61878ce7a7f6bb8ae\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"e39ef59c986d693170d0c07f46e8d3d2\")"
     ]
   }
 }

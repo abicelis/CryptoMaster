@@ -11,16 +11,16 @@ public class MarketCapPriceAndVolumeResult {
     private long[][] marketCapByAvailableSupply;
 
     @SerializedName("price_btc")
-    private long[][] priceBtc;
+    private double[][] priceBtc;
 
     @SerializedName("price_usd")
-    private long[][] priceUsd;
+    private double[][] priceUsd;
 
     @SerializedName("volume_usd")
     private long[][] volumeUsd;
 
     public long[][] getMarketCapByAvailableSupply() { return marketCapByAvailableSupply; }
-    public long[][] getPriceBtc() { return priceBtc; }
-    public long[][] getPriceUsd() { return priceUsd; }
+    public double[][] getPriceBtc() { return priceBtc; }
+    public double[][] getPriceUsd() { return priceUsd; }
     public long[][] getVolumeUsd() { return volumeUsd; }
 }
