@@ -9,6 +9,18 @@
     <string name="title_about">About</string>
 
 
+    <!-- COIN DETAIL ACTIVITY -->
+    <string name="activity_coin_detail_title_basic_info">Basic Info</string>
+    <string name="activity_coin_detail_title_chart">Price Chart</string>
+    <string name="activity_coin_detail_title_alerts">Alerts</string>
+    <string name="activity_coin_detail_title_exchanges">Top Exchanges</string>
+
+    <string name="activity_coin_detail_basic_rank">Rank</string>
+    <string name="activity_coin_detail_basic_market_cap">Market Cap</string>
+    <string name="activity_coin_detail_basic_volume">Volume (24h)</string>
+    <string name="activity_coin_detail_basic_circulating_supply">Circulating Supply</string>
+    <string name="activity_coin_detail_basic_total_supply">Total Supply</string>
+
     <!--MARKET FRAGMENT-->
     <string name="fragment_market_total_title">Total Market Capitalization</string>
     <string name="fragment_market_dominance_title">Market Dominance</string>
@@ -19,7 +31,7 @@
     <string name="fragment_coins_removed_from_favorites">%1$s removed from Favorites</string>
     <string name="fragment_coins_header_title_name">Name</string>
     <string name="fragment_coins_header_title_price">Price</string>
-    <string name="fragment_coins_header_title_marketcap">M.Cap</string>
+    <string name="fragment_coins_header_title_markets">M.Cap</string>
     <string name="fragment_coins_header_title_volume">Vol</string>
     <string name="fragment_coins_header_title_1h">1h</string>
     <string name="fragment_coins_header_title_24h">24h</string>
