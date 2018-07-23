@@ -99,7 +99,7 @@ public class CoinsListViewHolder extends RecyclerView.ViewHolder implements View
         mName.setText(mCurrent.getName());
         mSymbol.setText(mCurrent.getSymbol());
 
-        Glide.with(mIcon).load(String.format(Constants.COINMARKETCAP_ICONS_BASE_URL, mCurrent.getId())).into(mIcon);
+        Glide.with(mIcon).load(String.format(Constants.COINMARKETCAP_ICONS_16_PX_BASE_URL, mCurrent.getId())).into(mIcon);
 
         Currency currency;
         try {

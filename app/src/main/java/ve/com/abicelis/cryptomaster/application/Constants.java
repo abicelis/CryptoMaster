@@ -29,6 +29,7 @@ public class Constants {
     public static final CoinsSortType           EXTRA_DEFAULT_COINS_SORT_TYPE =                     CoinsSortType.MCAP_DESCENDING;
     public static final Easing.EasingOption     MISC_CHART_ANIMATION_EASING =                       Easing.EasingOption.EaseInOutSine;
     public static final int                     MISC_CHART_ANIMATION_DURATION =                     500;
+    public static final int                     MISC_COINMARKETCAP_BTC_ID =                         1;
 
 
     /* COIN DETAIL ACTIVITY */
@@ -57,7 +58,8 @@ public class Constants {
     public static final String                  COINMARKETCAP_BASE_URL =                            "https://api.coinmarketcap.com/v2/";
     public static final String                  COINMARKETCAP_S2_BASE_URL =                         "https://s2.coinmarketcap.com/";
     public static final String                  COINMARKETCAP_GRAPHS_BASE_URL =                     "https://graphs2.coinmarketcap.com/";
-    public static final String                  COINMARKETCAP_ICONS_BASE_URL =                      "https://s2.coinmarketcap.com/static/img/coins/16x16/%1$s.png";
+    public static final String                  COINMARKETCAP_ICONS_16_PX_BASE_URL =                "https://s2.coinmarketcap.com/static/img/coins/16x16/%1$s.png";
+    public static final String                  COINMARKETCAP_ICONS_64_PX_BASE_URL =                "https://s2.coinmarketcap.com/static/img/coins/64x64/%1$s.png";
 
 
     /* CRYPTOCOMPARE API */
