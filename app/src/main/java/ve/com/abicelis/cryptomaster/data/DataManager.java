@@ -61,6 +61,10 @@ public class DataManager {
     }
 
 
+    public SharedPreferenceHelper getSharedPreferenceHelper() {
+        return mSharedPreferenceHelper;
+    }
+
     /**
      * Fetches remote ticker data, returns a List of Coins
      */
