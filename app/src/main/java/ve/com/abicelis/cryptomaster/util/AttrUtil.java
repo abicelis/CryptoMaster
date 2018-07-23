@@ -2,6 +2,7 @@ package ve.com.abicelis.cryptomaster.util;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.support.v4.content.ContextCompat;
 import android.util.TypedValue;
 
 import timber.log.Timber;
@@ -25,6 +26,11 @@ public class AttrUtil {
             Timber.e("Not found color resource by id: %1$d", colorRes);
         }
         return color;
+    }
+
+    public static String getAttributeColorHexString(Context context, int attributeId) {
+        int colorRes = getAttributeColorResource(context, attributeId);
+        return Integer.toHexString( ContextCompat.getColor( context, colorRes ) & 0x00ffffff );
     }
 
 
