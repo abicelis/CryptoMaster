@@ -98,7 +98,7 @@
             android:id="@+id/fragment_coin_header_mcap"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/fragment_coins_header_title_marketcap"
+            android:text="@string/fragment_coins_header_title_markets"
             android:textColor="?attr/text_secondary"
             android:maxLines="1"
             app:layout_constraintTop_toTopOf="parent"
