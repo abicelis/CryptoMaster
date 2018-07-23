@@ -15,37 +15,69 @@ public class MarketCapPriceAndVolumeChartData {
     private long lastMarketCap;
     private List<Entry> priceUsdEntries;
     private double lastPriceUsd;
-    private List<Entry> priceBtcEntries;
-    private double lastPriceBtc;
+    private List<Entry> priceDefaultCurrencyEntries;
+    private double lastPriceDefaultCurrency;
     private List<Entry> volumeEntries;
     private long lastVolume;
     private List<Long> timestamps;
     private ChartTimeSpan chartTimeSpan;
 
+    //Extra chart data
+    private double priceBtcMin;
+    private double priceBtcMax;
+    private double priceBtcVariation;
+    private double percentageBtcVariation;
+
+    private double priceDefaultCurrencyMin;
+    private double priceDefaultCurrencyMax;
+    private double priceDefaultCurrencyVariation;
+    private double percentageDefaultCurrencyVariation;
+
+
     public MarketCapPriceAndVolumeChartData(List<Entry> marketCapEntries, long lastMarketCap, List<Entry> priceUsdEntries, double lastPriceUsd,
-                                            List<Entry> priceBtcEntries, double lastPriceBtc, List<Entry> volumeEntries, long lastVolume,
-                                            List<Long> timestamps, ChartTimeSpan chartTimeSpan) {
+                                            List<Entry> priceDefaultCurrencyEntries, double lastPriceDefaultCurrency, List<Entry> volumeEntries, long lastVolume,
+                                            List<Long> timestamps, ChartTimeSpan chartTimeSpan, double priceBtcMin, double priceBtcMax, double priceBtcVariation, double percentageBtcVariation,
+                                            double priceDefaultCurrencyMin, double priceDefaultCurrencyMax, double priceDefaultCurrencyVariation, double percentageDefaultCurrencyVariation) {
         this.marketCapEntries = marketCapEntries;
         this.lastMarketCap = lastMarketCap;
         this.priceUsdEntries = priceUsdEntries;
         this.lastPriceUsd = lastPriceUsd;
-        this.priceBtcEntries = priceBtcEntries;
-        this.lastPriceBtc = lastPriceBtc;
+        this.priceDefaultCurrencyEntries = priceDefaultCurrencyEntries;
+        this.lastPriceDefaultCurrency = lastPriceDefaultCurrency;
         this.volumeEntries = volumeEntries;
         this.lastVolume = lastVolume;
         this.timestamps = timestamps;
         this.chartTimeSpan = chartTimeSpan;
+
+        this.priceBtcMin = priceBtcMin;
+        this.priceBtcMax = priceBtcMax;
+        this.priceBtcVariation = priceBtcVariation;
+        this.percentageBtcVariation = percentageBtcVariation;
+
+        this.priceDefaultCurrencyMin = priceDefaultCurrencyMin;
+        this.priceDefaultCurrencyMax = priceDefaultCurrencyMax;
+        this.priceDefaultCurrencyVariation = priceDefaultCurrencyVariation;
+        this.percentageDefaultCurrencyVariation = percentageDefaultCurrencyVariation;
     }
 
     public List<Entry> getMarketCapEntries() { return marketCapEntries; }
     public long getLastMarketCap() { return lastMarketCap; }
     public List<Entry> getPriceUsdEntries() { return priceUsdEntries; }
     public double getLastPriceUsd() { return lastPriceUsd; }
-    public List<Entry> getPriceBtcEntries() { return priceBtcEntries; }
-    public double getLastPriceBtc() { return lastPriceBtc; }
+    public List<Entry> getPriceDefaultCurrencyEntries() { return priceDefaultCurrencyEntries; }
+    public double getLastPriceDefaultCurrency() { return lastPriceDefaultCurrency; }
     public List<Entry> getVolumeEntries() { return volumeEntries; }
     public long getLastVolume() { return lastVolume; }
     public List<Long> getTimestamps() { return timestamps; }
     public ChartTimeSpan getChartTimeSpan() { return chartTimeSpan; }
 
+    public double getPriceBtcMin() { return priceBtcMin; }
+    public double getPriceBtcMax() { return priceBtcMax; }
+    public double getPriceBtcVariation() { return priceBtcVariation; }
+    public double getPercentageBtcVariation() { return percentageBtcVariation; }
+
+    public double getPriceDefaultCurrencyMin() { return priceDefaultCurrencyMin; }
+    public double getPriceDefaultCurrencyMax() { return priceDefaultCurrencyMax; }
+    public double getPriceDefaultCurrencyVariation() { return priceDefaultCurrencyVariation; }
+    public double getPercentageDefaultCurrencyVariation() { return percentageDefaultCurrencyVariation; }
 }
