@@ -38,7 +38,7 @@
     <!--Main colors: AppTheme Dark-->
     <color name="dark_default_divider">#0E1A23</color>
     <color name="dark_default_background">#272E47</color>
-    <color name="dark_default_foreground">#394363</color>
+    <color name="dark_default_foreground">#333c59</color>
     <color name="dark_default_accent">#3d5afe</color>
     <color name="dark_chart_highlight">#FFFFFF</color>
     <color name="dark_chart_line">#0ED696</color>
@@ -49,19 +49,19 @@
     <color name="dark_chart_line_6">#ff5722</color>
     <color name="dark_chart_grid_line">#687fcb</color>
     <color name="dark_chart_loading_background">#BB272E47</color>
-    <color name="dark_chart_button_active">#364FDB</color>
-    <color name="dark_chart_button_inactive">#687fcb</color>
+    <color name="dark_chart_button_active">#c5cae9</color>
+    <color name="dark_chart_button_inactive">#3f51b5</color>
     <color name="dark_text_title">#FFFFFF</color>
     <color name="dark_text_primary">#FFFFFF</color>
     <color name="dark_text_secondary">#9FA8DA</color>
     <color name="dark_text_disabled">#8D8D8D</color>
     <color name="dark_text_positive">#0ED696</color>
-    <color name="dark_text_negative">#F1563A</color>
+    <color name="dark_text_negative">#e53935</color>
     <color name="dark_bottom_nav_background">#3f51b5</color>
     <color name="dark_bottom_nav_icon_selected">#e8eaf6</color>
     <color name="dark_bottom_nav_icon_unselected">#7986cb</color>
     <color name="dark_bottom_nav_notification_background">#e53935</color>
     <color name="dark_bottom_nav_notification_text">#FFFFFF</color>
-    <color name="dark_button_not_checked">#424242</color>
+    <color name="dark_button_not_checked">#333c59</color>
 
 </resources>
