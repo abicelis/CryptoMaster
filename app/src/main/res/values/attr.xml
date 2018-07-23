@@ -19,6 +19,7 @@
     <attr name="text_title" format="reference|color" />
     <attr name="text_primary" format="reference|color" />
     <attr name="text_secondary" format="reference|color" />
+    <attr name="text_disabled" format="reference|color" />
     <attr name="text_positive" format="reference|color" />
     <attr name="text_negative" format="reference|color" />
     <attr name="bottom_nav_background" format="reference|color" />
@@ -26,4 +27,5 @@
     <attr name="bottom_nav_icon_unselected" format="reference|color" />
     <attr name="bottom_nav_notification_background" format="reference|color" />
     <attr name="bottom_nav_notification_text" format="reference|color" />
+    <attr name="button_not_checked" format="reference|color" />
 </resources>

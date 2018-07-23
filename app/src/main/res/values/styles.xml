@@ -26,6 +26,7 @@
         <item name="text_title">@color/text_title</item>
         <item name="text_primary">@color/text_primary</item>
         <item name="text_secondary">@color/text_secondary</item>
+        <item name="text_disabled">@color/text_disabled</item>
         <item name="text_positive">@color/text_positive</item>
         <item name="text_negative">@color/text_negative</item>
         <item name="bottom_nav_background">@color/bottom_nav_background</item>
@@ -33,6 +34,7 @@
         <item name="bottom_nav_icon_unselected">@color/bottom_nav_icon_unselected</item>
         <item name="bottom_nav_notification_background">@color/bottom_nav_notification_background</item>
         <item name="bottom_nav_notification_text">@color/bottom_nav_notification_text</item>
+        <item name="button_not_checked">@color/button_not_checked</item>
 
         <item name="android:fontFamily">@font/nunito_extralight</item>
     </style>
@@ -63,6 +65,7 @@
         <item name="text_title">@color/dark_text_title</item>
         <item name="text_primary">@color/dark_text_primary</item>
         <item name="text_secondary">@color/dark_text_secondary</item>
+        <item name="text_disabled">@color/dark_text_disabled</item>
         <item name="text_positive">@color/dark_text_positive</item>
         <item name="text_negative">@color/dark_text_negative</item>
         <item name="bottom_nav_background">@color/dark_bottom_nav_background</item>
@@ -70,8 +73,15 @@
         <item name="bottom_nav_icon_unselected">@color/dark_bottom_nav_icon_unselected</item>
         <item name="bottom_nav_notification_background">@color/dark_bottom_nav_notification_background</item>
         <item name="bottom_nav_notification_text">@color/dark_bottom_nav_notification_text</item>
+        <item name="button_not_checked">@color/dark_button_not_checked</item>
 
         <item name="android:fontFamily">@font/nunito_extralight</item>
+    </style>
+
+    <style name="ToggleButton" parent="Base.Widget.AppCompat.Button.Colored">
+        <!--<item name="colorAccent">@color/snackbar_error_background</item>-->
+        <!--<item name="colorButtonNormal">@color/snackbar_notice_background</item>-->
+        <!--<item name="android:buttonTint">@color/chart_line_4</item>-->
     </style>
 
 
