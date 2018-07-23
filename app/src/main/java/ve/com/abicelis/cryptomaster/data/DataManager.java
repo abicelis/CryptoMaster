@@ -209,7 +209,18 @@ public class DataManager {
     }
 
     public Maybe<Coin> getLocalCoin(long coinId) {
-        return  mAppDatabase.coinDao().getById(coinId);
+        return  mAppDatabase.coinDao().getById(coinId)
+                .map(coin -> {
+                    if(mSharedPreferenceHelper.getDefaultCurrency() == Currency.BTC) {
+                        coin.setQuoteBtcPrice(coin.getQuoteDefaultPrice());
+                    } else {
+                        Coin btc = mAppDatabase.coinDao().getBySymbol(Currency.BTC.getCode()).blockingGet();
+                        double btcPrice = coin.getQuoteUsdPrice() / btc.getQuoteUsdPrice();
+                        coin.setQuoteBtcPrice(btcPrice);
+                    }
+
+                    return coin;
+                });
     }
 
     /**
@@ -353,37 +364,68 @@ public class DataManager {
     public Single<MarketCapPriceAndVolumeChartData> getCurrencyMarketCapPriceAndVolumeGraphData(String websiteSlug, long timeStart, long timeEnd, ChartTimeSpan chartTimeSpan) {
         return mCoinMarketCapGraphApi.getCurrencyMarketCapPriceAndVolumeGraphData(websiteSlug, timeStart, timeEnd)
                 .map(result -> {
+                    long[][] mcapVals = result.getMarketCapByAvailableSupply();
+                    long[][] volumeVals = result.getVolumeUsd();
+                    double[][] priceBtcVals = result.getPriceBtc();
+                    double[][] priceUsdVals = result.getPriceUsd();
 
+                    //TODO: get BTC / DefCurr or USD / DefCurr exchange here, unless DefCurr is BTC or USD.. in which case just use available result.getPriceBtc or result.getPriceUsd
 
                     List<Entry> marketCapEntries = new ArrayList<>();
-                    List<Entry> priceUsdEntries = new ArrayList<>();
-                    List<Entry> priceBtcEntries = new ArrayList<>();
                     List<Entry> volumeEntries = new ArrayList<>();
+                    List<Entry> priceBtcEntries = new ArrayList<>();
+                    List<Entry> priceDefaultCurrencyEntries = new ArrayList<>();
                     List<Long> timestamps = new ArrayList<>();
 
-                    long[][] mcapVals = result.getMarketCapByAvailableSupply();
-                    double[][] priceUsdVals = result.getPriceUsd();
-                    double[][] priceBtcVals = result.getPriceBtc();
-                    long[][] volumeVals = result.getVolumeUsd();
+                    double priceBtcMin = Double.MAX_VALUE;
+                    double priceBtcMax = 0;
+                    double priceDefaultCurrencyMin = Double.MAX_VALUE;
+                    double priceDefaultCurrencyMax = 0;
 
-                    int increment = calculateIncrementFor(result.getMarketCapByAvailableSupply().length);
+                    int length = result.getMarketCapByAvailableSupply().length;
+                    int increment = calculateIncrementFor(length);
                     int count = 0;
-                    for (int i = 0; i < result.getMarketCapByAvailableSupply().length; i+=increment) {
+                    for (int i = 0; i < length; i+=increment) {
 
                         long x = mcapVals[i][0];
                         float yMcap = ((float) mcapVals[i][1]) / Constants.MISC_BILLION_DIVIDER;
                         float yVol = ((float) volumeVals[i][1]) / Constants.MISC_BILLION_DIVIDER;
-
                         marketCapEntries.add(new Entry(count, yMcap));
-                        priceUsdEntries.add(new Entry(count, (float)priceUsdVals[i][1]));
-                        priceBtcEntries.add(new Entry(count, (float)priceBtcVals[i][1]));
                         volumeEntries.add(new Entry(count, yVol));
+
+                        //Get min and max
+                        if(priceBtcVals[i][1] < priceBtcMin) priceBtcMin = priceBtcVals[i][1];
+                        if(priceBtcVals[i][1] > priceBtcMax) priceBtcMax = priceBtcVals[i][1];
+                        priceBtcEntries.add(new Entry(count, (float)priceBtcVals[i][1]));
+
+
+                        double priceDefaultCurrencyVal = priceUsdVals[i][1];                                    //TODO NEED TO CONVERT USD TO DEFAULT CURRENCY PROPERLY!!
+                        //Get min and max
+                        if(priceDefaultCurrencyVal < priceDefaultCurrencyMin) priceDefaultCurrencyMin = priceDefaultCurrencyVal;
+                        if(priceDefaultCurrencyVal > priceDefaultCurrencyMax) priceDefaultCurrencyMax = priceDefaultCurrencyVal;
+                        priceDefaultCurrencyEntries.add(new Entry(count, (float)priceDefaultCurrencyVal));
+
                         timestamps.add(x);
                         count++;
                     }
 
-                    //Collections.sort(entries, new EntryXComparator());
-                    return new MarketCapPriceAndVolumeChartData(marketCapEntries, mcapVals[mcapVals.length-1][1], priceUsdEntries, priceUsdVals[priceUsdVals.length-1][1], priceBtcEntries, priceBtcVals[priceBtcVals.length-1][1],  volumeEntries, volumeVals[volumeVals.length-1][1], timestamps, chartTimeSpan);
+                    //Calculate start, end, price and percentage variations
+                    double priceBtcStart = priceBtcVals[0][1];
+                    double priceBtcEnd = priceBtcVals[length-1][1];
+                    double priceBtcVariation = priceBtcEnd - priceBtcStart;
+                    double percentageBtcVariation = (priceBtcVariation*100)/Math.min(priceBtcStart, priceBtcEnd);
+
+                    double priceDefaultCurrencyStart = priceUsdVals[0][1];                                              //TODO NEED TO CONVERT USD TO DEFAULT CURRENCY PROPERLY!!
+                    double priceDefaultCurrencyEnd = priceUsdVals[length-1][1];                                           //TODO NEED TO CONVERT USD TO DEFAULT CURRENCY PROPERLY!!
+                    double priceDefaultCurrencyVariation = priceDefaultCurrencyEnd - priceDefaultCurrencyStart;
+                    double percentageDefaultCurrencyVariation = (priceDefaultCurrencyVariation*100)/Math.min(priceDefaultCurrencyStart, priceDefaultCurrencyEnd);
+
+
+                    return new MarketCapPriceAndVolumeChartData(marketCapEntries, mcapVals[mcapVals.length-1][1],
+                            priceDefaultCurrencyEntries, priceDefaultCurrencyEnd, priceBtcEntries, priceBtcEnd,
+                            volumeEntries, volumeVals[volumeVals.length-1][1], timestamps, chartTimeSpan,
+                            priceBtcMin, priceBtcMax, priceBtcVariation, percentageBtcVariation,
+                            priceDefaultCurrencyMin, priceDefaultCurrencyMax, priceDefaultCurrencyVariation, percentageDefaultCurrencyVariation);
                 });
     }
 
