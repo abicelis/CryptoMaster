@@ -46,14 +46,14 @@ public class CoinDetailPresenter extends BasePresenter<CoinDetailActivity> {
         mDefaultCurrency = mDataManager.getSharedPreferenceHelper().getDefaultCurrency();
 
         addDisposable(mDataManager.getLocalCoin(mCoinId)
-        .subscribeOn(Schedulers.io())
-        .observeOn(AndroidSchedulers.mainThread())
-        .subscribe(coin -> {
-            mCoin = coin;
-            getMvpView().showBasicCoinData(coin, mDefaultCurrency);
-        }, throwable -> {
-            getMvpView().showMessage(Message.ERROR_UNEXPECTED, null);
-        }));
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(coin -> {
+                    mCoin = coin;
+                    getMvpView().showBasicCoinData(coin, mDefaultCurrency);
+                }, throwable -> {
+                    getMvpView().showMessage(Message.ERROR_UNEXPECTED, null);
+                }));
     }
 
     public Coin getCoin(){
@@ -122,17 +122,20 @@ public class CoinDetailPresenter extends BasePresenter<CoinDetailActivity> {
         return timeStart;
     }
 
-    public void onBtcToggledForChart() {
-        if(!usingBtcForChartData) {
+    public void onBtcClickedForChart() {
+        if(!usingBtcForChartData && !mLoadingMainChart && mChartData != null) {
             usingBtcForChartData = true;
             getMvpView().showChart(mChartData, usingBtcForChartData, mDefaultCurrency);
+            getMvpView().toggleBtcButton();
         }
+
     }
 
-    public void onDefaultCurrencyToggledForChart() {
-        if(usingBtcForChartData) {
+    public void onDefaultCurrencyClickedForChart() {
+        if(usingBtcForChartData && !mLoadingMainChart && mChartData != null) {
             usingBtcForChartData = false;
             getMvpView().showChart(mChartData, usingBtcForChartData, mDefaultCurrency);
+            getMvpView().toggleDefaultCurrencyButton();
         }
     }
 }

@@ -18,4 +18,7 @@ public interface CoinDetailMvpView extends MvpView {
     void chartActivateButton(ChartTimeSpan chartTimeSpan);
 
     void showBasicCoinData(Coin coin, Currency defaultCurrency);
+
+    void toggleBtcButton();
+    void toggleDefaultCurrencyButton();
 }
