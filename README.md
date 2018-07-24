@@ -8,10 +8,12 @@ Please check out the prototype by clicking [right here!](https://abicelis.github
 
 ## Screenshots (v0.1)
 
-[ ![](https://github.com/abicelis/CryptoMaster/blob/master/graphics/play_store/screens/v1.0/thumbs/Screenshot_1531800405.jpg) ](https://github.com/abicelis/CryptoMaster/blob/master/graphics/play_store/screens/v1.0/Screenshot_1531800405.png)
-[ ![](https://github.com/abicelis/CryptoMaster/blob/master/graphics/play_store/screens/v1.0/thumbs/Screenshot_1531800420.jpg) ](https://github.com/abicelis/CryptoMaster/blob/master/graphics/play_store/screens/v1.0/Screenshot_1531800420.png)
-[ ![](https://github.com/abicelis/CryptoMaster/blob/master/graphics/play_store/screens/v1.0/thumbs/Screenshot_1531800435.jpg) ](https://github.com/abicelis/CryptoMaster/blob/master/graphics/play_store/screens/v1.0/Screenshot_1531800435.png)
-[ ![](https://github.com/abicelis/CryptoMaster/blob/master/graphics/play_store/screens/v1.0/thumbs/Screenshot_1531800442.jpg) ](https://github.com/abicelis/CryptoMaster/blob/master/graphics/play_store/screens/v1.0/Screenshot_1531800442.png)
+[ ![](https://github.com/abicelis/CryptoMaster/blob/master/graphics/play_store/screens/v0.1/thumbs/Screenshot_1531800405.jpg) ](https://github.com/abicelis/CryptoMaster/blob/master/graphics/play_store/screens/v0.1/Screenshot_1531800405.png)
+[ ![](https://github.com/abicelis/CryptoMaster/blob/master/graphics/play_store/screens/v0.1/thumbs/Screenshot_1531800420.jpg) ](https://github.com/abicelis/CryptoMaster/blob/master/graphics/play_store/screens/v0.1/Screenshot_1531800420.png)
+[ ![](https://github.com/abicelis/CryptoMaster/blob/master/graphics/play_store/screens/v0.1/thumbs/Screenshot_1531800435.jpg) ](https://github.com/abicelis/CryptoMaster/blob/master/graphics/play_store/screens/v0.1/Screenshot_1531800435.png)
+[ ![](https://github.com/abicelis/CryptoMaster/blob/master/graphics/play_store/screens/v0.1/thumbs/Screenshot_1531800442.jpg) ](https://github.com/abicelis/CryptoMaster/blob/master/graphics/play_store/screens/v0.1/Screenshot_1531800442.png)
+[ ![](https://github.com/abicelis/CryptoMaster/blob/master/graphics/play_store/screens/v0.3/thumbs/Screenshot_1532397819.jpg) ](https://github.com/abicelis/CryptoMaster/blob/master/graphics/play_store/screens/v0.3/Screenshot_1532397819.png)
+[ ![](https://github.com/abicelis/CryptoMaster/blob/master/graphics/play_store/screens/v0.3/thumbs/Screenshot_1532397829.jpg) ](https://github.com/abicelis/CryptoMaster/blob/master/graphics/play_store/screens/v0.3/Screenshot_1532397829.png)
 
 
 
