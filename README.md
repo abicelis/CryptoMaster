@@ -6,7 +6,7 @@ Please check out the prototype by clicking [right here!](https://abicelis.github
 
 <a target="_blank" href='https://play.google.com/store/apps/details?id=ve.com.abicelis.cryptomaster&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png' width="240px"/></a>
 
-## Screenshots (v0.1)
+## Screenshots (v0.3)
 
 [ ![](https://github.com/abicelis/CryptoMaster/blob/master/graphics/play_store/screens/v0.1/thumbs/Screenshot_1531800405.jpg) ](https://github.com/abicelis/CryptoMaster/blob/master/graphics/play_store/screens/v0.1/Screenshot_1531800405.png)
 [ ![](https://github.com/abicelis/CryptoMaster/blob/master/graphics/play_store/screens/v0.1/thumbs/Screenshot_1531800420.jpg) ](https://github.com/abicelis/CryptoMaster/blob/master/graphics/play_store/screens/v0.1/Screenshot_1531800420.png)
