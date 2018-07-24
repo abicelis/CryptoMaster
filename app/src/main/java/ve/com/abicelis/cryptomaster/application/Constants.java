@@ -40,6 +40,7 @@ public class Constants {
     public static final int                     COINS_FRAGMENT_FAVORITE_DELAY =                     3000;
     public static final String                  COINS_FRAGMENT_TYPE =                               "COINS_FRAGMENT_TYPE";
     public static final long                    COINS_FRAGMENT_MAX_SECONDS_SINCE_LAST_UPDATE =      1; //300;    //60 * 5. 5min
+    public static final long                    COINS_FRAGMENT_COIN_LIST_MAX_DECIMALS =             4;
 
 
     /* SHARED PREFERENCES */

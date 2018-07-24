@@ -19,6 +19,7 @@ import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import okhttp3.internal.platform.ConscryptPlatform;
 import timber.log.Timber;
 import ve.com.abicelis.cryptomaster.R;
 import ve.com.abicelis.cryptomaster.application.Constants;
@@ -89,40 +90,32 @@ public class CoinsListViewHolder extends RecyclerView.ViewHolder implements View
     public void setData(CoinsListPresenter presenter, Coin current) {
         mPresenter = presenter;
         mCurrent = current;
-
         mCurrent.coinsListViewHolderState = CoinsListViewHolderState.NORMAL;
+        Currency currency = new SharedPreferenceHelper().getDefaultCurrency();
 
         if (mFavoriteHandler != null)
             mFavoriteHandler.removeCallbacksAndMessages(null);
         mFavorite.setVisibility(View.GONE);
-
         mName.setText(mCurrent.getName());
         mSymbol.setText(mCurrent.getSymbol());
 
         Glide.with(mIcon).load(String.format(Constants.COINMARKETCAP_ICONS_16_PX_BASE_URL, mCurrent.getId())).into(mIcon);
 
-        Currency currency;
-        try {
-            currency = new SharedPreferenceHelper().getDefaultCurrency();
-        } catch (Exception e) {
-            currency = Currency.USD;
-            Timber.w("Unrecognized mCurrent.getQuoteCurrencySymbol(), using USD: " + currency.getCode());
-        }
 
-        String price, mcap, volume;
-        if(currency.hasSymbol()) {
-            price = currency.getSymbol() + StringUtil.limitDecimals(mCurrent.getQuoteDefaultPrice(),3);
-            mcap = currency.getSymbol() + StringUtil.withSuffix(mCurrent.getQuoteDefaultMarketCap());
-            volume = currency.getSymbol() + StringUtil.withSuffix(mCurrent.getQuoteDefaultVolume());
-        } else {
-            price = StringUtil.limitDecimals(mCurrent.getQuoteDefaultPrice(),3)   + " " + currency.getCode();
-            mcap = StringUtil.withSuffix(mCurrent.getQuoteDefaultMarketCap())   + " " + currency.getCode();
-            volume = StringUtil.withSuffix(mCurrent.getQuoteDefaultVolume()) + " " + currency.getCode();
-        }
+        String currencySymbol = (currency.hasSymbol() ? currency.getSymbol() : "");
+        String currencyCode = (currency.hasSymbol() ? "" : currency.getCode());
+        String tinyPrice = "";
+        double tinyPriceComparator = (1.0/Math.pow(10, Constants.COINS_FRAGMENT_COIN_LIST_MAX_DECIMALS));
+        double price =  mCurrent.getQuoteDefaultPrice();
 
-        mPrice.setText(price);
-        mMcap.setText(mcap);
-        mVolume.setText(volume);
+        if (price < tinyPriceComparator) {
+            tinyPrice = "<";
+            price = tinyPriceComparator;
+        }
+        String format = "%1$s %2$s%3$."+ Constants.COINS_FRAGMENT_COIN_LIST_MAX_DECIMALS+"f %4$s";
+        mPrice.setText(String.format(Locale.getDefault(), format, tinyPrice, currencySymbol, price, currencyCode));
+        mMcap.setText(String.format(Locale.getDefault(), "%1$s%2$s %3$s", currencySymbol, StringUtil.withSuffix(mCurrent.getQuoteDefaultMarketCap()), currencyCode));
+        mVolume.setText(String.format(Locale.getDefault(), "%1$s%2$s %3$s", currencySymbol, StringUtil.withSuffix(mCurrent.getQuoteDefaultVolume()), currencyCode));
 
         mPercent1h.setText(String.valueOf(mCurrent.getPercentChange1h()));
         mPercent24h.setText(String.valueOf(mCurrent.getPercentChange24h()));
