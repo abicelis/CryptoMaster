@@ -11,12 +11,14 @@ import android.support.v7.widget.Toolbar;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
+import android.text.style.RelativeSizeSpan;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.LinearInterpolator;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -80,14 +82,9 @@ public class CoinDetailActivity extends BaseActivity implements CoinDetailMvpVie
     //activity_coin_detail_basic.xml
     @BindView(R.id.activity_coin_detail_basic_logo)
     ImageView mLogo;
-    @BindView(R.id.activity_coin_detail_basic_price_fiat_symbol)
-    TextView mBasicPriceFiatSymbol;
-    @BindView(R.id.activity_coin_detail_basic_price_fiat_integer_part)
-    TextView mBasicPriceFiatIntegerPart;
-    @BindView(R.id.activity_coin_detail_basic_price_fiat_fractional_part)
-    TextView mBasicPriceFiatFractionalPart;
-    @BindView(R.id.activity_coin_detail_basic_price_fiat_code)
-    TextView mBasicPriceFiatCode;
+
+    @BindView(R.id.activity_coin_detail_basic_price_fiat)
+    TextView mBasicPriceFiat;
     @BindView(R.id.activity_coin_detail_basic_price_crypto)
     TextView mBasicPriceCrypto;
     @BindView(R.id.activity_coin_detail_basic_rank)
@@ -104,6 +101,8 @@ public class CoinDetailActivity extends BaseActivity implements CoinDetailMvpVie
 
 
     //activity_coin_detail_chart.xml
+    @BindView(R.id.activity_coin_detail_chart_button_container)
+    LinearLayout mChartButtonContainer;
     @BindView(R.id.activity_coin_detail_chart_button_btc)
     Button mChartButtonBtc;
     @BindView(R.id.activity_coin_detail_chart_button_default_currency)
@@ -262,52 +261,53 @@ public class CoinDetailActivity extends BaseActivity implements CoinDetailMvpVie
     @Override
     public void showBasicCoinData(Coin coin, Currency defaultCurrency) {
         NumberFormat formatter = NumberFormat.getInstance(Locale.getDefault());
-        NumberFormat cryptoFormatter = NumberFormat.getInstance(Locale.getDefault());
-        cryptoFormatter.setMaximumFractionDigits(8);
-
-        mCoinDetailPresenter.getMainChartData(ChartTimeSpan._3M);
 
         //Toolbar
         mToolbarTitle.setText(coin.getName());
         mToolbarSubtitle.setText(coin.getSymbol());
 
-        //Basic data
+        //Request chart data
+        mCoinDetailPresenter.getMainChartData(ChartTimeSpan._3M);
+
+
+        //activity_coin_detail_basic.xml
         Glide.with(mLogo).load(String.format(Constants.COINMARKETCAP_ICONS_64_PX_BASE_URL, coin.getId())).into(mLogo);
+        int integerPartStartAt = (defaultCurrency.hasSymbol() ? defaultCurrency.getSymbol().length() : 0);
+        int integerPartLength = String.valueOf((int)coin.getQuoteDefaultPrice()).length() + integerPartStartAt + 1;
+        String currencySymbol = (defaultCurrency.hasSymbol() ? defaultCurrency.getSymbol() : "");
+        String currencyCode = (defaultCurrency.hasSymbol() ? "" : defaultCurrency.getCode());
+        String format = (defaultCurrency.isCrypto() ? "%1$s%2$.8f %3$s" : "%1$s%2$f %3$s");
+        String s = String.format(Locale.getDefault(), format, currencySymbol, coin.getQuoteDefaultPrice(), currencyCode);
+        SpannableString ss1 = new SpannableString(s);
+        ss1.setSpan(new RelativeSizeSpan(1.5f), integerPartStartAt, integerPartLength, 0);
+        mBasicPriceFiat.setText(ss1);
 
-        Currency currency = new SharedPreferenceHelper().getDefaultCurrency();
-        if(currency.hasSymbol()) {
-            mBasicPriceFiatSymbol.setText(currency.getSymbol());
-            mBasicPriceFiatCode.setText("");
-        } else {
-            mBasicPriceFiatSymbol.setText("");
-            mBasicPriceFiatCode.setText(currency.getCode());
-        }
 
-        //TODO fix this, has issues with decimals, default=BTC, coinDetail=btc equals boom
-        BigDecimal price = new BigDecimal(coin.getQuoteDefaultPrice());
-        BigDecimal fractionalPart = price.remainder(BigDecimal.ONE);
-        String fractionalStr = fractionalPart.toPlainString();
-        fractionalStr = fractionalStr.substring(2, Math.min(fractionalStr.length(), 2+Constants.MISC_MAX_DECIMAL_NUMBERS));
-        String integerStr = String.format(Locale.getDefault(), "%d.", price.intValue());
-        mBasicPriceFiatIntegerPart.setText(integerStr);
-        mBasicPriceFiatFractionalPart.setText(fractionalStr);
+        if(defaultCurrency.isBitcoin())
+            mBasicPriceCrypto.setVisibility(View.GONE);
+        else
+            mBasicPriceCrypto.setText(String.format(Locale.getDefault(), "%1$s%2$.8f", Currency.BTC.getSymbol(), coin.getQuoteBtcPrice()));
 
-        mBasicPriceCrypto.setText(String.format(Locale.getDefault(), "%1$s%2$s", Currency.BTC.getSymbol(), cryptoFormatter.format(coin.getQuoteBtcPrice())));
 
         mBasicRank.setText(String.format(Locale.getDefault(), "#%s", formatter.format(coin.getRank())));
-        if(currency.hasSymbol()) {
-            mBasicMarketCap.setText(String.format(Locale.getDefault(), "%1$s%2$s", currency.getSymbol(), formatter.format(coin.getQuoteDefaultMarketCap())));
-            mBasicVolume.setText(String.format(Locale.getDefault(), "%1$s%2$s", currency.getSymbol(), formatter.format(coin.getQuoteDefaultVolume())));
+        if(defaultCurrency.hasSymbol()) {
+            mBasicMarketCap.setText(String.format(Locale.getDefault(), "%1$s%2$s", defaultCurrency.getSymbol(), formatter.format(coin.getQuoteDefaultMarketCap())));
+            mBasicVolume.setText(String.format(Locale.getDefault(), "%1$s%2$s", defaultCurrency.getSymbol(), formatter.format(coin.getQuoteDefaultVolume())));
         } else {
-            mBasicMarketCap.setText(String.format(Locale.getDefault(), "%1$s %2$s", formatter.format(coin.getQuoteDefaultMarketCap()), currency.getCode()));
-            mBasicVolume.setText(String.format(Locale.getDefault(), "%1$s %2$s", formatter.format(coin.getQuoteDefaultVolume()), currency.getCode()));
+            mBasicMarketCap.setText(String.format(Locale.getDefault(), "%1$s %2$s", formatter.format(coin.getQuoteDefaultMarketCap()), defaultCurrency.getCode()));
+            mBasicVolume.setText(String.format(Locale.getDefault(), "%1$s %2$s", formatter.format(coin.getQuoteDefaultVolume()), defaultCurrency.getCode()));
         }
         mBasicCirculatingSupply.setText(String.format(Locale.getDefault(), "%1$s %2$s", formatter.format(coin.getCirculatingSupply()), coin.getSymbol()));
         mBasicTotalSupply.setText(String.format(Locale.getDefault(), "%1$s %2$s", formatter.format(coin.getTotalSupply()), coin.getSymbol()));
 
 
-        mChartButtonBtc.setText(Currency.BTC.getCode());
-        mChartButtonDefaultCurrency.setText(defaultCurrency.getCode());
+        //activity_coin_detail_chart.xml
+        if(defaultCurrency == Currency.BTC) {
+            mChartButtonContainer.setVisibility(View.GONE);
+        } else {
+            mChartButtonBtc.setText(Currency.BTC.getCode());
+            mChartButtonDefaultCurrency.setText(defaultCurrency.getCode());
+        }
     }
 
     @Override
