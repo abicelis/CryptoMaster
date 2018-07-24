@@ -32,54 +32,18 @@
                 android:layout_marginStart="12dp"
                 />
 
-            <LinearLayout
+            <TextView
                 android:id="@+id/activity_coin_detail_basic_price_fiat"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="bottom"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                >
-                <TextView
-                    android:id="@+id/activity_coin_detail_basic_price_fiat_symbol"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/nunito_light"
-                    android:textColor="?attr/text_primary"
-                    android:textSize="22sp"
-                    android:text="$"/>
-
-                <TextView
-                    android:id="@+id/activity_coin_detail_basic_price_fiat_integer_part"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:includeFontPadding="false"
-                    android:fontFamily="@font/nunito_light"
-                    android:textColor="?attr/text_primary"
-                    android:text="504"
-                    android:textSize="32sp" />
-
-                <TextView
-                    android:id="@+id/activity_coin_detail_basic_price_fiat_fractional_part"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/nunito_light"
-                    android:textColor="?attr/text_primary"
-                    android:text=".39"
-                    android:textSize="22sp" />
-
-                <TextView
-                    android:id="@+id/activity_coin_detail_basic_price_fiat_code"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/nunito_light"
-                    android:textColor="?attr/text_primary"
-                    android:text=""
-                    android:textSize="22sp"/>
-
-            </LinearLayout>
+                android:includeFontPadding="false"
+                android:fontFamily="@font/nunito_light"
+                android:gravity="bottom"
+                android:textColor="?attr/text_primary"
+                android:textSize="22sp" />
 
             <TextView
                 android:id="@+id/activity_coin_detail_basic_price_crypto"
@@ -89,9 +53,8 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/activity_coin_detail_basic_price_fiat"
                 android:fontFamily="@font/nunito_semibold"
-                android:text="(฿0.0023789)"
                 android:textColor="?attr/text_primary"
-                android:textSize="14sp" />
+                android:textSize="16sp" />
 
 
         </android.support.constraint.ConstraintLayout>

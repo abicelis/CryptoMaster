@@ -37,6 +37,7 @@
 
         <!--</LinearLayout>-->
         <LinearLayout
+            android:id="@+id/activity_coin_detail_chart_button_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
