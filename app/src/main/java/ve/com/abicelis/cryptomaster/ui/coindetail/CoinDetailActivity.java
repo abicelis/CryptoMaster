@@ -57,6 +57,7 @@ import ve.com.abicelis.cryptomaster.ui.base.BaseActivity;
 import ve.com.abicelis.cryptomaster.util.AttrUtil;
 import ve.com.abicelis.cryptomaster.util.SnackbarUtil;
 import ve.com.abicelis.cryptomaster.util.TextViewUtil;
+import ve.com.abicelis.cryptomaster.util.ViewUtil;
 
 /**
  * Created by abicelis on 17/7/2018.
@@ -326,6 +327,8 @@ public class CoinDetailActivity extends BaseActivity implements CoinDetailMvpVie
         //RIGHT Y AXIS
         YAxis yAxisR = mCoinDetailChart.getAxisRight();
         yAxisR.setPosition(YAxis.YAxisLabelPosition.INSIDE_CHART);
+        yAxisR.setYOffset(-6f);
+        yAxisR.setTextSize(12f);
         yAxisR.setGridColor(gridColor);
         yAxisR.setDrawGridLines(true);
         yAxisR.setLabelCount(4, true);
@@ -494,7 +497,11 @@ public class CoinDetailActivity extends BaseActivity implements CoinDetailMvpVie
 
         @Override
         public String getFormattedValue(float value, AxisBase axis) {
-            return currency.getSymbol() + value;
+            String currencySymbol = (currency.hasSymbol() ? currency.getSymbol() : "");
+            String currencyCode = (currency.hasSymbol() ? "" : currency.getCode());
+
+            String format = (currency.isCrypto() ? "%1$s%2$.8f %3$s" : "%1$s%2$f %3$s");
+            return String.format(Locale.getDefault(), format, currencySymbol, value, currencyCode);
         }
     }
 
