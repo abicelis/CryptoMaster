@@ -79,6 +79,7 @@ public class CoinDetailPresenter extends BasePresenter<CoinDetailActivity> {
 
                         usingBtcForChartData = true;
                         getMvpView().showChart(mChartData, usingBtcForChartData, mDefaultCurrency);
+                        getMvpView().toggleBtcButton();
                         mLoadingMainChart = false;
                         getMvpView().mainChartHideLoading();
                     }, throwable -> {
