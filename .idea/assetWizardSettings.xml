@@ -19,7 +19,7 @@
                                   <option name="values">
                                     <map>
                                       <entry key="backgroundImage" value="D:\Projects\AndroidProjects\CryptoMaster\app\src\main\res\drawable\ic_launcher_background.xml" />
-                                      <entry key="foregroundImage" value="D:\Projects\AndroidProjects\CryptoMaster\app\src\main\res\drawable-v24\ic_launcher_foreground_bitcoin.xml" />
+                                      <entry key="foregroundImage" value="D:\Projects\AndroidProjects\CryptoMaster\app\src\main\res\drawable\ic_launcher_foreground.xml" />
                                     </map>
                                   </option>
                                 </PersistentState>
