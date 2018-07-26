@@ -26,10 +26,12 @@ import ve.com.abicelis.cryptomaster.data.model.coinmarketcapgraph.DominanceChart
 import ve.com.abicelis.cryptomaster.data.model.coinmarketcapgraph.MarketCapAndVolumeChartData;
 import ve.com.abicelis.cryptomaster.data.model.coinmarketcapgraph.MarketCapPriceAndVolumeChartData;
 import ve.com.abicelis.cryptomaster.data.model.coinmarketcaps2.CurrencyResult;
+import ve.com.abicelis.cryptomaster.data.model.cryptocomparemin.TopExchangesResult;
 import ve.com.abicelis.cryptomaster.data.remote.CoinMarketCapApi;
 import ve.com.abicelis.cryptomaster.data.remote.CoinMarketCapGraphApi;
 import ve.com.abicelis.cryptomaster.data.remote.CoinMarketCapS2Api;
 import ve.com.abicelis.cryptomaster.data.remote.CryptoCompareApi;
+import ve.com.abicelis.cryptomaster.data.remote.CryptoCompareMinApi;
 
 /**
  * Created by abicelis on 29/8/2017.
@@ -43,6 +45,7 @@ public class DataManager {
     private CoinMarketCapGraphApi mCoinMarketCapGraphApi;
     private CoinMarketCapS2Api mCoinMarketCapS2Api;
     private CryptoCompareApi mCryptoCompareApi;
+    private CryptoCompareMinApi mCryptoCompareMinApi;
 
     @Inject
     public DataManager(AppDatabase appDatabase,
@@ -50,7 +53,8 @@ public class DataManager {
                        CoinMarketCapApi coinMarketCapApi,
                        CoinMarketCapGraphApi coinMarketCapGraphApi,
                        CoinMarketCapS2Api coinMarketCapS2Api,
-                       CryptoCompareApi cryptoCompareApi) {
+                       CryptoCompareApi cryptoCompareApi,
+                       CryptoCompareMinApi cryptoCompareMinApi) {
 
         mAppDatabase = appDatabase;
         mSharedPreferenceHelper = sharedPreferenceHelper;
@@ -58,6 +62,7 @@ public class DataManager {
         mCoinMarketCapGraphApi = coinMarketCapGraphApi;
         mCoinMarketCapS2Api = coinMarketCapS2Api;
         mCryptoCompareApi = cryptoCompareApi;
+        mCryptoCompareMinApi = cryptoCompareMinApi;
     }
 
 
@@ -486,5 +491,8 @@ public class DataManager {
     }
 
 
+    public Single<TopExchangesResult> getTopExchangesByPair(String fromSymbol, String toSymbol, int limit) {
+        return mCryptoCompareMinApi.getTopExchangesByPair(fromSymbol, toSymbol, limit);
+    }
 
 }

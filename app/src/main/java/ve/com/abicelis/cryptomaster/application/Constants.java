@@ -65,5 +65,6 @@ public class Constants {
 
     /* CRYPTOCOMPARE API */
     public static final String                  CRYPTOCOMPARE_BASE_URL =                            "https://www.cryptocompare.com/api/";
+    public static final String                  CRYPTOCOMPARE_MIN_BASE_URL =                        "https://min-api.cryptocompare.com/data/";
 
 }

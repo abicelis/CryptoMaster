@@ -18,6 +18,7 @@ import ve.com.abicelis.cryptomaster.data.remote.CoinMarketCapApi;
 import ve.com.abicelis.cryptomaster.data.remote.CoinMarketCapGraphApi;
 import ve.com.abicelis.cryptomaster.data.remote.CoinMarketCapS2Api;
 import ve.com.abicelis.cryptomaster.data.remote.CryptoCompareApi;
+import ve.com.abicelis.cryptomaster.data.remote.CryptoCompareMinApi;
 
 /**
  * Created by abicelis on 25/5/2018.
@@ -41,6 +42,9 @@ public class RemoteModule {
 
     private static final String CRYPTOCOMPARE_BASE_URL = "CRYPTOCOMPARE_BASE_URL";
     private static final String CRYPTOCOMPARE_RETROFIT = "CRYPTOCOMPARE_RETROFIT";
+
+    private static final String CRYPTOCOMPARE_MIN_BASE_URL = "CRYPTOCOMPARE_MIN_BASE_URL";
+    private static final String CRYPTOCOMPARE_MIN_RETROFIT = "CRYPTOCOMPARE_MIN_RETROFIT";
 
 
 
@@ -164,14 +168,14 @@ public class RemoteModule {
      */
     @Provides
     @Named(CRYPTOCOMPARE_BASE_URL)
-    String provideOpenflgihtsBaseUrlString() {return Constants.CRYPTOCOMPARE_BASE_URL;}
+    String providesCryptoCompareBaseUrlString() {return Constants.CRYPTOCOMPARE_BASE_URL;}
 
     @Provides
     @Named(CRYPTOCOMPARE_RETROFIT)
-    Retrofit provideOpenflightsRetrofit(@Named(CONVERTER_GSON) Converter.Factory converter,
-                                        RxJava2CallAdapterFactory factory,
-                                        @Named(CRYPTOCOMPARE_BASE_URL) String baseUrl,
-                                        OkHttpClient okHttpClient) {
+    Retrofit providesCryptoCompareRetrofit(@Named(CONVERTER_GSON) Converter.Factory converter,
+                                           RxJava2CallAdapterFactory factory,
+                                           @Named(CRYPTOCOMPARE_BASE_URL) String baseUrl,
+                                           OkHttpClient okHttpClient) {
         return new Retrofit.Builder()
                 .baseUrl(baseUrl)
                 .addConverterFactory(converter)
@@ -183,6 +187,36 @@ public class RemoteModule {
     @Provides
     CryptoCompareApi providesCryptoCompareApi(@Named(CRYPTOCOMPARE_RETROFIT) Retrofit retrofit) {
         return retrofit.create(CryptoCompareApi.class);
+    }
+
+
+
+
+
+    /**
+     * INJECTION GRAPH FOR CRYPTO COMPARE API
+     */
+    @Provides
+    @Named(CRYPTOCOMPARE_MIN_BASE_URL)
+    String provideCryptoCompareMinBaseUrlString() {return Constants.CRYPTOCOMPARE_MIN_BASE_URL;}
+
+    @Provides
+    @Named(CRYPTOCOMPARE_MIN_RETROFIT)
+    Retrofit providesCryptoCompareMinRetrofit(@Named(CONVERTER_GSON) Converter.Factory converter,
+                                              RxJava2CallAdapterFactory factory,
+                                              @Named(CRYPTOCOMPARE_MIN_BASE_URL) String baseUrl,
+                                              OkHttpClient okHttpClient) {
+        return new Retrofit.Builder()
+                .baseUrl(baseUrl)
+                .addConverterFactory(converter)
+                .addCallAdapterFactory(factory)
+                .client(okHttpClient)
+                .build();
+    }
+
+    @Provides
+    CryptoCompareMinApi providesCryptoCompareMinApi(@Named(CRYPTOCOMPARE_MIN_RETROFIT) Retrofit retrofit) {
+        return retrofit.create(CryptoCompareMinApi.class);
     }
 
 
