@@ -111,6 +111,12 @@
                 android:textColor="?attr/text_secondary"
                 android:gravity="center_vertical"
                 android:textSize="14sp"/>
+            <include layout="@layout/activity_coin_detail_exchanges" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="24dp"/>
+
 
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
