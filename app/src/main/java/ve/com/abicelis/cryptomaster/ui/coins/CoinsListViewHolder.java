@@ -19,8 +19,6 @@ import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import okhttp3.internal.platform.ConscryptPlatform;
-import timber.log.Timber;
 import ve.com.abicelis.cryptomaster.R;
 import ve.com.abicelis.cryptomaster.application.Constants;
 import ve.com.abicelis.cryptomaster.data.local.SharedPreferenceHelper;
@@ -97,7 +95,7 @@ public class CoinsListViewHolder extends RecyclerView.ViewHolder implements View
             mFavoriteHandler.removeCallbacksAndMessages(null);
         mFavorite.setVisibility(View.GONE);
         mName.setText(mCurrent.getName());
-        mSymbol.setText(mCurrent.getSymbol());
+        mSymbol.setText(mCurrent.getCode());
 
         Glide.with(mIcon).load(String.format(Constants.COINMARKETCAP_ICONS_16_PX_BASE_URL, mCurrent.getId())).into(mIcon);
 

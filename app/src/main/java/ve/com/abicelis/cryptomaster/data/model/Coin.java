@@ -12,14 +12,14 @@ import android.support.annotation.NonNull;
  */
 
 @Entity(tableName = "coin",
-        indices = {@Index("name"), @Index("symbol")})
+        indices = {@Index("name"), @Index("code")})
 public class Coin implements Comparable<Coin> {
 
     @PrimaryKey
     @ColumnInfo(name = "coin_id")
     private long id;                                //CoinMarketCap ID
     private String name;
-    private String symbol;
+    private String code;
     @ColumnInfo(name = "website_slug")
     private String websiteSlug;
     private int rank;
@@ -61,12 +61,12 @@ public class Coin implements Comparable<Coin> {
     private double quoteBtcPrice;
 
 
-    public Coin (long id, String name, String symbol, String websiteSlug, int rank, long circulatingSupply, long totalSupply, long maxSupply, long lastUpdated,
+    public Coin (long id, String name, String code, String websiteSlug, int rank, long circulatingSupply, long totalSupply, long maxSupply, long lastUpdated,
                  double quoteUsdPrice, double quoteUsdVolume, double quoteUsdMarketCap, double quoteDefaultPrice, double quoteDefaultVolume, double quoteDefaultMarketCap,
                  double percentChange1h, double percentChange24h, double percentChange7d) {
         this.id = id;
         this.name = name;
-        this.symbol = symbol;
+        this.code = code;
         this.websiteSlug = websiteSlug;
         this.rank = rank;
         this.circulatingSupply = circulatingSupply;
@@ -92,7 +92,7 @@ public class Coin implements Comparable<Coin> {
 
     public long getId() { return id; }
     public String getName() { return name; }
-    public String getSymbol() { return symbol; }
+    public String getCode() { return code; }
     public String getWebsiteSlug() {
         return websiteSlug;
     }
@@ -120,24 +120,6 @@ public class Coin implements Comparable<Coin> {
     public double getPercentChange7d() { return percentChange7d; }
     public double getQuoteBtcPrice() { return quoteBtcPrice; }
 
-    public void setId(long id) { this.id = id; }
-    public void setName(String name) { this.name = name; }
-    public void setSymbol(String symbol) { this.symbol = symbol; }
-    public void setWebsiteSlug(String websiteSlug) { this.websiteSlug = websiteSlug; }
-    public void setRank(int rank) { this.rank = rank; }
-    public void setCirculatingSupply(long circulatingSupply) { this.circulatingSupply = circulatingSupply; }
-    public void setTotalSupply(long totalSupply) { this.totalSupply = totalSupply; }
-    public void setMaxSupply(long maxSupply) { this.maxSupply = maxSupply; }
-    public void setLastUpdated(long lastUpdated) { this.lastUpdated = lastUpdated; }
-    public void setQuoteUsdPrice(double quoteUsdPrice) { this.quoteUsdPrice = quoteUsdPrice; }
-    public void setQuoteUsdVolume(double quoteUsdVolume) { this.quoteUsdVolume = quoteUsdVolume; }
-    public void setQuoteUsdMarketCap(double quoteUsdMarketCap) { this.quoteUsdMarketCap = quoteUsdMarketCap; }
-    public void setQuoteDefaultPrice(double quoteDefaultPrice) { this.quoteDefaultPrice = quoteDefaultPrice; }
-    public void setQuoteDefaultVolume(double quoteDefaultVolume) { this.quoteDefaultVolume = quoteDefaultVolume; }
-    public void setQuoteDefaultMarketCap(double quoteDefaultMarketCap) { this.quoteDefaultMarketCap = quoteDefaultMarketCap; }
-    public void setPercentChange1h(double percentChange1h) { this.percentChange1h = percentChange1h; }
-    public void setPercentChange24h(double percentChange24h) { this.percentChange24h = percentChange24h; }
-    public void setPercentChange7d(double percentChange7d) { this.percentChange7d = percentChange7d; }
     public void setQuoteBtcPrice(double quoteBtcPrice) { this.quoteBtcPrice = quoteBtcPrice; }
 
     @Override

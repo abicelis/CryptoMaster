@@ -34,11 +34,11 @@ public abstract class CoinDao {
     @Query("SELECT * FROM coin where coin_id IN (:coinIds)")
     public abstract Maybe<List<Coin>> getByIds(long[] coinIds);
 
-    @Query("SELECT * FROM coin where symbol = :symbol")
-    public abstract Maybe<Coin> getBySymbol(String symbol);
+    @Query("SELECT * FROM coin where code = :code")
+    public abstract Maybe<Coin> getBySymbol(String code);
 
-    @Query("SELECT * FROM coin where symbol IN (:symbols)")
-    public abstract Maybe<List<Coin>> getBySymbols(String symbols);
+    @Query("SELECT * FROM coin where code IN (:codes)")
+    public abstract Maybe<List<Coin>> getByCodes(String codes);
 
     @Query("SELECT * FROM coin where name = :name")
     public abstract Maybe<Coin> getByName(String name);
@@ -62,20 +62,20 @@ public abstract class CoinDao {
     @SuppressWarnings(RoomWarnings.CURSOR_MISMATCH)     //Skip warning, mismatch with calculated column relevance
     @Query("SELECT *" +
             ",(name LIKE :query) +" +
-            " (CASE WHEN symbol LIKE :query THEN 2 ELSE 0 END)" +
+            " (CASE WHEN code LIKE :query THEN 2 ELSE 0 END)" +
             " AS relevance" +
             " FROM coin" +
-            " WHERE name LIKE :query OR symbol LIKE :query" +
+            " WHERE name LIKE :query OR code LIKE :query" +
             " ORDER BY [relevance] desc")
     public abstract Maybe<List<Coin>> find(String query);
 
     @SuppressWarnings(RoomWarnings.CURSOR_MISMATCH)     //Skip warning, mismatch with calculated column relevance
     @Query("SELECT *" +
             ",(name LIKE :query) +" +
-            " (CASE WHEN symbol LIKE :query THEN 2 ELSE 0 END)" +
+            " (CASE WHEN code LIKE :query THEN 2 ELSE 0 END)" +
             " AS relevance" +
             " FROM coin" +
-            " WHERE name LIKE :query OR symbol LIKE :query" +
+            " WHERE name LIKE :query OR code LIKE :query" +
             " ORDER BY [relevance] desc" +
             " LIMIT :limit")
     public abstract Maybe<List<Coin>> find(String query, int limit);

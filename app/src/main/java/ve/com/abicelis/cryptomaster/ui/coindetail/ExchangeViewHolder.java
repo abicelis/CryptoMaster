@@ -45,21 +45,19 @@ public class ExchangeViewHolder extends RecyclerView.ViewHolder {
 
         mNumber.setText(String.valueOf(mCurrent.getNumber()));
         mName.setText(mCurrent.getName());
-        mPair.setText(String.format(Locale.getDefault(), "%1$s/%2$s", mCurrent.getCurrencyFrom(), mCurrent.getCurrencyTo()));
+        mPair.setText(String.format(Locale.getDefault(), "%1$s/%2$s", mCurrent.getCodeFrom(), mCurrent.getCodeTo()));
 
-
-        String currencySymbol = (mCurrent.getCurrencyTo().hasSymbol() ? mCurrent.getCurrencyTo().getSymbol() : "");
-        String currencyCode = (mCurrent.getCurrencyTo().hasSymbol() ? "" : mCurrent.getCurrencyTo().getCode());
         String tinyPrice = "";
-        double tinyPriceComparator = (1.0/Math.pow(10, Constants.COINS_FRAGMENT_COIN_LIST_MAX_DECIMALS));
+        double tinyPriceComparator = (1.0/Math.pow(10, Constants.COIN_DETAIL_ACTIVITY_EXCHANGE_PRICE_MAX_DECIMALS));
         double price =  mCurrent.getPrice();
 
         if (price < tinyPriceComparator) {
             tinyPrice = "<";
             price = tinyPriceComparator;
         }
-        String format = "%1$s %2$s%3$."+ Constants.COINS_FRAGMENT_COIN_LIST_MAX_DECIMALS+"f %4$s";
-        mPrice.setText(String.format(Locale.getDefault(), format, tinyPrice, currencySymbol, price, currencyCode));
+        //String format = "%1$s %2$."+ Constants.COIN_DETAIL_ACTIVITY_EXCHANGE_PRICE_MAX_DECIMALS+"f";
+        String format = "%1$s %2$f";
+        mPrice.setText(String.format(Locale.getDefault(), format, tinyPrice, price));
         mVolume.setText(StringUtil.withSuffix(mCurrent.getVolume()));
     }
 

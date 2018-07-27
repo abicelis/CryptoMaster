@@ -13,7 +13,7 @@ public interface CryptoCompareMinApi {
 
 
     @GET("top/exchanges/full")
-    Single<TopExchangesResult> getTopExchangesByPair(@Query("fsym") String fromSymbol,
-                                                     @Query("tsym") String toSymbol,
+    Single<TopExchangesResult> getTopExchangesByPair(@Query("fsym") String fromCode,
+                                                     @Query("tsym") String toCode,
                                                      @Query("limit") int limit);
 }
