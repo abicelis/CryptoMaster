@@ -198,6 +198,12 @@ public class CoinDetailPresenter extends BasePresenter<CoinDetailActivity> {
             getMvpView().toggleBtcButtons();
         }
 
+        if(!mIsBtcSelected && !exchangesDataLoaded) {  //Try again?
+            mDataManager.getSharedPreferenceHelper().setBtcDefaultAtCoinDetailActivity(true);
+            mIsBtcSelected = true;
+            getExchangesData();
+        }
+
     }
 
     public void onDefaultCurrencyClicked() {
@@ -207,6 +213,12 @@ public class CoinDetailPresenter extends BasePresenter<CoinDetailActivity> {
             getMvpView().showChart(mChartData, mIsBtcSelected, mDefaultCurrency);
             getMvpView().showExchanges(mExchangesDataDefaultCurrency);
             getMvpView().toggleDefaultCurrencyButtons();
+        }
+
+        if(mIsBtcSelected && !exchangesDataLoaded) {  //Try again?
+            mDataManager.getSharedPreferenceHelper().setBtcDefaultAtCoinDetailActivity(false);
+            mIsBtcSelected = false;
+            getExchangesData();
         }
     }
 
