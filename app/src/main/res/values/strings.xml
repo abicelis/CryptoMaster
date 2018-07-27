@@ -24,14 +24,22 @@
     <string name="activity_coin_detail_line1_format">"<![CDATA[<font color='#%7$s'>%1$c%2$s%3$.8f %4$s (%1$c%5$.2f%%)</font> for %6$s]]>"</string>
     <string name="activity_coin_detail_line2_format">"<![CDATA[Low: <font color='#%1$s'>%2$s%3$.8f %4$s</font> ~ High: <font color='#%5$s'>%6$s%7$.8f %8$s</font>]]>"</string>
 
+
+    <string name="activity_coin_detail_exchange_header_number">#</string>
+    <string name="activity_coin_detail_exchange_header_name">Exchange</string>
+    <string name="activity_coin_detail_exchange_header_pair">Pair</string>
+    <string name="activity_coin_detail_exchange_header_price">Price</string>
+    <string name="activity_coin_detail_exchange_header_volume">Volume (24h)</string>
+
+
     <!--MARKET FRAGMENT-->
     <string name="fragment_market_total_title">Total Market Capitalization</string>
     <string name="fragment_market_dominance_title">Market Dominance</string>
 
 
     <!--COINS FRAGMENT-->
-    <string name="fragment_coins_added_to_favorites">%1$s added to Favorites</string>
-    <string name="fragment_coins_removed_from_favorites">%1$s removed from Favorites</string>
+    <string name="fragment_coins_added_to_favorites">%1$s added currencyTo Favorites</string>
+    <string name="fragment_coins_removed_from_favorites">%1$s removed currencyFrom Favorites</string>
     <string name="fragment_coins_header_title_name">Name</string>
     <string name="fragment_coins_header_title_price">Price</string>
     <string name="fragment_coins_header_title_markets">M.Cap</string>
@@ -141,5 +149,7 @@
     <string name="coin_fragment_type_missing">Missing COIN FRAGMENT TYPE argument, using NORMAL</string>
     <string name="coin_detail_coin_id_missing">Missing COIN ID extra</string>
     <string name="could_not_fetch_fresh_coin_data">No internet, showing local coin data</string>
-    <string name="could_not_fetch_graph_data">No internet, could not fetch data</string>
+    <string name="could_not_fetch_coin_data">No internet, could not fetch coin data</string>
+    <string name="could_not_fetch_chart_data">Could not fetch chart data</string>
+    <string name="could_not_fetch_exchange_data">Could not fetch list of exchanges</string>
 </resources>

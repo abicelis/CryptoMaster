@@ -20,7 +20,9 @@ public enum Message {
     COIN_FRAGMENT_TYPE_MISSING(R.string.coin_fragment_type_missing, SnackbarUtil.SnackbarType.ERROR),
     COIN_DETAIL_COIN_ID_MISSING(R.string.coin_detail_coin_id_missing, SnackbarUtil.SnackbarType.ERROR),
     COULD_NOT_FETCH_FRESH_COIN_DATA(R.string.could_not_fetch_fresh_coin_data, SnackbarUtil.SnackbarType.NOTICE),
-    COULD_NOT_FETCH_GRAPH_DATA(R.string.could_not_fetch_graph_data, SnackbarUtil.SnackbarType.NOTICE),
+    COULD_NOT_FETCH_COIN_DATA(R.string.could_not_fetch_coin_data, SnackbarUtil.SnackbarType.NOTICE),
+    COULD_NOT_FETCH_CHART_DATA(R.string.could_not_fetch_chart_data, SnackbarUtil.SnackbarType.NOTICE),
+    COULD_NOT_FETCH_EXCHANGE_DATA(R.string.could_not_fetch_exchange_data, SnackbarUtil.SnackbarType.NOTICE),
 
     ;
 
