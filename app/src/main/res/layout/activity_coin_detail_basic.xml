@@ -88,7 +88,6 @@
                 android:paddingBottom="6dp"
                 android:fontFamily="@font/nunito_semibold"
                 android:gravity="end"
-                android:text="#1232"
                 android:textColor="?attr/text_primary"
                 android:textSize="14sp"/>
         </LinearLayout>
@@ -119,7 +118,6 @@
                 android:paddingBottom="6dp"
                 android:fontFamily="@font/nunito_semibold"
                 android:gravity="end"
-                android:text="$128,129,120"
                 android:textColor="?attr/text_primary"
                 android:textSize="14sp"/>
         </LinearLayout>
@@ -149,7 +147,6 @@
                 android:paddingBottom="6dp"
                 android:fontFamily="@font/nunito_semibold"
                 android:gravity="end"
-                android:text="$32,912"
                 android:textColor="?attr/text_primary"
                 android:textSize="14sp"/>
         </LinearLayout>
@@ -179,7 +176,6 @@
                 android:paddingBottom="6dp"
                 android:fontFamily="@font/nunito_semibold"
                 android:gravity="end"
-                android:text="50,000,000,000 ACN"
                 android:textColor="?attr/text_primary"
                 android:textSize="14sp"/>
         </LinearLayout>
@@ -211,7 +207,6 @@
                 android:paddingBottom="6dp"
                 android:fontFamily="@font/nunito_semibold"
                 android:gravity="end"
-                android:text="100,000,000,000,000 ACN"
                 android:textColor="?attr/text_primary"
                 android:textSize="14sp"/>
         </LinearLayout>
