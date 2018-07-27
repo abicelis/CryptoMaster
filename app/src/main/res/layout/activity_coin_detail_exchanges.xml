@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardBackgroundColor="?attr/default_foreground"
+    app:cardCornerRadius="5dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        >
+
+        <LinearLayout
+            android:id="@+id/activity_coin_detail_exchanges_button_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:id="@+id/activity_coin_detail_exchanges_button_btc"
+                android:layout_width="0dp"
+                android:layout_height="38dp"
+                android:layout_weight="1"
+                android:foreground="?attr/selectableItemBackground"
+                />
+
+
+            <Button
+                android:id="@+id/activity_coin_detail_exchanges_button_default_currency"
+                android:layout_width="0dp"
+                android:layout_height="38dp"
+                android:layout_weight="1"
+                android:foreground="?attr/selectableItemBackground"
+                />
+        </LinearLayout>
+
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            >
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <include layout="@layout/list_item_exchange_header" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/activity_coin_detail_exchanges_recycler"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+            </LinearLayout>
+
+
+            <FrameLayout
+                android:id="@+id/activity_coin_detail_exchanges_loading_container"
+                android:background="?attr/chart_loading_background"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_gravity="center"
+                    >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="16sp"
+                        android:fontFamily="@font/nunito_semibold"
+                        android:text="@string/chart_loading"/>
+
+                    <ProgressBar
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:layout_gravity="center_horizontal"/>
+                </LinearLayout>
+            </FrameLayout>
+
+            <TextView
+                android:id="@+id/activity_coin_detail_exchanges_error"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="?attr/chart_loading_background"
+                android:gravity="center"
+                android:textSize="16sp"
+                android:fontFamily="@font/nunito_semibold"
+                android:text="@string/chart_error"/>
+        </FrameLayout>
+
+
+
+        <TextView
+            android:id="@+id/activity_coin_detail_exchanges_show_all"
+            android:layout_width="match_parent"
+            android:layout_height="42dp"
+            android:orientation="horizontal"
+            android:text="Show all"
+            android:textSize="22sp"
+            android:gravity="center"
+            android:background="?android:attr/selectableItemBackground"
+            >
+
+        </TextView>
+
+
+    </LinearLayout>
+
+
+</android.support.v7.widget.CardView>
