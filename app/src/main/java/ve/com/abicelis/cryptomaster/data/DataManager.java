@@ -492,15 +492,21 @@ public class DataManager {
     }
 
 
-    public Single<List<Exchange>> getTopExchangesByPair(String fromSymbol, String toSymbol, int limit) {
-        return mCryptoCompareMinApi.getTopExchangesByPair(fromSymbol, toSymbol, limit)
+    public Single<List<Exchange>> getTopExchangesByPair(String fromCode, String toCode, int limit) {
+        return mCryptoCompareMinApi.getTopExchangesByPair(fromCode, toCode, limit)
                 .map(result -> {
                     List<Exchange> exchanges = new ArrayList<>();
-                    for (int i = 0; i < result.getData().getExchangeList().size(); i++) {
-                        TopExchangesResult.Exchange exchangeData = result.getData().getExchangeList().get(i);
-                        Currency from = Currency.valueOf(exchangeData.getFromSymbol());
-                        Currency to = Currency.valueOf(exchangeData.getToSymbol());
-                        exchanges.add(new Exchange(i+1, exchangeData.getName(), from, to, exchangeData.getPrice(), exchangeData.getVolume24Hour()));
+
+                    if (result.getData() instanceof TopExchangesResult.Data) {
+                        TopExchangesResult.Data data = (TopExchangesResult.Data)result.getData();
+
+                        if(data.getExchangeList() != null) {
+                            for (int i = 0; i < data.getExchangeList().size(); i++) {
+                                TopExchangesResult.Exchange exchangeData = data.getExchangeList().get(i);
+                                exchanges.add(new Exchange(i + 1, exchangeData.getName(), exchangeData.getFromCode(),
+                                        exchangeData.getToCode(), exchangeData.getPrice(), exchangeData.getVolume24Hour()));
+                            }
+                        }
                     }
                     return exchanges;
                 });

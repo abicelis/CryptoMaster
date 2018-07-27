@@ -18,7 +18,7 @@ public class TopExchangesResult {
 
     public String getResponse() { return response; }
     public String getMessage() { return message; }
-    public Data getData() { return data; }
+    public Object getData() { return data; }
 
 
     public class Data {
@@ -45,17 +45,17 @@ public class TopExchangesResult {
         @SerializedName("MARKET")
         private String name;
         @SerializedName("FROMSYMBOL")
-        private String fromSymbol;
+        private String fromCode;
         @SerializedName("TOSYMBOL")
-        private String toSymbol;
+        private String toCode;
         @SerializedName("PRICE")
         private double price;
         @SerializedName("VOLUME24HOUR")
         private double volume24Hour;
 
         public String getName() { return name; }
-        public String getFromSymbol() { return fromSymbol; }
-        public String getToSymbol() { return toSymbol; }
+        public String getFromCode() { return fromCode; }
+        public String getToCode() { return toCode; }
         public double getPrice() { return price; }
         public double getVolume24Hour() { return volume24Hour; }
     }
