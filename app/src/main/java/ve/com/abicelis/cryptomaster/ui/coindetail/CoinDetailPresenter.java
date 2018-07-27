@@ -4,14 +4,18 @@ import android.support.annotation.NonNull;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.List;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
+import timber.log.Timber;
+import ve.com.abicelis.cryptomaster.application.Constants;
 import ve.com.abicelis.cryptomaster.application.Message;
 import ve.com.abicelis.cryptomaster.data.DataManager;
 import ve.com.abicelis.cryptomaster.data.model.ChartTimeSpan;
 import ve.com.abicelis.cryptomaster.data.model.Coin;
 import ve.com.abicelis.cryptomaster.data.model.Currency;
+import ve.com.abicelis.cryptomaster.data.model.Exchange;
 import ve.com.abicelis.cryptomaster.data.model.coinmarketcapgraph.MarketCapPriceAndVolumeChartData;
 import ve.com.abicelis.cryptomaster.ui.base.BasePresenter;
 
@@ -24,26 +28,38 @@ public class CoinDetailPresenter extends BasePresenter<CoinDetailActivity> {
     private DataManager mDataManager;
     private long mCoinId;
     private Coin mCoin;
-
-    private boolean usingBtcForChartData = true;    //If false, displaying chart data using DefaultCurrency.
-    private ChartTimeSpan mMainChartTimeSpan;
-    private boolean mLoadingMainChart;
-    private MarketCapPriceAndVolumeChartData mChartData;
     private Currency mDefaultCurrency;
+    private boolean mIsBtcSelected;      //If false, displaying chart data using DefaultCurrency.
+
+    //Chart
+    private ChartTimeSpan mChartTimeSpan;
+    private boolean mLoadingChart;
+    private MarketCapPriceAndVolumeChartData mChartData;
+
+    //Exchanges
+    private boolean exchangesDataLoaded = false;
+    private List<Exchange> mExchangesDataBtc;
+    private List<Exchange> mExchangesDataDefaultCurrency;
 
     public CoinDetailPresenter(DataManager dataManager) {
         mDataManager = dataManager;
-        mMainChartTimeSpan = null;
-        mLoadingMainChart = false;
+        mChartTimeSpan = null;
+        mLoadingChart = false;
     }
 
     public void setCoinId(long coinId) {
         mCoinId = coinId;
     }
 
-
     public void getBasicCoinData() {
         mDefaultCurrency = mDataManager.getSharedPreferenceHelper().getDefaultCurrency();
+        mIsBtcSelected = mDataManager.getSharedPreferenceHelper().isBtcDefaultAtCoinDetailActivity();
+
+        //Set up views
+        getMvpView().setupChartAndExchangesButtons(mDefaultCurrency);
+        if(mIsBtcSelected) getMvpView().toggleBtcButtons();
+        else getMvpView().toggleDefaultCurrencyButtons();
+
 
         addDisposable(mDataManager.getLocalCoin(mCoinId)
                 .subscribeOn(Schedulers.io())
@@ -51,49 +67,48 @@ public class CoinDetailPresenter extends BasePresenter<CoinDetailActivity> {
                 .subscribe(coin -> {
                     mCoin = coin;
                     getMvpView().showBasicCoinData(coin, mDefaultCurrency);
+
+                    //Request rest of the data (chart, exchanges)
+                    getChartData(ChartTimeSpan._3M);
+                    getExchangesData();
+
                 }, throwable -> {
-                    getMvpView().showMessage(Message.ERROR_UNEXPECTED, null);
+                    Timber.e(throwable);
+                    getMvpView().couldNotFetchBasicCoinDataShowErrorAndFinish();
                 }));
     }
 
-    public Coin getCoin(){
-        return mCoin;
-    }
 
-    public void getMainChartData(@NonNull ChartTimeSpan chartTimeSpan) {
-        if(!mLoadingMainChart && (mMainChartTimeSpan == null || mMainChartTimeSpan.compareTo(chartTimeSpan) != 0)) {
-            mMainChartTimeSpan = chartTimeSpan;
-            mLoadingMainChart = true;
+    public void getChartData(@NonNull ChartTimeSpan chartTimeSpan) {
+        if(!mLoadingChart && (mChartTimeSpan == null || mChartTimeSpan.compareTo(chartTimeSpan) != 0)) {
+            mChartTimeSpan = chartTimeSpan;
+            mLoadingChart = true;
 
             //Calculate timeStart based on chartTimeSpan
             long timeStart = calculateTimeStart(chartTimeSpan);
             long timeEnd = new GregorianCalendar().getTimeInMillis();
 
-            getMvpView().mainChartShowLoading();
+            getMvpView().chartShowLoading();
             addDisposable(mDataManager.getCurrencyMarketCapPriceAndVolumeGraphData(mCoin.getWebsiteSlug(), timeStart, timeEnd, chartTimeSpan)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(data -> {
                         mChartData = data;
-                        getMvpView().chartActivateButton(mMainChartTimeSpan);
+                        getMvpView().chartActivateButton(mChartTimeSpan);
 
-                        usingBtcForChartData = true;
-                        getMvpView().showChart(mChartData, usingBtcForChartData, mDefaultCurrency);
-                        getMvpView().toggleBtcButton();
-                        mLoadingMainChart = false;
-                        getMvpView().mainChartHideLoading();
+                        getMvpView().showChart(mChartData, mIsBtcSelected, mDefaultCurrency);
+                        mLoadingChart = false;
+                        getMvpView().chartHideLoading();
                     }, throwable -> {
-                        getMvpView().showMessage(Message.ERROR_UNEXPECTED, null);
+                        getMvpView().showMessage(Message.COULD_NOT_FETCH_CHART_DATA, null);
 
-                        mLoadingMainChart = false;
-                        getMvpView().mainChartHideLoading();
-                        getMvpView().mainChartShowError();
+                        mLoadingChart = false;
+                        getMvpView().chartHideLoading();
+                        getMvpView().chartShowError();
                     }));
         }
 
     }
-
-
     private long calculateTimeStart(@NonNull ChartTimeSpan chartTimeSpan) {
         Calendar cal = Calendar.getInstance();
         long timeStart = 0L;
@@ -123,20 +138,78 @@ public class CoinDetailPresenter extends BasePresenter<CoinDetailActivity> {
         return timeStart;
     }
 
-    public void onBtcClickedForChart() {
-        if(!usingBtcForChartData && !mLoadingMainChart && mChartData != null) {
-            usingBtcForChartData = true;
-            getMvpView().showChart(mChartData, usingBtcForChartData, mDefaultCurrency);
-            getMvpView().toggleBtcButton();
+
+    public void getExchangesData() {
+
+        String toCode, toCode2;
+        if(mIsBtcSelected) {
+            toCode = Currency.BTC.getCode();
+            toCode2 = mDefaultCurrency.getCode();
+        } else {
+            toCode = mDefaultCurrency.getCode();
+            toCode2 = Currency.BTC.getCode();
+        }
+
+        getMvpView().exchangesShowLoading();
+        addDisposable(mDataManager.getTopExchangesByPair(mCoin.getCode(), toCode, Constants.MISC_MAX_EXCHANGES_ENTRIES)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(result -> {
+
+                    if(mIsBtcSelected)
+                        mExchangesDataBtc = result;
+                    else
+                        mExchangesDataDefaultCurrency = result;
+
+                    getMvpView().showExchanges(result);
+                    getMvpView().exchangesHideLoading();
+
+                    addDisposable(mDataManager.getTopExchangesByPair(mCoin.getCode(), toCode2, Constants.MISC_MAX_EXCHANGES_ENTRIES)
+                            .subscribeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe(result2 -> {
+                                        exchangesDataLoaded = true;
+
+                                        if(mIsBtcSelected)
+                                            mExchangesDataDefaultCurrency = result2;
+                                        else
+                                            mExchangesDataBtc = result2;
+                                    },
+                                    throwable2 ->{
+                                        Timber.i(throwable2);
+                                    } ));
+
+                }, throwable ->  {
+                    Timber.i(throwable);
+                    getMvpView().showMessage(Message.COULD_NOT_FETCH_EXCHANGE_DATA, null);
+
+                    getMvpView().exchangesHideLoading();
+                    getMvpView().exchangesShowError();
+                }));
+    }
+
+
+    public void onBtcClicked() {
+        if(!mIsBtcSelected && !mLoadingChart && mChartData != null && exchangesDataLoaded) {
+            mDataManager.getSharedPreferenceHelper().setBtcDefaultAtCoinDetailActivity(true);
+            mIsBtcSelected = true;
+            getMvpView().showChart(mChartData, mIsBtcSelected, mDefaultCurrency);
+            getMvpView().showExchanges(mExchangesDataBtc);
+            getMvpView().toggleBtcButtons();
         }
 
     }
 
-    public void onDefaultCurrencyClickedForChart() {
-        if(usingBtcForChartData && !mLoadingMainChart && mChartData != null) {
-            usingBtcForChartData = false;
-            getMvpView().showChart(mChartData, usingBtcForChartData, mDefaultCurrency);
-            getMvpView().toggleDefaultCurrencyButton();
+    public void onDefaultCurrencyClicked() {
+        if(mIsBtcSelected && !mLoadingChart && mChartData != null && exchangesDataLoaded) {
+            mDataManager.getSharedPreferenceHelper().setBtcDefaultAtCoinDetailActivity(false);
+            mIsBtcSelected = false;
+            getMvpView().showChart(mChartData, mIsBtcSelected, mDefaultCurrency);
+            getMvpView().showExchanges(mExchangesDataDefaultCurrency);
+            getMvpView().toggleDefaultCurrencyButtons();
         }
     }
+
+
+
 }

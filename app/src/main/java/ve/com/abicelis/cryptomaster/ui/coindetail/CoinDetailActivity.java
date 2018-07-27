@@ -1,16 +1,15 @@
 package ve.com.abicelis.cryptomaster.ui.coindetail;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BaseTransientBottomBar;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.text.Spannable;
 import android.text.SpannableString;
-import android.text.style.ForegroundColorSpan;
 import android.text.style.RelativeSizeSpan;
 import android.view.MenuItem;
 import android.view.View;
@@ -31,7 +30,6 @@ import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 
-import java.math.BigDecimal;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -48,16 +46,15 @@ import timber.log.Timber;
 import ve.com.abicelis.cryptomaster.R;
 import ve.com.abicelis.cryptomaster.application.Constants;
 import ve.com.abicelis.cryptomaster.application.Message;
-import ve.com.abicelis.cryptomaster.data.local.SharedPreferenceHelper;
 import ve.com.abicelis.cryptomaster.data.model.ChartTimeSpan;
 import ve.com.abicelis.cryptomaster.data.model.Coin;
 import ve.com.abicelis.cryptomaster.data.model.Currency;
+import ve.com.abicelis.cryptomaster.data.model.Exchange;
 import ve.com.abicelis.cryptomaster.data.model.coinmarketcapgraph.MarketCapPriceAndVolumeChartData;
 import ve.com.abicelis.cryptomaster.ui.base.BaseActivity;
 import ve.com.abicelis.cryptomaster.util.AttrUtil;
 import ve.com.abicelis.cryptomaster.util.SnackbarUtil;
 import ve.com.abicelis.cryptomaster.util.TextViewUtil;
-import ve.com.abicelis.cryptomaster.util.ViewUtil;
 
 /**
  * Created by abicelis on 17/7/2018.
@@ -72,12 +69,6 @@ public class CoinDetailActivity extends BaseActivity implements CoinDetailMvpVie
     TextView mToolbarTitle;
     @BindView(R.id.activity_coin_detail_toolbar_subtitle)
     TextView mToolbarSubtitle;
-//    @BindView(R.id.activity_coin_detail_toolbar_btc)
-//    ImageView mToolbarBtc;
-//    @BindView(R.id.activity_coin_detail_toolbar_default_currency)
-//    ImageView mToolbarDefaultCurrency;
-
-
 
 
     //activity_coin_detail_basic.xml
@@ -98,7 +89,6 @@ public class CoinDetailActivity extends BaseActivity implements CoinDetailMvpVie
     TextView mBasicCirculatingSupply;
     @BindView(R.id.activity_coin_detail_basic_total_supply)
     TextView mBasicTotalSupply;
-
 
 
     //activity_coin_detail_chart.xml
@@ -131,6 +121,28 @@ public class CoinDetailActivity extends BaseActivity implements CoinDetailMvpVie
     @BindView(R.id.activity_coin_detail_chart_all)
     TextView mCoinDetailChartButtonAll;
 
+
+    //activity_coin_detail_exchanges.xml
+    @BindView(R.id.activity_coin_detail_exchanges_button_container)
+    LinearLayout mExchangesButtonContainer;
+    @BindView(R.id.activity_coin_detail_exchanges_button_btc)
+    TextView mExchangesButtonBtc;
+    @BindView(R.id.activity_coin_detail_exchanges_button_default_currency)
+    TextView mExchangesButtonDefaultCurrency;
+    @BindView(R.id.activity_coin_detail_exchanges_loading_container)
+    FrameLayout mCoinDetailExchangesLoadingContainer;
+    @BindView(R.id.activity_coin_detail_exchanges_error)
+    TextView mCoinDetailExchangesError;
+
+    @BindView(R.id.activity_coin_detail_exchanges_recycler)
+    RecyclerView mExchangesRecycler;
+    private LinearLayoutManager mLayoutManager;
+    private ExchangeAdapter mExchangesAdapter;
+    @BindView(R.id.activity_coin_detail_exchanges_show_all)
+    TextView mCoinDetailExchangesShowAll;
+
+
+
     @Inject
     CoinDetailPresenter mCoinDetailPresenter;
 
@@ -158,16 +170,12 @@ public class CoinDetailActivity extends BaseActivity implements CoinDetailMvpVie
             showMessage(Message.COIN_FRAGMENT_TYPE_MISSING, callback);
         }
 
-        mToolbar.setTitle("");
-        mToolbar.setNavigationIcon(ContextCompat.getDrawable(this, R.drawable.ic_arrow_back));
-        setSupportActionBar(mToolbar);
-
-        toggleBtcButton();
-        mCoinDetailPresenter.getBasicCoinData();
-
-
+        setupToolbar();
+        setupRecycler();
         mCoinDetailChart.setNoDataText("");
 
+
+        //Listeners
         mCoinDetailChartButton24h.setOnClickListener(this);
         mCoinDetailChartButton7d.setOnClickListener(this);
         mCoinDetailChartButton1m.setOnClickListener(this);
@@ -177,6 +185,25 @@ public class CoinDetailActivity extends BaseActivity implements CoinDetailMvpVie
 
         mChartButtonBtc.setOnClickListener(this);
         mChartButtonDefaultCurrency.setOnClickListener(this);
+
+        mExchangesButtonBtc.setOnClickListener(this);
+        mExchangesButtonDefaultCurrency.setOnClickListener(this);
+        mCoinDetailExchangesShowAll.setOnClickListener(this);
+
+        mCoinDetailPresenter.getBasicCoinData();
+    }
+
+    private void setupToolbar() {
+        mToolbar.setTitle("");
+        mToolbar.setNavigationIcon(ContextCompat.getDrawable(this, R.drawable.ic_arrow_back));
+        setSupportActionBar(mToolbar);
+    }
+
+    private void setupRecycler() {
+        mLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        mExchangesAdapter = new ExchangeAdapter(this);
+        mExchangesRecycler.setLayoutManager(mLayoutManager);
+        mExchangesRecycler.setAdapter(mExchangesAdapter);
     }
 
     @Override
@@ -184,16 +211,6 @@ public class CoinDetailActivity extends BaseActivity implements CoinDetailMvpVie
         super.onDestroy();
         mCoinDetailPresenter.detachView();
     }
-
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        getMenuInflater().inflate(R.menu.menu_activity_coin_detail, menu);
-//        menu.findItem(R.id.menu_activity_coin_detail_btc).setIcon()
-//
-//        Glide.with(mIcon).load(String.format(Constants.COINMARKETCAP_ICONS_16_PX_BASE_URL, mCoinDetailPresenter.getCoin().getId())).into(mIcon);
-//
-//        return super.onCreateOptionsMenu(menu);
-//    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -207,55 +224,42 @@ public class CoinDetailActivity extends BaseActivity implements CoinDetailMvpVie
         return super.onOptionsItemSelected(item);
     }
 
-
     @Override
     public void onClick(View v) {
         int id = v.getId();
         switch (id) {
             case R.id.activity_coin_detail_chart_24h:
-                mCoinDetailPresenter.getMainChartData(ChartTimeSpan._24H);
+                mCoinDetailPresenter.getChartData(ChartTimeSpan._24H);
                 break;
             case R.id.activity_coin_detail_chart_7d:
-                mCoinDetailPresenter.getMainChartData(ChartTimeSpan._7D);
+                mCoinDetailPresenter.getChartData(ChartTimeSpan._7D);
                 break;
             case R.id.activity_coin_detail_chart_1m:
-                mCoinDetailPresenter.getMainChartData(ChartTimeSpan._1M);
+                mCoinDetailPresenter.getChartData(ChartTimeSpan._1M);
                 break;
             case R.id.activity_coin_detail_chart_3m:
-                mCoinDetailPresenter.getMainChartData(ChartTimeSpan._3M);
+                mCoinDetailPresenter.getChartData(ChartTimeSpan._3M);
                 break;
             case R.id.activity_coin_detail_chart_1y:
-                mCoinDetailPresenter.getMainChartData(ChartTimeSpan._1Y);
+                mCoinDetailPresenter.getChartData(ChartTimeSpan._1Y);
                 break;
             case R.id.activity_coin_detail_chart_all:
-                mCoinDetailPresenter.getMainChartData(ChartTimeSpan.ALL);
+                mCoinDetailPresenter.getChartData(ChartTimeSpan.ALL);
                 break;
 
             case R.id.activity_coin_detail_chart_button_btc:
-                mCoinDetailPresenter.onBtcClickedForChart();
+            case R.id.activity_coin_detail_exchanges_button_btc:
+                mCoinDetailPresenter.onBtcClicked();
                 break;
-
             case R.id.activity_coin_detail_chart_button_default_currency:
-                mCoinDetailPresenter.onDefaultCurrencyClickedForChart();
+            case R.id.activity_coin_detail_exchanges_button_default_currency:
+                mCoinDetailPresenter.onDefaultCurrencyClicked();
                 break;
         }
+
     }
 
-    @Override
-    public void toggleBtcButton() {
-        mChartButtonBtc.setBackgroundColor(AttrUtil.getAttributeColor(this, R.attr.chart_line));
-        mChartButtonBtc.setTextColor(AttrUtil.getAttributeColor(this, R.attr.text_primary));
-        mChartButtonDefaultCurrency.setBackgroundColor(AttrUtil.getAttributeColor(this, R.attr.button_not_checked));
-        mChartButtonDefaultCurrency.setTextColor(AttrUtil.getAttributeColor(this, R.attr.text_disabled));
-    }
 
-    @Override
-    public void toggleDefaultCurrencyButton() {
-        mChartButtonDefaultCurrency.setBackgroundColor(AttrUtil.getAttributeColor(this, R.attr.chart_line_3));
-        mChartButtonDefaultCurrency.setTextColor(AttrUtil.getAttributeColor(this, R.attr.text_primary));
-        mChartButtonBtc.setBackgroundColor(AttrUtil.getAttributeColor(this, R.attr.button_not_checked));
-        mChartButtonBtc.setTextColor(AttrUtil.getAttributeColor(this, R.attr.text_disabled));
-    }
 
     /* CoinDetailMvpView implementation */
 
@@ -265,13 +269,9 @@ public class CoinDetailActivity extends BaseActivity implements CoinDetailMvpVie
 
         //Toolbar
         mToolbarTitle.setText(coin.getName());
-        mToolbarSubtitle.setText(coin.getSymbol());
-
-        //Request chart data
-        mCoinDetailPresenter.getMainChartData(ChartTimeSpan._3M);
+        mToolbarSubtitle.setText(coin.getCode());
 
 
-        //activity_coin_detail_basic.xml
         Glide.with(mLogo).load(String.format(Constants.COINMARKETCAP_ICONS_64_PX_BASE_URL, coin.getId())).into(mLogo);
         int integerPartStartAt = (defaultCurrency.hasSymbol() ? defaultCurrency.getSymbol().length() : 0);
         int integerPartLength = String.valueOf((int)coin.getQuoteDefaultPrice()).length() + integerPartStartAt + 1;
@@ -283,12 +283,10 @@ public class CoinDetailActivity extends BaseActivity implements CoinDetailMvpVie
         ss1.setSpan(new RelativeSizeSpan(1.5f), integerPartStartAt, integerPartLength, 0);
         mBasicPriceFiat.setText(ss1);
 
-
         if(defaultCurrency.isBitcoin())
             mBasicPriceCrypto.setVisibility(View.GONE);
         else
             mBasicPriceCrypto.setText(String.format(Locale.getDefault(), "%1$s%2$.8f", Currency.BTC.getSymbol(), coin.getQuoteBtcPrice()));
-
 
         mBasicRank.setText(String.format(Locale.getDefault(), "#%s", formatter.format(coin.getRank())));
         if(defaultCurrency.hasSymbol()) {
@@ -298,17 +296,41 @@ public class CoinDetailActivity extends BaseActivity implements CoinDetailMvpVie
             mBasicMarketCap.setText(String.format(Locale.getDefault(), "%1$s %2$s", formatter.format(coin.getQuoteDefaultMarketCap()), defaultCurrency.getCode()));
             mBasicVolume.setText(String.format(Locale.getDefault(), "%1$s %2$s", formatter.format(coin.getQuoteDefaultVolume()), defaultCurrency.getCode()));
         }
-        mBasicCirculatingSupply.setText(String.format(Locale.getDefault(), "%1$s %2$s", formatter.format(coin.getCirculatingSupply()), coin.getSymbol()));
-        mBasicTotalSupply.setText(String.format(Locale.getDefault(), "%1$s %2$s", formatter.format(coin.getTotalSupply()), coin.getSymbol()));
+        mBasicCirculatingSupply.setText(String.format(Locale.getDefault(), "%1$s %2$s", formatter.format(coin.getCirculatingSupply()), coin.getCode()));
+        mBasicTotalSupply.setText(String.format(Locale.getDefault(), "%1$s %2$s", formatter.format(coin.getTotalSupply()), coin.getCode()));
 
+    }
 
-        //activity_coin_detail_chart.xml
-        if(defaultCurrency == Currency.BTC) {
-            mChartButtonContainer.setVisibility(View.GONE);
-        } else {
-            mChartButtonBtc.setText(Currency.BTC.getCode());
-            mChartButtonDefaultCurrency.setText(defaultCurrency.getCode());
-        }
+    @Override
+    public void couldNotFetchBasicCoinDataShowErrorAndFinish() {
+        BaseTransientBottomBar.BaseCallback<Snackbar> callback = new BaseTransientBottomBar.BaseCallback<Snackbar>() {
+            @Override
+            public void onDismissed(Snackbar transientBottomBar, int event) {
+                super.onDismissed(transientBottomBar, event);
+                finish();
+            }
+        };
+        showMessage(Message.ERROR_UNEXPECTED, callback);
+        chartHideLoading();
+        chartShowError();
+        exchangesHideLoading();
+        exchangesShowError();
+    }
+
+    @Override
+    public void chartShowLoading() {
+        mCoinDetailChartLoadingContainer.animate().setInterpolator(new LinearInterpolator()).alpha(1.0f).start();
+        mCoinDetailChartError.animate().setInterpolator(new LinearInterpolator()).alpha(0.0f).start();
+    }
+
+    @Override
+    public void chartShowError() {
+        mCoinDetailChartError.animate().setInterpolator(new LinearInterpolator()).alpha(1.0f).start();
+    }
+
+    @Override
+    public void chartHideLoading() {
+        mCoinDetailChartLoadingContainer.animate().setInterpolator(new LinearInterpolator()).alpha(0.0f).start();
     }
 
     @Override
@@ -382,7 +404,6 @@ public class CoinDetailActivity extends BaseActivity implements CoinDetailMvpVie
         mCoinDetailChart.getLegend().setEnabled(false);
         mCoinDetailChart.animateX(Constants.MISC_CHART_ANIMATION_DURATION, Constants.MISC_CHART_ANIMATION_EASING);
     }
-
     private void showChartInfo(MarketCapPriceAndVolumeChartData data, boolean showBtcChart, Currency defaultCurrency) {
         char plusOrMinus;
         String currencySymbol = "";
@@ -428,24 +449,6 @@ public class CoinDetailActivity extends BaseActivity implements CoinDetailMvpVie
                 colorNegative, currencySymbol, priceMin, currencyCode, colorPositive, currencySymbol, priceMax, currencyCode )));
     }
 
-
-    @Override
-    public void mainChartShowLoading() {
-        mCoinDetailChartLoadingContainer.animate().setInterpolator(new LinearInterpolator()).alpha(1.0f).start();
-        mCoinDetailChartError.animate().setInterpolator(new LinearInterpolator()).alpha(0.0f).start();
-    }
-
-    @Override
-    public void mainChartShowError() {
-        mCoinDetailChartError.animate().setInterpolator(new LinearInterpolator()).alpha(1.0f).start();
-    }
-
-    @Override
-    public void mainChartHideLoading() {
-        mCoinDetailChartLoadingContainer.animate().setInterpolator(new LinearInterpolator()).alpha(0.0f).start();
-
-    }
-
     @Override
     public void chartActivateButton(ChartTimeSpan chartTimeSpan) {
         int activeColor = AttrUtil.getAttributeColor(this, R.attr.chart_button_active);
@@ -480,10 +483,91 @@ public class CoinDetailActivity extends BaseActivity implements CoinDetailMvpVie
         }
     }
 
+
+
+
+
+    @Override
+    public void exchangesShowLoading() {
+        mCoinDetailExchangesLoadingContainer.animate().setInterpolator(new LinearInterpolator()).alpha(1.0f).start();
+        mCoinDetailExchangesError.animate().setInterpolator(new LinearInterpolator()).alpha(0.0f).start();
+    }
+
+    @Override
+    public void exchangesShowError() {
+        mCoinDetailExchangesError.animate().setInterpolator(new LinearInterpolator()).alpha(1.0f).start();
+
+    }
+
+    @Override
+    public void exchangesHideLoading() {
+        mCoinDetailExchangesLoadingContainer.animate().setInterpolator(new LinearInterpolator()).alpha(0.0f).start();
+
+    }
+
+    @Override
+    public void showExchanges(List<Exchange> exchangeList) {
+        int prevItems = mExchangesAdapter.getItemCount();
+        mExchangesAdapter.getItems().clear();
+        if (prevItems > 0)
+            mExchangesAdapter.notifyItemRangeRemoved(0 , prevItems);
+        mExchangesAdapter.getItems().addAll(exchangeList);
+        mExchangesAdapter.notifyItemInserted(0);
+    }
+
+
+
+
+
+    @Override
+    public void setupChartAndExchangesButtons(Currency defaultCurrency) {
+        if(defaultCurrency == Currency.BTC) {
+            mChartButtonContainer.setVisibility(View.GONE);
+            mExchangesButtonContainer.setVisibility(View.GONE);
+        } else {
+            mChartButtonBtc.setText(Currency.BTC.getCode());
+            mChartButtonDefaultCurrency.setText(defaultCurrency.getCode());
+            mExchangesButtonBtc.setText(Currency.BTC.getCode());
+            mExchangesButtonDefaultCurrency.setText(defaultCurrency.getCode());
+        }
+    }
+
+    @Override
+    public void toggleBtcButtons() {
+        mChartButtonBtc.setBackgroundColor(AttrUtil.getAttributeColor(this, R.attr.chart_line));
+        mChartButtonBtc.setTextColor(AttrUtil.getAttributeColor(this, R.attr.text_primary));
+        mChartButtonDefaultCurrency.setBackgroundColor(AttrUtil.getAttributeColor(this, R.attr.button_not_checked));
+        mChartButtonDefaultCurrency.setTextColor(AttrUtil.getAttributeColor(this, R.attr.text_disabled));
+
+        mExchangesButtonBtc.setBackgroundColor(AttrUtil.getAttributeColor(this, R.attr.chart_line));
+        mExchangesButtonBtc.setTextColor(AttrUtil.getAttributeColor(this, R.attr.text_primary));
+        mExchangesButtonDefaultCurrency.setBackgroundColor(AttrUtil.getAttributeColor(this, R.attr.button_not_checked));
+        mExchangesButtonDefaultCurrency.setTextColor(AttrUtil.getAttributeColor(this, R.attr.text_disabled));
+    }
+
+    @Override
+    public void toggleDefaultCurrencyButtons() {
+        mChartButtonDefaultCurrency.setBackgroundColor(AttrUtil.getAttributeColor(this, R.attr.chart_line_3));
+        mChartButtonDefaultCurrency.setTextColor(AttrUtil.getAttributeColor(this, R.attr.text_primary));
+        mChartButtonBtc.setBackgroundColor(AttrUtil.getAttributeColor(this, R.attr.button_not_checked));
+        mChartButtonBtc.setTextColor(AttrUtil.getAttributeColor(this, R.attr.text_disabled));
+
+        mExchangesButtonDefaultCurrency.setBackgroundColor(AttrUtil.getAttributeColor(this, R.attr.chart_line_3));
+        mExchangesButtonDefaultCurrency.setTextColor(AttrUtil.getAttributeColor(this, R.attr.text_primary));
+        mExchangesButtonBtc.setBackgroundColor(AttrUtil.getAttributeColor(this, R.attr.button_not_checked));
+        mExchangesButtonBtc.setTextColor(AttrUtil.getAttributeColor(this, R.attr.text_disabled));
+    }
+
+
+
+
+
     @Override
     public void showMessage(Message message, @Nullable BaseTransientBottomBar.BaseCallback<Snackbar> callback) {
         SnackbarUtil.showSnackbar(mContainer, message.getMessageType(), message.getFriendlyNameRes(), SnackbarUtil.SnackbarDuration.SHORT, callback);
     }
+
+
 
 
 
@@ -504,7 +588,6 @@ public class CoinDetailActivity extends BaseActivity implements CoinDetailMvpVie
             return String.format(Locale.getDefault(), format, currencySymbol, value, currencyCode);
         }
     }
-
     class XAxisFormatter implements IAxisValueFormatter {
 
         private List<Long> timestamps;
@@ -546,6 +629,4 @@ public class CoinDetailActivity extends BaseActivity implements CoinDetailMvpVie
             return dateFormat.format(cal.getTime());
         }
     }
-
-
 }
