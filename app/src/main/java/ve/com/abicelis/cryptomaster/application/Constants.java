@@ -21,9 +21,10 @@ import ve.com.abicelis.cryptomaster.data.model.CoinsSortType;
 public class Constants {
 
     /* MISC */
-    public static final int                     MISC_OK_HTTP_READ_TIMEOUT_SECONDS =                 5;
-    public static final int                     MISC_OK_HTTP_CONNECT_TIMEOUT_SECONDS =              5;
+    public static final int                     MISC_OK_HTTP_READ_TIMEOUT_SECONDS =                 2;
+    public static final int                     MISC_OK_HTTP_CONNECT_TIMEOUT_SECONDS =              2;
     public static final int                     MISC_MAX_CHART_ENTRIES =                            100;
+    public static final int                     MISC_MAX_EXCHANGES_ENTRIES =                        20;
     public static final int                     MISC_MAX_DECIMAL_NUMBERS =                          5;
     public static final int                     MISC_BILLION_DIVIDER =                              1000000000;
     public static final CoinsSortType           EXTRA_DEFAULT_COINS_SORT_TYPE =                     CoinsSortType.MCAP_DESCENDING;
@@ -48,6 +49,7 @@ public class Constants {
     public static final String                  SHARED_PREFERENCE_COINS_TO_FETCH =                  "SHARED_PREFERENCE_COINS_TO_FETCH";
     public static final String                  SHARED_PREFERENCE_CURRENCY =                        "SHARED_PREFERENCE_CURRENCY";
     public static final String                  SHARED_PREFERENCE_START_FRAGMENT =                  "SHARED_PREFERENCE_START_FRAGMENT";
+    public static final String                  SHARED_PREFERENCE_COIN_DETAIL_BTC_DEFAULT =         "SHARED_PREFERENCE_COIN_DETAIL_BTC_DEFAULT";
 
 
     /* ROOM DATABASE */

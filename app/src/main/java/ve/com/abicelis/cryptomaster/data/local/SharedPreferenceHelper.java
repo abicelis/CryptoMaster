@@ -100,6 +100,16 @@ public class SharedPreferenceHelper {
 
 
 
+    /* BTC DEFAULT AT COIN DETAIL ACTIVITY */
+    public boolean isBtcDefaultAtCoinDetailActivity() {
+        return mSharedPreferences.getBoolean(Constants.SHARED_PREFERENCE_COIN_DETAIL_BTC_DEFAULT, true);
+    }
+    public void setBtcDefaultAtCoinDetailActivity(boolean value) {
+        mSharedPreferences.edit().putBoolean(Constants.SHARED_PREFERENCE_START_FRAGMENT, value).apply();
+    }
+
+
+
 
 
 
