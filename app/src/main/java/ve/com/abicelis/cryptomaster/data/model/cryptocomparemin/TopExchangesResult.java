@@ -21,7 +21,7 @@ public class TopExchangesResult {
     public Data getData() { return data; }
 
 
-    private class Data {
+    public class Data {
         @SerializedName("Exchanges")
         private List<Exchange> exchangeList;
         @SerializedName("CoinInfo")
@@ -31,7 +31,7 @@ public class TopExchangesResult {
         public CoinInfo getCoinInfo() { return coinInfo; }
     }
 
-    private class CoinInfo {
+    public class CoinInfo {
         @SerializedName("Name")
         private String name;
         @SerializedName("FullName")
@@ -41,15 +41,21 @@ public class TopExchangesResult {
         public String getFullName() { return fullName; }
     }
 
-    private class Exchange {
+    public class Exchange {
         @SerializedName("MARKET")
         private String name;
+        @SerializedName("FROMSYMBOL")
+        private String fromSymbol;
+        @SerializedName("TOSYMBOL")
+        private String toSymbol;
         @SerializedName("PRICE")
         private double price;
         @SerializedName("VOLUME24HOUR")
         private double volume24Hour;
 
         public String getName() { return name; }
+        public String getFromSymbol() { return fromSymbol; }
+        public String getToSymbol() { return toSymbol; }
         public double getPrice() { return price; }
         public double getVolume24Hour() { return volume24Hour; }
     }

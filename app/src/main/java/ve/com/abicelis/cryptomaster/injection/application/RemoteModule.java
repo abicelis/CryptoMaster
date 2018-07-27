@@ -90,8 +90,6 @@ public class RemoteModule {
                                           @Named(COINMARKETCAP_BASE_URL) String baseUrl,
                                           OkHttpClient okHttpClient) {
 
-
-
         return new Retrofit.Builder()
                 .baseUrl(baseUrl)
                 .addConverterFactory(converter)

@@ -19,6 +19,7 @@ import ve.com.abicelis.cryptomaster.data.local.SharedPreferenceHelper;
 import ve.com.abicelis.cryptomaster.data.model.ChartTimeSpan;
 import ve.com.abicelis.cryptomaster.data.model.Coin;
 import ve.com.abicelis.cryptomaster.data.model.Currency;
+import ve.com.abicelis.cryptomaster.data.model.Exchange;
 import ve.com.abicelis.cryptomaster.data.model.FavoriteCoin;
 import ve.com.abicelis.cryptomaster.data.model.coinmarketcap.GlobalResult;
 import ve.com.abicelis.cryptomaster.data.model.coinmarketcap.TickerResult;
@@ -491,8 +492,18 @@ public class DataManager {
     }
 
 
-    public Single<TopExchangesResult> getTopExchangesByPair(String fromSymbol, String toSymbol, int limit) {
-        return mCryptoCompareMinApi.getTopExchangesByPair(fromSymbol, toSymbol, limit);
+    public Single<List<Exchange>> getTopExchangesByPair(String fromSymbol, String toSymbol, int limit) {
+        return mCryptoCompareMinApi.getTopExchangesByPair(fromSymbol, toSymbol, limit)
+                .map(result -> {
+                    List<Exchange> exchanges = new ArrayList<>();
+                    for (int i = 0; i < result.getData().getExchangeList().size(); i++) {
+                        TopExchangesResult.Exchange exchangeData = result.getData().getExchangeList().get(i);
+                        Currency from = Currency.valueOf(exchangeData.getFromSymbol());
+                        Currency to = Currency.valueOf(exchangeData.getToSymbol());
+                        exchanges.add(new Exchange(i+1, exchangeData.getName(), from, to, exchangeData.getPrice(), exchangeData.getVolume24Hour()));
+                    }
+                    return exchanges;
+                });
     }
 
 }
