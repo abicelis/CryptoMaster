@@ -1,12 +1,12 @@
 {
   "formatVersion": 1,
   "database": {
-    "version": 2,
-    "identityHash": "be83230836d9428b4c998e0be5c309e0",
+    "version": 3,
+    "identityHash": "580814b3732d17fee9e796be757343e0",
     "entities": [
       {
         "tableName": "coin",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`coin_id` INTEGER NOT NULL, `name` TEXT, `symbol` TEXT, `website_slug` TEXT, `rank` INTEGER NOT NULL, `circulating_supply` INTEGER NOT NULL, `total_supply` INTEGER NOT NULL, `max_supply` INTEGER NOT NULL, `last_updated` INTEGER NOT NULL, `quoteUsdPrice` REAL NOT NULL, `quote_usd_volume_24h` REAL NOT NULL, `quote_usd_market_cap` REAL NOT NULL, `quoteDefaultPrice` REAL NOT NULL, `quote_default_volume_24h` REAL NOT NULL, `quote_default_market_cap` REAL NOT NULL, `percent_change_1h` REAL NOT NULL, `percent_change_24h` REAL NOT NULL, `percent_change_7d` REAL NOT NULL, PRIMARY KEY(`coin_id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`coin_id` INTEGER NOT NULL, `name` TEXT, `code` TEXT, `website_slug` TEXT, `rank` INTEGER NOT NULL, `circulating_supply` INTEGER NOT NULL, `total_supply` INTEGER NOT NULL, `max_supply` INTEGER NOT NULL, `last_updated` INTEGER NOT NULL, `quoteUsdPrice` REAL NOT NULL, `quote_usd_volume_24h` REAL NOT NULL, `quote_usd_market_cap` REAL NOT NULL, `quoteDefaultPrice` REAL NOT NULL, `quote_default_volume_24h` REAL NOT NULL, `quote_default_market_cap` REAL NOT NULL, `percent_change_1h` REAL NOT NULL, `percent_change_24h` REAL NOT NULL, `percent_change_7d` REAL NOT NULL, PRIMARY KEY(`coin_id`))",
         "fields": [
           {
             "fieldPath": "id",
@@ -22,7 +22,7 @@
           },
           {
             "fieldPath": "code",
-            "columnName": "symbol",
+            "columnName": "code",
             "affinity": "TEXT",
             "notNull": false
           },
@@ -131,6 +131,14 @@
               "name"
             ],
             "createSql": "CREATE  INDEX `index_coin_name` ON `${TABLE_NAME}` (`name`)"
+          },
+          {
+            "name": "index_coin_code",
+            "unique": false,
+            "columnNames": [
+              "code"
+            ],
+            "createSql": "CREATE  INDEX `index_coin_code` ON `${TABLE_NAME}` (`code`)"
           }
         ],
         "foreignKeys": []
@@ -158,7 +166,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"be83230836d9428b4c998e0be5c309e0\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"580814b3732d17fee9e796be757343e0\")"
     ]
   }
 }
