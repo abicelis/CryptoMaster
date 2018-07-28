@@ -6,6 +6,7 @@ import android.support.design.widget.BaseTransientBottomBar;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -204,6 +205,8 @@ public class CoinDetailActivity extends BaseActivity implements CoinDetailMvpVie
         mExchangesAdapter = new ExchangeAdapter(this);
         mExchangesRecycler.setLayoutManager(mLayoutManager);
         mExchangesRecycler.setAdapter(mExchangesAdapter);
+        ViewCompat.setNestedScrollingEnabled(mExchangesRecycler, false);
+
     }
 
     @Override
