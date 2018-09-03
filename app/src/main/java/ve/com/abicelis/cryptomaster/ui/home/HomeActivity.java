@@ -25,6 +25,7 @@ import ve.com.abicelis.cryptomaster.application.Constants;
 import ve.com.abicelis.cryptomaster.application.Message;
 import ve.com.abicelis.cryptomaster.data.local.SharedPreferenceHelper;
 import ve.com.abicelis.cryptomaster.data.model.CoinsFragmentType;
+import ve.com.abicelis.cryptomaster.ui.alarm.AlarmFragment;
 import ve.com.abicelis.cryptomaster.ui.base.BaseActivity;
 import ve.com.abicelis.cryptomaster.ui.coins.CoinsFragment;
 import ve.com.abicelis.cryptomaster.ui.market.MarketFragment;
@@ -71,30 +72,29 @@ public class HomeActivity extends BaseActivity implements HomeMvpView {
         mViewPager.setPagingEnabled(false);
         mViewpagerAdapter = new BottomNavigationAdapter(getSupportFragmentManager());
 
-        Bundle bundle = new Bundle();
-        bundle.putInt(ColorFragment.COLOR_OF_FRAGMENT, Color.RED);
-        ColorFragment fragment = new ColorFragment();
-        fragment.setArguments(bundle);
+        //ALARM FRAGMENT
+        AlarmFragment fragment = new AlarmFragment();
         mViewpagerAdapter.addFragment(fragment);
 
-        //bundle = new Bundle();
-        //bundle.putInt(ColorFragment.COLOR_OF_FRAGMENT, Color.GREEN);
+        //MARKET FRAGMENT
         MarketFragment mFragment = new MarketFragment();
-        //fragment.setArguments(bundle);
         mViewpagerAdapter.addFragment(mFragment);
 
-        bundle = new Bundle();
+        //COINS FRAGMENT
+        Bundle bundle = new Bundle();
         bundle.putSerializable(Constants.COINS_FRAGMENT_TYPE, CoinsFragmentType.NORMAL);
         CoinsFragment coinsFragment = new CoinsFragment();
         coinsFragment.setArguments(bundle);
         mViewpagerAdapter.addFragment(coinsFragment);
 
+        //FAV COINS FRAGMENT
         bundle = new Bundle();
         bundle.putSerializable(Constants.COINS_FRAGMENT_TYPE, CoinsFragmentType.FAVORITES);
         coinsFragment = new CoinsFragment();
         coinsFragment.setArguments(bundle);
         mViewpagerAdapter.addFragment(coinsFragment);
 
+        //PREFERENCE FRAGMENT
         PreferenceFragment preferenceFragment = new PreferenceFragment();
         mViewpagerAdapter.addFragment(preferenceFragment);
 

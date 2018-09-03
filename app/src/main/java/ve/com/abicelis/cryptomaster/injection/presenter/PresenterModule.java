@@ -5,6 +5,7 @@ import android.app.Activity;
 import dagger.Module;
 import dagger.Provides;
 import ve.com.abicelis.cryptomaster.data.DataManager;
+import ve.com.abicelis.cryptomaster.ui.alarm.AlarmPresenter;
 import ve.com.abicelis.cryptomaster.ui.coindetail.CoinDetailPresenter;
 import ve.com.abicelis.cryptomaster.ui.coins.CoinsListPresenter;
 import ve.com.abicelis.cryptomaster.ui.home.HomePresenter;
@@ -38,6 +39,11 @@ public class PresenterModule {
     @Provides
     MarketPresenter marketPresenter(DataManager dataManager) {
         return new MarketPresenter(dataManager);
+    }
+
+    @Provides
+    AlarmPresenter alarmPresenter(DataManager dataManager) {
+        return new AlarmPresenter(dataManager);
     }
 
     @Provides
