@@ -344,14 +344,14 @@ public class DataManager {
                     List<Entry> volumeEntries = new ArrayList<>();
                     List<Long> timestamps = new ArrayList<>();
 
-                    long[][] mcapVals = result.getMarketCapByAvailableSupply();
-                    long[][] volumeVals = result.getVolumeUsd();
+                    double[][] mcapVals = result.getMarketCapByAvailableSupply();
+                    double[][] volumeVals = result.getVolumeUsd();
 
                     int increment = calculateIncrementFor(result.getMarketCapByAvailableSupply().length);
                     int count = 0;
                     for (int i = 0; i < result.getMarketCapByAvailableSupply().length; i+=increment) {
 
-                        long x = mcapVals[i][0];
+                        long x = (long)mcapVals[i][0];
                         float yMcap = ((float) mcapVals[i][1]) / Constants.MISC_BILLION_DIVIDER;
                         float yVol = ((float) volumeVals[i][1]) / Constants.MISC_BILLION_DIVIDER;
 
@@ -362,7 +362,7 @@ public class DataManager {
                     }
 
                     //Collections.sort(entries, new EntryXComparator());
-                    return new MarketCapAndVolumeChartData(marketCapEntries, mcapVals[mcapVals.length-1][1], volumeEntries, volumeVals[volumeVals.length-1][1], timestamps, chartTimeSpan);
+                    return new MarketCapAndVolumeChartData(marketCapEntries, (long)mcapVals[mcapVals.length-1][1], volumeEntries, (long)volumeVals[volumeVals.length-1][1], timestamps, chartTimeSpan);
                 });
     }
 

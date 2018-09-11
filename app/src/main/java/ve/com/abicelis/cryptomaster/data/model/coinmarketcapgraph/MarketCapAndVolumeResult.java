@@ -8,11 +8,11 @@ import com.google.gson.annotations.SerializedName;
 public class MarketCapAndVolumeResult {
 
     @SerializedName("market_cap_by_available_supply")
-    private long[][] marketCapByAvailableSupply;
+    private double[][] marketCapByAvailableSupply;
 
     @SerializedName("volume_usd")
-    private long[][] volumeUsd;
+    private double[][] volumeUsd;
 
-    public long[][] getMarketCapByAvailableSupply() { return marketCapByAvailableSupply; }
-    public long[][] getVolumeUsd() { return volumeUsd; }
+    public double[][] getMarketCapByAvailableSupply() { return marketCapByAvailableSupply; }
+    public double[][] getVolumeUsd() { return volumeUsd; }
 }
