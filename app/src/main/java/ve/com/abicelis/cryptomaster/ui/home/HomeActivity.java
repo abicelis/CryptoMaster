@@ -1,7 +1,5 @@
 package ve.com.abicelis.cryptomaster.ui.home;
 
-import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -9,7 +7,6 @@ import android.support.design.widget.BaseTransientBottomBar;
 import android.support.design.widget.Snackbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.Window;
 import android.widget.RelativeLayout;
 
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;

@@ -1,7 +1,7 @@
 <resources>
 
     <!--HOME ACTIVITY-->
-    <string name="title_alarms">Alarms</string>
+    <string name="title_alarms">Alerts</string>
     <string name="title_market">Market</string>
     <string name="title_coins">Coins</string>
     <string name="title_favorites">Favorite Coins</string>
