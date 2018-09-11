@@ -1,0 +1,228 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 4,
+    "identityHash": "24feadec2c9867e480aaafff2563667e",
+    "entities": [
+      {
+        "tableName": "coin",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`coin_id` INTEGER NOT NULL, `name` TEXT, `code` TEXT, `website_slug` TEXT, `rank` INTEGER NOT NULL, `circulating_supply` INTEGER NOT NULL, `total_supply` INTEGER NOT NULL, `max_supply` INTEGER NOT NULL, `last_updated` INTEGER NOT NULL, `quoteUsdPrice` REAL NOT NULL, `quote_usd_volume_24h` REAL NOT NULL, `quote_usd_market_cap` REAL NOT NULL, `quoteDefaultPrice` REAL NOT NULL, `quote_default_volume_24h` REAL NOT NULL, `quote_default_market_cap` REAL NOT NULL, `percent_change_1h` REAL NOT NULL, `percent_change_24h` REAL NOT NULL, `percent_change_7d` REAL NOT NULL, PRIMARY KEY(`coin_id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "coin_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "code",
+            "columnName": "code",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "websiteSlug",
+            "columnName": "website_slug",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "rank",
+            "columnName": "rank",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "circulatingSupply",
+            "columnName": "circulating_supply",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "totalSupply",
+            "columnName": "total_supply",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "maxSupply",
+            "columnName": "max_supply",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "lastUpdated",
+            "columnName": "last_updated",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "quoteUsdPrice",
+            "columnName": "quoteUsdPrice",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "quoteUsdVolume",
+            "columnName": "quote_usd_volume_24h",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "quoteUsdMarketCap",
+            "columnName": "quote_usd_market_cap",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "quoteDefaultPrice",
+            "columnName": "quoteDefaultPrice",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "quoteDefaultVolume",
+            "columnName": "quote_default_volume_24h",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "quoteDefaultMarketCap",
+            "columnName": "quote_default_market_cap",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "percentChange1h",
+            "columnName": "percent_change_1h",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "percentChange24h",
+            "columnName": "percent_change_24h",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "percentChange7d",
+            "columnName": "percent_change_7d",
+            "affinity": "REAL",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "coin_id"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [
+          {
+            "name": "index_coin_name",
+            "unique": false,
+            "columnNames": [
+              "name"
+            ],
+            "createSql": "CREATE  INDEX `index_coin_name` ON `${TABLE_NAME}` (`name`)"
+          },
+          {
+            "name": "index_coin_code",
+            "unique": false,
+            "columnNames": [
+              "code"
+            ],
+            "createSql": "CREATE  INDEX `index_coin_code` ON `${TABLE_NAME}` (`code`)"
+          }
+        ],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "favorite_coin",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`favorite_coin_id` INTEGER NOT NULL, PRIMARY KEY(`favorite_coin_id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "favorite_coin_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "favorite_coin_id"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "alarm",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`alarm_id` INTEGER NOT NULL, `from_currency` TEXT, `to_currency` TEXT, `exchange_type` TEXT, `alarm_type` TEXT, `alarm_color` TEXT, `note` TEXT, PRIMARY KEY(`alarm_id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "alarm_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "fromCurrency",
+            "columnName": "from_currency",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "toCurrency",
+            "columnName": "to_currency",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "exchangeType",
+            "columnName": "exchange_type",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "alarmType",
+            "columnName": "alarm_type",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "alarmColor",
+            "columnName": "alarm_color",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "note",
+            "columnName": "note",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "alarm_id"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      }
+    ],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"24feadec2c9867e480aaafff2563667e\")"
+    ]
+  }
+}
