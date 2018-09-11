@@ -9,6 +9,7 @@ import java.util.Locale;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
+import timber.log.Timber;
 import ve.com.abicelis.cryptomaster.application.Message;
 import ve.com.abicelis.cryptomaster.data.DataManager;
 import ve.com.abicelis.cryptomaster.data.model.ChartTimeSpan;
@@ -58,7 +59,7 @@ public class MarketPresenter extends BasePresenter<MarketMvpView> {
                         getMvpView().marketCapHideLoading();
                     }, throwable -> {
                         getMvpView().showMessage(Message.ERROR_UNEXPECTED, null);
-
+                        Timber.e(throwable, "getMarketCapAndVolumeGraphData() error");
                         mLoadingMarketCapAndVolumeChart = false;
                         getMvpView().marketCapHideLoading();
                         getMvpView().marketCapShowError();
@@ -89,6 +90,8 @@ public class MarketPresenter extends BasePresenter<MarketMvpView> {
                         getMvpView().dominanceHideLoading();
                     }, throwable -> {
                         getMvpView().showMessage(Message.ERROR_UNEXPECTED, null);
+                        Timber.e(throwable);
+
                         mLoadingDominanceChart = false;
                         getMvpView().dominanceHideLoading();
                         getMvpView().dominanceShowError();
@@ -126,31 +129,3 @@ public class MarketPresenter extends BasePresenter<MarketMvpView> {
         return timeStart;
     }
 }
-
-
-
-
-//        addDisposable(mDataManager.getCoinMarketCapGlobal()
-//                .subscribeOn(Schedulers.io())
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe(globalResult -> {
-//                    System.out.println("onSuccess");
-//                    GlobalResult globalResult11 = globalResult;
-//
-//                }, throwable ->
-//                        System.out.println("onError")
-//                ));
-
-
-
-
-//        addDisposable(mDataManager.getCurrencies()
-//        .subscribeOn(Schedulers.io())
-//        .observeOn(AndroidSchedulers.mainThread())
-//        .subscribe(currencyResult -> {
-//            for (CurrencyResult c : currencyResult ) {
-//                //Timber.i(c.getName());
-//            }
-//        }, throwable -> {
-//            getMvpView().showMessage(Message.ERROR_UNEXPECTED, null);
-//        }));
