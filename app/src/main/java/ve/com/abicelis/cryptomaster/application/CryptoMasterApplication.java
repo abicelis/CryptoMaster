@@ -33,7 +33,7 @@ public class CryptoMasterApplication extends Application {
         }
     }
 
-    @UiThread
+    //@UiThread
     public ApplicationComponent getApplicationComponent() {
         if(mApplicationComponent == null) {
             mApplicationComponent = DaggerApplicationComponent.builder()
