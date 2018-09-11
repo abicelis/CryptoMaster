@@ -11,12 +11,12 @@ import ve.com.abicelis.cryptomaster.util.AttrUtil;
  * Created by abicelis on 11/9/2018.
  */
 public enum AlarmColor {
-    color_1(R.attr.chart_line),
-    color_2(R.attr.chart_line_2),
-    color_3(R.attr.chart_line_3),
-    color_4(R.attr.chart_line_4),
-    color_5(R.attr.chart_line_5),
-    color_6(R.attr.chart_line_6);
+    COLOR_1(R.attr.chart_line),
+    COLOR_2(R.attr.chart_line_2),
+    COLOR_3(R.attr.chart_line_3),
+    COLOR_4(R.attr.chart_line_4),
+    COLOR_5(R.attr.chart_line_5),
+    COLOR_6(R.attr.chart_line_6);
 
 
     private @AttrRes int mColorAttrRes;

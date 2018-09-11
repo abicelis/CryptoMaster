@@ -14,9 +14,6 @@ public class Alarm {
     @ColumnInfo(name = "alarm_id")
     private long id;
 
-    @ColumnInfo(name = "coin_id")
-    private long coinId;
-
     @ColumnInfo(name ="from_currency")
     private Currency fromCurrency;
 
@@ -35,8 +32,42 @@ public class Alarm {
     @ColumnInfo(name = "note")
     private String note;
 
+    public Alarm (long id, Currency fromCurrency, Currency toCurrency, ExchangeType exchangeType, AlarmType alarmType, AlarmColor alarmColor, String note) {
+        this.id = id;
+        this.fromCurrency = fromCurrency;
+        this.toCurrency = toCurrency;
+        this.exchangeType = exchangeType;
+        this.alarmType = alarmType;
+        this.alarmColor = alarmColor;
+        this.note = note;
+    }
 
 
+    public long getId() {
+        return id;
+    }
 
+    public Currency getFromCurrency() {
+        return fromCurrency;
+    }
 
+    public Currency getToCurrency() {
+        return toCurrency;
+    }
+
+    public ExchangeType getExchangeType() {
+        return exchangeType;
+    }
+
+    public AlarmType getAlarmType() {
+        return alarmType;
+    }
+
+    public AlarmColor getAlarmColor() {
+        return alarmColor;
+    }
+
+    public String getNote() {
+        return note;
+    }
 }
