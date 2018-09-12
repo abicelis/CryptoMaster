@@ -37,13 +37,16 @@ public abstract class AlarmDao {
 
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
+    public abstract long insert(Alarm alarm);
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     public abstract long[] insert(List<Alarm> alarms);
 
     @Update
     public abstract int update(Alarm alarm);
 
     @Delete
-    public abstract void delete(Alarm alarm);
+    public abstract int delete(Alarm alarm);
 
     @Query("DELETE FROM alarm")
     public abstract int deleteAll();

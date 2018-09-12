@@ -25,7 +25,7 @@ public enum AlarmColor {
         mColorAttrRes = colorAttrRes;
     }
 
-    public @ColorRes int getColor(Context context) {
+    public int getColor(Context context) {
         return AttrUtil.getAttributeColor(context, mColorAttrRes);
     }
 
