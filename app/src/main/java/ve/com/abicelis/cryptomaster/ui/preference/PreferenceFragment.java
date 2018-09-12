@@ -1,19 +1,15 @@
 package ve.com.abicelis.cryptomaster.ui.preference;
 
-import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.preference.ListPreference;
 import android.support.v7.preference.Preference;
-import android.transition.Fade;
-import android.transition.Visibility;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -99,11 +95,11 @@ public class PreferenceFragment extends PreferenceFragmentCompatDividers {
                 Intent goToAboutActivity = new Intent(mActivity, AboutActivity.class);
 
                 //if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    //mActivity.getWindow().setEnterTransition(new Explode());
-                    //mActivity.getWindow().setExitTransition(new Fade(Visibility.MODE_OUT));
-                    //startActivity(goToAboutActivity, ActivityOptions.makeSceneTransitionAnimation(mActivity).toBundle());
+                //mActivity.getWindow().setEnterTransition(new Explode());
+                //mActivity.getWindow().setExitTransition(new Fade(Visibility.MODE_OUT));
+                //startActivity(goToAboutActivity, ActivityOptions.makeSceneTransitionAnimation(mActivity).toBundle());
                 //} else {
-                    startActivity(goToAboutActivity);
+                startActivity(goToAboutActivity);
                 //}
                 return true;
             }

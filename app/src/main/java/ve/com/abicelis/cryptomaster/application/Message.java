@@ -23,6 +23,7 @@ public enum Message {
     COULD_NOT_FETCH_COIN_DATA(R.string.could_not_fetch_coin_data, SnackbarUtil.SnackbarType.NOTICE),
     COULD_NOT_FETCH_CHART_DATA(R.string.could_not_fetch_chart_data, SnackbarUtil.SnackbarType.NOTICE),
     COULD_NOT_FETCH_EXCHANGE_DATA(R.string.could_not_fetch_exchange_data, SnackbarUtil.SnackbarType.NOTICE),
+    COULD_NOT_FETCH_ALARM_DATA(R.string.could_not_fetch_alarm_data, SnackbarUtil.SnackbarType.NOTICE),
 
     ;
 

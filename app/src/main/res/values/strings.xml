@@ -106,6 +106,12 @@
     <string name="coins_to_fetch_top_500">Top 500 Coins</string>
     <string name="coins_to_fetch_all">All Coins</string>
 
+    <!--ENUM ALARM TYPE-->
+    <string name="alarm_type_above">Above</string>
+    <string name="alarm_type_below">Below</string>
+    <string name="alarm_type_above_description">Price goes above</string>
+    <string name="alarm_type_below_description">Price goes below</string>
+
 
     <!--ENUM APP THEME TYPE-->
     <string name="app_theme_type_light">Light</string>
@@ -152,4 +158,5 @@
     <string name="could_not_fetch_coin_data">No internet, could not fetch coin data</string>
     <string name="could_not_fetch_chart_data">Could not fetch chart data</string>
     <string name="could_not_fetch_exchange_data">Could not fetch list of exchanges</string>
+    <string name="could_not_fetch_alarm_data">Could not fetch list of alerts</string>
 </resources>

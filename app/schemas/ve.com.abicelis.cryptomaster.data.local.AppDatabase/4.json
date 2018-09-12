@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 4,
-    "identityHash": "24feadec2c9867e480aaafff2563667e",
+    "identityHash": "9ae41f1ae3c0982e3ebfb9ca3443a13c",
     "entities": [
       {
         "tableName": "coin",
@@ -165,13 +165,13 @@
       },
       {
         "tableName": "alarm",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`alarm_id` INTEGER NOT NULL, `from_currency` TEXT, `to_currency` TEXT, `exchange_type` TEXT, `alarm_type` TEXT, `alarm_color` TEXT, `note` TEXT, PRIMARY KEY(`alarm_id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`alarm_id` INTEGER PRIMARY KEY AUTOINCREMENT, `from_currency` TEXT, `to_currency` TEXT, `trigger_value` REAL NOT NULL, `exchange_type` TEXT, `alarm_type` TEXT, `alarm_color` TEXT, `note` TEXT)",
         "fields": [
           {
             "fieldPath": "id",
             "columnName": "alarm_id",
             "affinity": "INTEGER",
-            "notNull": true
+            "notNull": false
           },
           {
             "fieldPath": "fromCurrency",
@@ -184,6 +184,12 @@
             "columnName": "to_currency",
             "affinity": "TEXT",
             "notNull": false
+          },
+          {
+            "fieldPath": "triggerValue",
+            "columnName": "trigger_value",
+            "affinity": "REAL",
+            "notNull": true
           },
           {
             "fieldPath": "exchangeType",
@@ -214,7 +220,7 @@
           "columnNames": [
             "alarm_id"
           ],
-          "autoGenerate": false
+          "autoGenerate": true
         },
         "indices": [],
         "foreignKeys": []
@@ -222,7 +228,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"24feadec2c9867e480aaafff2563667e\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"9ae41f1ae3c0982e3ebfb9ca3443a13c\")"
     ]
   }
 }
