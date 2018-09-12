@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="60dp"
+    android:background="?android:attr/selectableItemBackground"
+    android:padding="8dp">
+
+
+    <TextView
+        android:id="@+id/list_item_alarm_pair"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/nunito_light"
+        android:gravity="center"
+        android:maxLines="1"
+        android:text="BTC/USD"
+        android:textColor="?attr/text_primary"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/list_item_alarm_description"/>
+
+    <TextView
+        android:id="@+id/list_item_alarm_description"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:maxLines="1"
+        android:text="Price goes above $7800.32"
+        android:ellipsize="end"
+        android:textColor="?attr/text_secondary"
+        app:layout_constraintTop_toBottomOf="@+id/list_item_alarm_pair"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+    <View
+        android:id="@+id/list_item_alarm_color"
+        android:layout_width="18dp"
+        android:layout_height="18dp"
+        android:background="@drawable/circle"
+        android:backgroundTint="?attr/chart_line_3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginEnd="8dp"/>
+
+
+
+
+
+</android.support.constraint.ConstraintLayout>
