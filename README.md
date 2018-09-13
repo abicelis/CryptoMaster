@@ -62,6 +62,7 @@ This Project uses external dependencies and SDK's
 
 * [Android Studio 3.1.2 IDE](https://developer.android.com/studio/index.html) - Android IDE
 * [Pencil 3.0.4](https://github.com/evolus/pencil) - Prototyping by evolus
+* [Adobe XD CC](https://www.adobe.com/products/xd.html) - Prototyping by Adobe
 * [svg2android](http://inloop.github.io/svg2android/) - Vector drawables by inloop
 
 ## Authors
