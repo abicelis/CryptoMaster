@@ -4,9 +4,12 @@
     <!--<style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">-->
     <style name="AppTheme" parent="@style/PreferenceFixTheme.Light.NoActionBar">
         <!--PreferenceFixTheme is based on Theme.AppCompat and contains the required attribute preferenceTheme-->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+
+        <item name="colorPrimary">@color/default_background</item>
+        <item name="colorPrimaryDark">@color/default_background</item>
+        <item name="colorAccent">@color/default_accent</item>
+
+        <item name="android:windowBackground">@color/default_background</item>     <!--Background color,  used by preference fragment -->
 
         <item name="horizontal_divider">@color/default_divider</item>
         <item name="default_background">@color/default_background</item>
@@ -43,9 +46,11 @@
     <style name="AppThemeDark" parent="@style/PreferenceFixTheme.NoActionBar">
         <!--PreferenceFixTheme is based on Theme.AppCompat and contains the required attribute preferenceTheme-->
 
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorPrimary">@color/dark_default_background</item>
+        <item name="colorPrimaryDark">@color/dark_default_background</item>
+        <item name="colorAccent">@color/dark_default_accent</item>
+
+        <item name="android:windowBackground">@color/dark_default_background</item>     <!--Background color,  used by preference fragment -->
 
         <item name="horizontal_divider">@color/dark_default_divider</item>
         <item name="default_background">@color/dark_default_background</item>
