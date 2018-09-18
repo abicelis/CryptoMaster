@@ -1,5 +1,7 @@
 package ve.com.abicelis.cryptomaster.data;
 
+import android.support.annotation.Nullable;
+
 import com.github.mikephil.charting.data.Entry;
 
 import java.util.ArrayList;
@@ -16,6 +18,8 @@ import io.reactivex.functions.Function;
 import ve.com.abicelis.cryptomaster.application.Constants;
 import ve.com.abicelis.cryptomaster.data.local.AppDatabase;
 import ve.com.abicelis.cryptomaster.data.local.SharedPreferenceHelper;
+import ve.com.abicelis.cryptomaster.data.model.Alarm;
+import ve.com.abicelis.cryptomaster.data.model.CachedCoin;
 import ve.com.abicelis.cryptomaster.data.model.ChartTimeSpan;
 import ve.com.abicelis.cryptomaster.data.model.Coin;
 import ve.com.abicelis.cryptomaster.data.model.Currency;
@@ -264,6 +268,11 @@ public class DataManager {
                 });
     }
 
+    public Single<Coin> getTicker(long coinId, Currency currency) {
+        return mCoinMarketCapApi.getTickerSingleCurrency(coinId, currency.getCode())
+                .map(tickerResult -> buildCoinFromTickerData(tickerResult.getData().get(0), currency));
+    }
+
     /**
      * Fetches locally saved Coins, filtered by favorites
      */
@@ -487,8 +496,31 @@ public class DataManager {
     }
 
 
-    public Single<CurrencyResult[]> getCurrencies() {
-        return mCoinMarketCapS2Api.getCurrencies();
+    public Completable refreshCachedCoins() {
+        return mCoinMarketCapS2Api.getCurrencies()
+                .map(result -> {
+                    List<CachedCoin> cachedCoins = new ArrayList<>();
+                    for (CurrencyResult r : result)
+                        cachedCoins.add(new CachedCoin(r.getId(), r.getName(), r.getSymbol(), r.getSlug(), r.getRank()));
+                    mAppDatabase.cachedCoinDao().deleteCachedCoinsAndInsertNewOnes(cachedCoins);
+                    return true;
+
+                }).toCompletable();
+    }
+
+    public Single<Boolean> cachedCoinsInDatabase() {
+        return mAppDatabase.cachedCoinDao().count()
+                .map(count -> {
+                    return count > 0;
+                });
+    }
+
+    public Single<List<CachedCoin>> getRankedCachedCoins(int amount) {
+        return mAppDatabase.cachedCoinDao().getByRank(amount);
+    }
+
+    public Single<List<CachedCoin>> getCachedCoins(String query) {
+        return mAppDatabase.cachedCoinDao().find("%"+query+"%");
     }
 
 
@@ -511,5 +543,21 @@ public class DataManager {
                     return exchanges;
                 });
     }
+
+
+    public Single<List<Alarm>> getAlarms() {
+        return mAppDatabase.alarmDao().getAll();
+    }
+
+    public long insertAlarm(Alarm alarm) {
+        long id = mAppDatabase.alarmDao().insert(alarm);
+        return id;
+    }
+
+    public int deleteAlarm(Alarm alarm) {
+        int result = mAppDatabase.alarmDao().delete(alarm);
+        return result;
+    }
+
 
 }

@@ -7,13 +7,6 @@ import java.util.List;
  */
 public class CurrencyResult {
 
-//    private Currency[] currencies;
-//
-//    public Currency[] getCurrencies() { return currencies; }
-//
-//
-//
-//    public class Currency {
         private String name;
         private String symbol;
         private int rank;
@@ -27,5 +20,4 @@ public class CurrencyResult {
         public String getSlug() { return slug; }
         public List<String> getTokens() { return tokens; }
         public int getId() { return id; }
-   // }
 }
