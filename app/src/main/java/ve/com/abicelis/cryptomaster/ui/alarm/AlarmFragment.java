@@ -1,5 +1,6 @@
 package ve.com.abicelis.cryptomaster.ui.alarm;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -28,6 +29,7 @@ import ve.com.abicelis.cryptomaster.data.model.Alarm;
 import ve.com.abicelis.cryptomaster.data.model.Exchange;
 import ve.com.abicelis.cryptomaster.ui.base.BaseFragment;
 import ve.com.abicelis.cryptomaster.ui.coindetail.ExchangeAdapter;
+import ve.com.abicelis.cryptomaster.ui.new_alarm.NewAlarmActivity;
 import ve.com.abicelis.cryptomaster.util.SnackbarUtil;
 
 /**
@@ -90,8 +92,10 @@ public class AlarmFragment extends BaseFragment implements AlarmMvpView, View.On
         int id = v.getId();
         switch (id) {
             case R.id.fragment_alarms_fab:
-                Toast.makeText(this.getContext(), "FAB pressed!", Toast.LENGTH_SHORT).show();
-                mAlarmPresenter.buttonClicked();
+                Intent createNewAlarmIntent = new Intent(getContext(), NewAlarmActivity.class);
+                startActivity(createNewAlarmIntent);
+
+                //mAlarmPresenter.buttonClicked();
                 break;
 
         }

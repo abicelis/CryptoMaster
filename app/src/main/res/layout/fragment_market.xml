@@ -28,6 +28,7 @@
                 android:layout_gravity="center"
                 android:textSize="34sp"
                 android:textColor="?attr/text_primary"
+                android:fontFamily="@font/nunito_extralight"
                 android:text="@string/title_market" />
 
         </android.support.v7.widget.Toolbar>

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/list_item_coin_search_view_coin_container"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?android:attr/selectableItemBackground"
+    android:paddingStart="16dp"
+    android:paddingEnd="16dp"
+    android:padding="8dp">
+
+
+    <TextView
+        android:id="@+id/list_item_coin_search_view_coin_code"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:maxLines="1"
+        android:text="BTC"
+        android:ellipsize="end"
+        android:fontFamily="@font/nunito_semibold"
+        android:textColor="?attr/text_primary"
+        android:includeFontPadding="false"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/list_item_coin_search_view_coin_name"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/list_item_coin_search_view_coin_arrow"
+        />
+
+    <TextView
+        android:id="@+id/list_item_coin_search_view_coin_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:maxLines="1"
+        android:text="Bitcoin"
+        android:ellipsize="end"
+        android:fontFamily="@font/nunito_extralight"
+        android:textColor="?attr/text_secondary"
+        android:includeFontPadding="false"
+        app:layout_constraintTop_toBottomOf="@id/list_item_coin_search_view_coin_code"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/list_item_coin_search_view_coin_arrow"
+        />
+
+    <ImageView
+        android:id="@+id/list_item_coin_search_view_coin_arrow"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:src="@drawable/ic_arrow_back"
+        android:tint="?attr/default_accent"
+        android:rotation="180"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginEnd="8dp"/>
+
+</android.support.constraint.ConstraintLayout>

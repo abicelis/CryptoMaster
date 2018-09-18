@@ -8,6 +8,7 @@ import android.support.design.widget.Snackbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
@@ -17,9 +18,14 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.schedulers.Schedulers;
+import timber.log.Timber;
 import ve.com.abicelis.cryptomaster.R;
 import ve.com.abicelis.cryptomaster.application.Constants;
 import ve.com.abicelis.cryptomaster.application.Message;
+import ve.com.abicelis.cryptomaster.data.DataManager;
 import ve.com.abicelis.cryptomaster.data.local.SharedPreferenceHelper;
 import ve.com.abicelis.cryptomaster.data.model.CoinsFragmentType;
 import ve.com.abicelis.cryptomaster.ui.alarm.AlarmFragment;
@@ -36,8 +42,13 @@ import ve.com.abicelis.cryptomaster.util.SnackbarUtil;
 
 public class HomeActivity extends BaseActivity implements HomeMvpView {
 
+    CompositeDisposable compositeDisposable;
+
     @Inject
     SharedPreferenceHelper sharedPreferenceHelper;
+
+    @Inject
+    DataManager dataManager;
 
     @BindView(R.id.activity_home_container)
     RelativeLayout mContainer;
@@ -61,8 +72,26 @@ public class HomeActivity extends BaseActivity implements HomeMvpView {
         getPresenterComponent().inject(this);
 
         setupBottomNavigation();
-        //createFakeNotification();
         setupViewpager();
+        //createFakeNotification();
+
+        compositeDisposable = new CompositeDisposable();
+        compositeDisposable.add(dataManager.refreshCachedCoins()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(() -> {
+                    //COMPLETED YAY
+                    Toast.makeText(this, "Cached Currencies refreshed!", Toast.LENGTH_SHORT).show();
+                }, throwable -> {
+                    Timber.e(throwable, "Unable to refresh cached currencies");
+                }));
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if(compositeDisposable != null)
+            compositeDisposable.dispose();
     }
 
     private void setupViewpager() {
