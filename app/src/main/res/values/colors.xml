@@ -2,9 +2,9 @@
 <resources>
 
     <!-- Android colors -->
-    <color name="colorPrimary">@color/default_accent</color>
-    <color name="colorPrimaryDark">@color/default_foreground</color>
-    <color name="colorAccent">@color/default_accent</color>
+    <!--<color name="colorPrimary">@color/default_accent</color>-->
+    <!--<color name="colorPrimaryDark">@color/default_foreground</color>-->
+    <!--<color name="colorAccent">@color/default_accent</color>-->
 
     <!--Main colors: AppTheme Light-->
     <color name="default_divider">#0E1A23</color>
@@ -25,6 +25,7 @@
     <color name="text_title">#FFFFFF</color>
     <color name="text_primary">#FFFFFF</color>
     <color name="text_secondary">#9FA8DA</color>
+    <color name="text_hint">#609fa8da</color>
     <color name="text_disabled">#8D8D8D</color>
     <color name="text_positive">#0ED696</color>
     <color name="text_negative">#F1563A</color>
@@ -54,6 +55,7 @@
     <color name="dark_text_title">#FFFFFF</color>
     <color name="dark_text_primary">#FFFFFF</color>
     <color name="dark_text_secondary">#9FA8DA</color>
+    <color name="dark_text_hint">#609fa8da</color>
     <color name="dark_text_disabled">#8D8D8D</color>
     <color name="dark_text_positive">#0ED696</color>
     <color name="dark_text_negative">#e53935</color>

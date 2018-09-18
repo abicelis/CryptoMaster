@@ -5,8 +5,8 @@
     <style name="AppTheme" parent="@style/PreferenceFixTheme.Light.NoActionBar">
         <!--PreferenceFixTheme is based on Theme.AppCompat and contains the required attribute preferenceTheme-->
 
-        <item name="colorPrimary">@color/default_background</item>
-        <item name="colorPrimaryDark">@color/default_background</item>
+        <item name="colorPrimary">@color/default_foreground</item>
+        <item name="colorPrimaryDark">@color/default_foreground</item>
         <item name="colorAccent">@color/default_accent</item>
 
         <item name="android:windowBackground">@color/default_background</item>     <!--Background color,  used by preference fragment -->
@@ -30,6 +30,7 @@
         <item name="text_primary">@color/text_primary</item>
         <item name="text_secondary">@color/text_secondary</item>
         <item name="text_disabled">@color/text_disabled</item>
+        <item name="text_hint">@color/text_hint</item>
         <item name="text_positive">@color/text_positive</item>
         <item name="text_negative">@color/text_negative</item>
         <item name="bottom_nav_background">@color/bottom_nav_background</item>
@@ -46,8 +47,8 @@
     <style name="AppThemeDark" parent="@style/PreferenceFixTheme.NoActionBar">
         <!--PreferenceFixTheme is based on Theme.AppCompat and contains the required attribute preferenceTheme-->
 
-        <item name="colorPrimary">@color/dark_default_background</item>
-        <item name="colorPrimaryDark">@color/dark_default_background</item>
+        <item name="colorPrimary">@color/default_foreground</item>
+        <item name="colorPrimaryDark">@color/default_foreground</item>
         <item name="colorAccent">@color/dark_default_accent</item>
 
         <item name="android:windowBackground">@color/dark_default_background</item>     <!--Background color,  used by preference fragment -->
@@ -71,6 +72,7 @@
         <item name="text_primary">@color/dark_text_primary</item>
         <item name="text_secondary">@color/dark_text_secondary</item>
         <item name="text_disabled">@color/dark_text_disabled</item>
+        <item name="text_hint">@color/dark_text_hint</item>
         <item name="text_positive">@color/dark_text_positive</item>
         <item name="text_negative">@color/dark_text_negative</item>
         <item name="bottom_nav_background">@color/dark_bottom_nav_background</item>
@@ -83,11 +85,11 @@
         <item name="android:fontFamily">@font/nunito_extralight</item>
     </style>
 
-    <style name="ToggleButton" parent="Base.Widget.AppCompat.Button.Colored">
-        <!--<item name="colorAccent">@color/snackbar_error_background</item>-->
-        <!--<item name="colorButtonNormal">@color/snackbar_notice_background</item>-->
-        <!--<item name="android:buttonTint">@color/chart_line_4</item>-->
-    </style>
+    <!--<style name="ToggleButton" parent="Base.Widget.AppCompat.Button.Colored">-->
+        <!--&lt;!&ndash;<item name="colorAccent">@color/snackbar_error_background</item>&ndash;&gt;-->
+        <!--&lt;!&ndash;<item name="colorButtonNormal">@color/snackbar_notice_background</item>&ndash;&gt;-->
+        <!--&lt;!&ndash;<item name="android:buttonTint">@color/chart_line_4</item>&ndash;&gt;-->
+    <!--</style>-->
 
 
     <!--Swipe refresh loading icon colors-->

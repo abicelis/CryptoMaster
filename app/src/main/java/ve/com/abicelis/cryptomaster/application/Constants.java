@@ -33,9 +33,13 @@ public class Constants {
     public static final int                     MISC_COINMARKETCAP_BTC_ID =                         1;
 
 
+    /* NEW ALARM ACTIVITY */
+    public static final int                     NEW_ALARM_ACTIVITY_RANKED_CACHED_COINS_COINT =             8;
+
+
     /* COIN DETAIL ACTIVITY */
     public static final String                  EXTRA_COIN_DETAIL_COIN_ID =                          "EXTRA_COIN_DETAIL_COIN_ID";
-    public static final long                    COIN_DETAIL_ACTIVITY_EXCHANGE_PRICE_MAX_DECIMALS =   8;
+    public static final long                    COIN_DETAIL_ACTIVITY_EXCHANGE_PRICE_MAX_DECIMALS =   10;
 
 
     /* COIN FRAGMENT */
@@ -55,7 +59,7 @@ public class Constants {
 
     /* ROOM DATABASE */
     public static final String                  ROOM_DATABASE_NAME =                                "crypto_master.db";
-    public static final int                     ROOM_DATABASE_VERSION =                             4;
+    public static final int                     ROOM_DATABASE_VERSION =                             5;
 
 
     /* COINMARKETCAP API */

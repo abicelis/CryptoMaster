@@ -20,6 +20,7 @@
     <attr name="text_primary" format="reference|color" />
     <attr name="text_secondary" format="reference|color" />
     <attr name="text_disabled" format="reference|color" />
+    <attr name="text_hint" format="reference|color" />
     <attr name="text_positive" format="reference|color" />
     <attr name="text_negative" format="reference|color" />
     <attr name="bottom_nav_background" format="reference|color" />

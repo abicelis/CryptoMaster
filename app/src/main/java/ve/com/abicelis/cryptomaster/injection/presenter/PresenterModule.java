@@ -10,6 +10,7 @@ import ve.com.abicelis.cryptomaster.ui.coindetail.CoinDetailPresenter;
 import ve.com.abicelis.cryptomaster.ui.coins.CoinsListPresenter;
 import ve.com.abicelis.cryptomaster.ui.home.HomePresenter;
 import ve.com.abicelis.cryptomaster.ui.market.MarketPresenter;
+import ve.com.abicelis.cryptomaster.ui.new_alarm.NewAlarmPresenter;
 
 /**
  * Created by abicelis on 25/5/2018.
@@ -55,6 +56,11 @@ public class PresenterModule {
     @Provides
     CoinDetailPresenter coinDetailPresenter(DataManager dataManager) {
         return new CoinDetailPresenter(dataManager);
+    }
+
+    @Provides
+    NewAlarmPresenter newAlarmPresenter(DataManager dataManager) {
+        return new NewAlarmPresenter(dataManager);
     }
 
 }

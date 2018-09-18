@@ -1,5 +1,9 @@
 <resources>
 
+    <!-- ALARM ACTIVITY -->
+    <string name="activity_alarm_title_new_alarm">New Alert</string>
+    <string name="activity_alarm_title_edit_alarm">Edit Alert</string>
+
     <!--HOME ACTIVITY-->
     <string name="title_alarms">Alerts</string>
     <string name="title_market">Market</string>
@@ -129,6 +133,16 @@
     <!--ENUM TIME FORMAT-->
     <string name="time_format_24">24h</string>
     <string name="time_format_12">12h</string>
+    
+    
+
+    <!-- COIN SEARCH VIEW -->
+    <string name="view_coin_search_title_base">Base</string>
+    <string name="view_coin_search_title_pair">Pair</string>
+    <string name="view_coin_search_title_price">Price</string>
+    <string name="view_coin_search_title_optional">Optional</string>
+    <string name="view_coin_search_hint">Select a coin&#8230;</string>
+    <string name="view_coin_search">Search a coin&#8230;</string>
 
     <!-- DIALOG -->
     <string name="dialog_cancel">CANCEL</string>
@@ -155,8 +169,11 @@
     <string name="coin_fragment_type_missing">Missing COIN FRAGMENT TYPE argument, using NORMAL</string>
     <string name="coin_detail_coin_id_missing">Missing COIN ID extra</string>
     <string name="could_not_fetch_fresh_coin_data">No internet, showing local coin data</string>
-    <string name="could_not_fetch_coin_data">No internet, could not fetch coin data</string>
+    <string name="could_not_fetch_quote">Could not fetch quote price</string>
+    <string name="could_not_fetch_coin_data">Could not fetch coin data</string>
     <string name="could_not_fetch_chart_data">Could not fetch chart data</string>
     <string name="could_not_fetch_exchange_data">Could not fetch list of exchanges</string>
     <string name="could_not_fetch_alarm_data">Could not fetch list of alerts</string>
+    <string name="duplicate_quote_base_coin">Quote coin must be different than base coin</string>
+    <string name="duplicate_base_quote_coin">Base coin must be different than quote coin</string>
 </resources>

@@ -60,10 +60,10 @@ import android.view.inputmethod.InputMethodManager;
      }
 
      /**
-      * This method hides the soft keyboard, given an activity
+      * This method shows the soft keyboard, given a view
       */
-     public static void showKeyboardOn(Activity activity, View view) {
-         InputMethodManager imm = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
+     public static void showKeyboardOn(Context context, View view) {
+         InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
          imm.showSoftInput(view, InputMethodManager.SHOW_FORCED);
      }
  }

@@ -23,6 +23,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".ui.about.AboutActivity"/>
+        <activity android:name=".ui.new_alarm.NewAlarmActivity"/>
         <activity android:name=".ui.coindetail.CoinDetailActivity"/>
 
         <meta-data
