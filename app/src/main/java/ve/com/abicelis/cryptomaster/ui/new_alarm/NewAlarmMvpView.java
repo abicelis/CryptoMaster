@@ -12,10 +12,14 @@ import ve.com.abicelis.cryptomaster.ui.base.MvpView;
  */
 interface NewAlarmMvpView extends MvpView {
     void displayCachedCoins(List<CachedCoin> cachedCoins);
-    void displayQuote(double quote);
+    void displayQuote(Currency currency, double quote);
     void toggleBaseBtc();
     void toggleBaseDefaultCurrency(Currency defaultCurrency);
 
     void handlePriceBelowToggled();
     void handlePriceAboveToggled();
+
+    void showBelowDiffAndPercent(Currency currency, double diff, double percent);
+    void showAboveDiffAndPercent(Currency currency, double diff, double percent);
+    void hidePriceDiffsAndPercentages();
 }

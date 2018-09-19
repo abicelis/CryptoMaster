@@ -241,9 +241,12 @@ public class CoinSearchView extends FrameLayout {
         }
     }
 
-    public void setPairQuote(double quote) {
+    public void setPairQuote(Currency currency, double quote) {
         mCoinLoading.setVisibility(View.GONE);
-        mCoinPrice.setText(String.format(Locale.getDefault(), "%1$f", quote));
+
+        String symbol = (currency.hasSymbol() ? currency.getSymbol() : "");
+        String code = (currency.hasSymbol() ? "" : currency.getCode());
+        mCoinPrice.setHint(String.format(Locale.getDefault(), "%1$s%2$f%3$s", symbol, quote, code));
     }
 
 

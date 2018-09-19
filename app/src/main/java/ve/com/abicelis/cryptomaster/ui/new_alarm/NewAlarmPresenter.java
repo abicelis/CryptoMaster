@@ -6,6 +6,7 @@ import timber.log.Timber;
 import ve.com.abicelis.cryptomaster.application.Constants;
 import ve.com.abicelis.cryptomaster.application.Message;
 import ve.com.abicelis.cryptomaster.data.DataManager;
+import ve.com.abicelis.cryptomaster.data.model.Alarm;
 import ve.com.abicelis.cryptomaster.data.model.AlarmType;
 import ve.com.abicelis.cryptomaster.data.model.CachedCoin;
 import ve.com.abicelis.cryptomaster.data.model.Currency;
@@ -24,6 +25,7 @@ public class NewAlarmPresenter extends BasePresenter<NewAlarmActivity> {
     Currency mBaseCurrency;
     double mQuote;
     AlarmType mAlarmType;
+    double mAlarmPrice;
 
     public NewAlarmPresenter(DataManager dataManager) {
         this.dataManager = dataManager;
@@ -114,7 +116,7 @@ public class NewAlarmPresenter extends BasePresenter<NewAlarmActivity> {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(coin -> {
                     mQuote = coin.getQuoteDefaultPrice();
-                    getMvpView().displayQuote(mQuote);
+                    getMvpView().displayQuote(mBaseCurrency, mQuote);
                 }, throwable -> {
                     getMvpView().showMessage(Message.COULD_NOT_FETCH_QUOTE, null);
                     Timber.e(throwable, "Unable to get ticker for " + mQuoteCoin.getCode());
@@ -132,13 +134,28 @@ public class NewAlarmPresenter extends BasePresenter<NewAlarmActivity> {
         getMvpView().handlePriceAboveToggled();
     }
 
-    public void priceTextChanged(String newText) {
+    public void alarmPriceChanged(double price) {
+        if (price == -1) {
+            getMvpView().hidePriceDiffsAndPercentages();
+            return;
+        }
+
+        mAlarmPrice = price;
         if(mAlarmType == AlarmType.BELOW) {
+            if(mAlarmPrice < mQuote) {
+                double diff = mQuote - mAlarmPrice;
+                double percent = (diff*100)/mQuote;
+                getMvpView().showBelowDiffAndPercent(mBaseCurrency, diff, percent);
+            } else
+                getMvpView().hidePriceDiffsAndPercentages();
 
-
-            /// /getMvpView().
         } else if (mAlarmType == AlarmType.ABOVE) {
-
+            if(mAlarmPrice > mQuote) {
+                double diff = mAlarmPrice - mQuote;
+                double percent = (diff*100)/mQuote;
+                getMvpView().showAboveDiffAndPercent(mBaseCurrency, diff, percent);
+            } else
+                getMvpView().hidePriceDiffsAndPercentages();
         }
     }
 }

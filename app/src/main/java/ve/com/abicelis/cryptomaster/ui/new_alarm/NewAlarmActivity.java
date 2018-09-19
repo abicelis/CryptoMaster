@@ -13,11 +13,13 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import java.util.List;
+import java.util.Locale;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import timber.log.Timber;
 import ve.com.abicelis.cryptomaster.R;
 import ve.com.abicelis.cryptomaster.application.Message;
 import ve.com.abicelis.cryptomaster.data.model.CachedCoin;
@@ -135,6 +137,8 @@ public class NewAlarmActivity extends BaseActivity implements NewAlarmMvpView {
         mPriceBelowButton.setOnClickListener(v-> {
             mPresenter.priceBelowButtonToggled();
         });
+        mPresenter.priceBelowButtonToggled();
+
         mPriceAboveButton.setOnClickListener(v-> {
             mPresenter.priceAboveButtonToggled();
         });
@@ -149,11 +153,21 @@ public class NewAlarmActivity extends BaseActivity implements NewAlarmMvpView {
 
             @Override
             public void afterTextChanged(Editable s) {
-                mPresenter.priceTextChanged(s.toString());
+                if (s.toString().length() > 0) {
+                    try {
+                        double value = Double.valueOf(s.toString());
+                        mPresenter.alarmPriceChanged(value);
+                    } catch (NumberFormatException e) {
+                        Timber.e(e);
+                    }
+                }
+                else {
+                    mPresenter.alarmPriceChanged(-1);
+                }
             }
         });
 
-
+        hidePriceDiffsAndPercentages();
     }
     @Override
     public void displayCachedCoins(List<CachedCoin> cachedCoins) {
@@ -161,8 +175,11 @@ public class NewAlarmActivity extends BaseActivity implements NewAlarmMvpView {
     }
 
     @Override
-    public void displayQuote(double quote) {
-        mCoinSearchView.setPairQuote(quote);
+    public void displayQuote(Currency currency, double quote) {
+        String symbol = (currency.hasSymbol() ? currency.getSymbol() : "");
+        String code = (currency.hasSymbol() ? "" : currency.getCode());
+        mCoinSearchView.setPairQuote(currency, quote);
+        mPriceEditText.setHint(String.format(Locale.getDefault(), "%1$s%2$f%3$s", symbol, quote, code));
     }
 
 
@@ -211,5 +228,32 @@ public class NewAlarmActivity extends BaseActivity implements NewAlarmMvpView {
     @Override
     public void showMessage(Message message, @Nullable BaseTransientBottomBar.BaseCallback<Snackbar> callback) {
         SnackbarUtil.showSnackbar(mNestedScrollView, message.getMessageType(), message.getFriendlyNameRes(), SnackbarUtil.SnackbarDuration.SHORT, callback);
+    }
+
+
+
+
+    @Override
+    public void showBelowDiffAndPercent(Currency currency, double diff, double percent) {
+        String symbol = (currency.hasSymbol() ? currency.getSymbol() : "");
+        String code = (currency.hasSymbol() ? "" : currency.getCode());
+        mPriceBelowDiff.setText(String.format(Locale.getDefault(), "-%1$s%2$.3f%3$s", symbol, diff, code));
+        mPriceBelowPercent.setText(String.format(Locale.getDefault(), "-%1$.000f%%", percent));
+    }
+
+    @Override
+    public void showAboveDiffAndPercent(Currency currency, double diff, double percent){
+        String symbol = (currency.hasSymbol() ? currency.getSymbol() : "");
+        String code = (currency.hasSymbol() ? "" : " " + currency.getCode());
+        mPriceAboveDiff.setText(String.format(Locale.getDefault(), "+%1$s%2$.3f%3$s", symbol, diff, code));
+        mPriceAbovePercent.setText(String.format(Locale.getDefault(), "+%1$.000f%%", percent));
+    }
+
+    @Override
+    public void hidePriceDiffsAndPercentages() {
+        mPriceBelowDiff.setText("");
+        mPriceBelowPercent.setText("");
+        mPriceAboveDiff.setText("");
+        mPriceAbovePercent.setText("");
     }
 }
