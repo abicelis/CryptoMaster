@@ -36,13 +36,13 @@ public class AlarmViewHolder extends RecyclerView.ViewHolder {
     public void setData(Alarm alarm) {
         mCurrent = alarm;
 
-        mPair.setText(String.format("%1$s/%2$s", mCurrent.getFromCurrency().getCode(), mCurrent.getToCurrency().getCode()));
+        mPair.setText(String.format("%1$s/%2$s", mCurrent.getFromCurrencyCode(), mCurrent.getToCurrencyCode()));
 
         mDescription.setText(
                 String.format("%1$s %2$s %3$s",
                         mCurrent.getAlarmType().getDescription(mDescription.getContext()),
-                        mCurrent.getToCurrency().getSymbol(),
-                        mCurrent.getTriggerValue()));
+                        mCurrent.getTriggerValue(),
+                        mCurrent.getToCurrencyCode()));
 
         int color = mCurrent.getAlarmColor().getColor(mColor.getContext());
         mColor.setBackgroundTintList(ColorStateList.valueOf(color));

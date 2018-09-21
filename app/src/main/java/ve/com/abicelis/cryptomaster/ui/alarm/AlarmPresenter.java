@@ -34,22 +34,6 @@ public class AlarmPresenter extends BasePresenter<AlarmMvpView> {
         mDataManager = dataManager;
     }
 
-    public void buttonClicked() {
-
-//        PeriodicWorkRequest.Builder alarmWorkerBuilder = new PeriodicWorkRequest.Builder(AlarmWorker.class, 1, TimeUnit.MINUTES);
-//        // ...if you want, you can apply constraints to the builder here...
-//
-//        // Create the actual work object:
-//        PeriodicWorkRequest alarmWork = alarmWorkerBuilder.build();
-//        // Then enqueue the recurring task:
-//        WorkManager.getInstance().enqueue(alarmWork);
-
-        Alarm alarm = new Alarm(Currency.BCH, Currency.USD, 3.2398, ExchangeType.COINMARKETCAP, AlarmType.ABOVE, AlarmColor.COLOR_1, "Some note");
-        insertAlarm(alarm);
-
-        //etMvpView().showMessage(Message.ERROR_UNEXPECTED, null);
-    }
-
     public void getAlarms() {
         addDisposable(mDataManager.getAlarms()
                 .subscribeOn(Schedulers.io())

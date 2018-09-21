@@ -37,6 +37,7 @@ import ve.com.abicelis.cryptomaster.util.SnackbarUtil;
  */
 public class AlarmFragment extends BaseFragment implements AlarmMvpView, View.OnClickListener {
 
+    private static final int REQUEST_CODE = 306;
 
     @Inject
     AlarmPresenter mAlarmPresenter;
@@ -93,14 +94,20 @@ public class AlarmFragment extends BaseFragment implements AlarmMvpView, View.On
         switch (id) {
             case R.id.fragment_alarms_fab:
                 Intent createNewAlarmIntent = new Intent(getContext(), NewAlarmActivity.class);
-                startActivity(createNewAlarmIntent);
-
-                //mAlarmPresenter.buttonClicked();
+                startActivityForResult(createNewAlarmIntent, REQUEST_CODE);
                 break;
 
         }
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == REQUEST_CODE) {
+            mAlarmPresenter.getAlarms();
+        }
+    }
 
     @Override
     public void showAlarms(List<Alarm> alarmList) {
