@@ -2,10 +2,10 @@
 
 Stay up to date with crypto markets!
 
-Please check out the prototype by clicking [right here!](https://abicelis.github.io/CryptoMaster/index.html "CryptoMaster Prototype")
-Please check out the prototype by clicking [right here!]https://xd.adobe.com/view/d53dfd6e-6f97-4539-76a9-d2bbdbbfc31c-a30c/ "CryptoMaster Prototype Adobe Xd")
+Please check out the prototype by clicking [here (Pencil)](https://abicelis.github.io/CryptoMaster/index.html "CryptoMaster Prototype")
+and also [here (Adobe Xd)](https://xd.adobe.com/view/d53dfd6e-6f97-4539-76a9-d2bbdbbfc31c-a30c/ "CryptoMaster Prototype Adobe Xd").
+Migrated from Pencil to Adobe Xd mid-project so some of the screens were designed using Adobe Xd.
 
-<iframe width="360" height="640" src="https://xd.adobe.com/embed/d53dfd6e-6f97-4539-76a9-d2bbdbbfc31c-a30c/" frameborder="0" allowfullscreen></iframe>
 
 
 
