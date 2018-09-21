@@ -29,7 +29,6 @@ import ve.com.abicelis.cryptomaster.application.Message;
 import ve.com.abicelis.cryptomaster.data.model.CachedCoin;
 import ve.com.abicelis.cryptomaster.data.model.Currency;
 import ve.com.abicelis.cryptomaster.util.AttrUtil;
-import ve.com.abicelis.cryptomaster.util.ViewUtil;
 
 /**
  * Created by abicelis on 13/9/2018.
@@ -37,19 +36,20 @@ import ve.com.abicelis.cryptomaster.util.ViewUtil;
 public class CoinSearchView extends FrameLayout {
 
     //DATA
+    Currency mBaseCoin;
+    CachedCoin mQuoteCoin;
+
+
+    //UI
     int mSearchViewRadius;
     int mExpandedHeight;
     int mNormalHeight;
-    boolean cachedCoinsLoaded = false;
-    Currency mBaseCoin;
-    CachedCoin mQuoteCoin;
     private State mState = State.IDLE_NO_COIN;
-
+    boolean cachedCoinsLoaded = false;
     private CoinSearchViewListener mCoinSearchViewListener;
 
-
-    @BindView(R.id.view_coin_search_hint_container)
-    ConstraintLayout mContainerHint;
+    @BindView(R.id.view_coin_search_idle_container)
+    ConstraintLayout mContainerIdle;
 
     @BindView(R.id.view_coin_search_coin_container)
     ConstraintLayout mCoinContainer;
@@ -72,6 +72,7 @@ public class CoinSearchView extends FrameLayout {
     private LinearLayoutManager mLayoutManager;
     private CSVAdapter mAdapter;
 
+
     public CoinSearchView(Context context) {
         super(context);
         init(context,null);
@@ -89,32 +90,12 @@ public class CoinSearchView extends FrameLayout {
 
     private void init(Context context, AttributeSet attrs) {
         inflate(context, R.layout.view_coin_search, this);
-        //LayoutInflater.from(context).inflate(R.layout.view_coin_search, this, true);
-
-
         ButterKnife.bind(this);
 
-//        //Get/apply custom xml configs
-//        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.fancy_edit_text);
-//        int iconId = a.getResourceId(R.styleable.fancy_edit_text_icon, -1);
-//        int textId = a.getResourceId(R.styleable.fancy_edit_text_text, -1);
-//        int hintId = a.getResourceId(R.styleable.fancy_edit_text_hint, -1);
-//        int maxLines = a.getInt(R.styleable.fancy_edit_text_maxLines, -1);
-//
-//
-//        setIcon(iconId);
-//        setText(textId);
-//        setHint(hintId);
-//        setMaxLines(maxLines);
-//        a.recycle();
-//
-//
-//        this.setBackgroundResource(R.drawable.white_round_edges_background);
-//        this.setGravity(Gravity.CENTER_VERTICAL);
+        setBackgroundColor(AttrUtil.getAttributeColor(context, R.attr.default_foreground));
 
-        mContainerHint.setOnClickListener(v -> {
-            showSearch();
-        });
+
+        mContainerIdle.setOnClickListener(v -> showSearch());
 
         mSearchEditText.addTextChangedListener(new TextWatcher() {
             @Override
@@ -126,12 +107,11 @@ public class CoinSearchView extends FrameLayout {
             @Override
             public void afterTextChanged(Editable s) {
                 if(cachedCoinsLoaded) {
-                    mCoinSearchViewListener.requestCachedCoins(s.toString());
+                    mCoinSearchViewListener.findCoins(s.toString());
                 }
             }
         });
 
-        this.setBackgroundColor(AttrUtil.getAttributeColor(context, R.attr.default_foreground));
 
         //Recycler
         mLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
@@ -149,7 +129,6 @@ public class CoinSearchView extends FrameLayout {
                 mCoinSearchViewListener.showMessage(Message.DUPLICATE_QUOTE_BASE_COIN);
             }
         };
-
         mAdapter = new CSVAdapter(getContext(), listener);
         mRecycler.setLayoutManager(mLayoutManager);
         mRecycler.setAdapter(mAdapter);
@@ -164,7 +143,7 @@ public class CoinSearchView extends FrameLayout {
 
         if (mExpandedHeight == 0) {
             mExpandedHeight = mCoinSearchViewListener.getExpandedHeight();
-            mSearchViewRadius = (int) Math.hypot(getWidth() ,mExpandedHeight);
+            mSearchViewRadius = (int) Math.hypot(getWidth(), mExpandedHeight);
             mNormalHeight = layoutParams.height;
         }
         layoutParams.height = mExpandedHeight;
@@ -182,7 +161,7 @@ public class CoinSearchView extends FrameLayout {
         //ViewUtil.showKeyboardOn(getContext(), mSearchEditText);
 
         //Notify listener
-        mCoinSearchViewListener.requestCachedCoins("");
+        mCoinSearchViewListener.findCoins("");
     }
 
     public void hideSearch() {
@@ -221,10 +200,6 @@ public class CoinSearchView extends FrameLayout {
         mCoinSearchViewListener.getPairQuote(mQuoteCoin);
     }
 
-    private void hideCoin() {
-        mCoinContainer.setVisibility(View.GONE);
-    }
-
     public void updateCachedCoins(List<CachedCoin> cachedCoins) {
         cachedCoinsLoaded = true;
         mProgress.setVisibility(View.GONE);
@@ -257,7 +232,7 @@ public class CoinSearchView extends FrameLayout {
     public interface CoinSearchViewListener {
         int getExpandedHeight();
         void hideKeyboard();
-        void requestCachedCoins(String query);
+        void findCoins(String query);
         void showMessage(Message message);
         void getPairQuote(CachedCoin quoteCoin);
     }

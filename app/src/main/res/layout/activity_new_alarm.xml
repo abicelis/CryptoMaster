@@ -2,7 +2,6 @@
 <android.support.design.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_new_alarm_container"
     android:background="?attr/default_background"
     android:focusableInTouchMode="true"
@@ -34,7 +33,7 @@
                 android:textColor="?attr/text_primary"
                 android:visibility="visible"
                 android:fontFamily="@font/nunito_extralight"
-                android:text="@string/activity_alarm_title_new_alarm" />
+                android:text="@string/activity_new_alarm_title_new_alarm" />
 
 
         </android.support.v7.widget.Toolbar>
@@ -46,13 +45,13 @@
         android:layout_height="match_parent"
         android:paddingStart="8dp"
         android:paddingEnd="8dp"
-
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
         android:background="?attr/default_background"
         >
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="vertical"
             >
 
@@ -287,6 +286,7 @@
                         android:id="@+id/activity_new_alarm_optional_color_container"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
                         android:padding="8dp"
                         >
 
@@ -309,6 +309,22 @@
                             android:background="@drawable/circle"/>
                     </RelativeLayout>
 
+                    <EditText
+                        android:id="@+id/activity_new_alarm_optional_note"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="24dp"
+                        android:layout_marginEnd="24dp"
+                        android:layout_marginBottom="12dp"
+                        android:layout_marginTop="4dp"
+                        android:hint="@string/activity_new_alarm_optional_note"
+                        android:textSize="16sp"
+                        android:maxLines="3"
+                        android:fontFamily="@font/nunito_semibold"
+                        android:textColor="?attr/text_primary"
+                        android:textColorHint="?attr/text_hint"
+                        android:background="@null"
+                        />
 
                 </LinearLayout>
 
@@ -316,17 +332,21 @@
 
 
 
-
         </LinearLayout>
+
     </android.support.v4.widget.NestedScrollView>
+
     <Button
         android:id="@+id/activity_new_alarm_save"
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:textSize="18sp"
-        android:fontFamily="@font/nunito_semibold"
         android:text="@string/dialog_save"
-        android:layout_gravity="bottom"
+        android:fontFamily="@font/nunito_semibold"
         android:foreground="?android:attr/selectableItemBackground"
-        android:background="?attr/default_accent"/>
+        android:background="?attr/default_accent"
+        app:layout_anchor="@id/activity_new_alarm_nested_scroll_view"
+        app:layout_anchorGravity="bottom"
+        />
+
 </android.support.design.widget.CoordinatorLayout>

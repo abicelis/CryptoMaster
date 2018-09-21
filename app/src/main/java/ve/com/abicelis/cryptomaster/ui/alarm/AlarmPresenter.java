@@ -1,26 +1,10 @@
 package ve.com.abicelis.cryptomaster.ui.alarm;
 
-import android.graphics.Bitmap;
-import android.os.AsyncTask;
-import android.support.design.widget.BaseTransientBottomBar;
-import android.support.design.widget.Snackbar;
-
-import java.io.IOException;
-import java.util.concurrent.TimeUnit;
-
-import androidx.work.PeriodicWorkRequest;
-import androidx.work.WorkManager;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 import timber.log.Timber;
 import ve.com.abicelis.cryptomaster.application.Message;
 import ve.com.abicelis.cryptomaster.data.DataManager;
-import ve.com.abicelis.cryptomaster.data.model.Alarm;
-import ve.com.abicelis.cryptomaster.data.model.AlarmColor;
-import ve.com.abicelis.cryptomaster.data.model.AlarmType;
-import ve.com.abicelis.cryptomaster.data.model.Currency;
-import ve.com.abicelis.cryptomaster.data.model.ExchangeType;
-import ve.com.abicelis.cryptomaster.service.AlarmWorker;
 import ve.com.abicelis.cryptomaster.ui.base.BasePresenter;
 
 /**
@@ -46,21 +30,4 @@ public class AlarmPresenter extends BasePresenter<AlarmMvpView> {
                 }));
     }
 
-
-    public void insertAlarm(Alarm alarm) {
-
-        new AsyncTask<Alarm, Void, Integer>() {
-            @Override
-            protected Integer doInBackground(Alarm... alarms) {
-                mDataManager.insertAlarm(alarms[0]);
-                return 1;
-            }
-
-            @Override
-            protected void onPostExecute(Integer result) {
-                super.onPostExecute(result);
-                getAlarms();
-            }
-        }.execute(alarm);
-    }
 }
