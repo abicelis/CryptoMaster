@@ -15,17 +15,14 @@ public class Alarm {
     @ColumnInfo(name = "alarm_id")
     private Long id;
 
-    @ColumnInfo(name ="from_currency")
-    private Currency fromCurrency;
+    @ColumnInfo(name ="from_currency_code")
+    private String fromCurrencyCode;
 
-    @ColumnInfo(name = "to_currency")
-    private Currency toCurrency;
+    @ColumnInfo(name = "to_currency_code")
+    private String toCurrencyCode;
 
     @ColumnInfo(name = "trigger_value")
     private double triggerValue;
-
-    @ColumnInfo(name = "exchange_type")
-    private ExchangeType exchangeType;
 
     @ColumnInfo(name = "alarm_type")
     private AlarmType alarmType;
@@ -36,17 +33,16 @@ public class Alarm {
     @ColumnInfo(name = "note")
     private String note;
 
-    public Alarm (Long id, Currency fromCurrency, Currency toCurrency, double triggerValue, ExchangeType exchangeType, AlarmType alarmType, AlarmColor alarmColor, String note) {
-        this(fromCurrency, toCurrency, triggerValue, exchangeType, alarmType, alarmColor, note);
+    public Alarm (Long id, String fromCurrencyCode, String toCurrencyCode, double triggerValue, AlarmType alarmType, AlarmColor alarmColor, String note) {
+        this(fromCurrencyCode, toCurrencyCode, triggerValue, alarmType, alarmColor, note);
         this.id = id;
     }
 
     @Ignore
-    public Alarm (Currency fromCurrency, Currency toCurrency, double triggerValue, ExchangeType exchangeType, AlarmType alarmType, AlarmColor alarmColor, String note) {
-        this.fromCurrency = fromCurrency;
-        this.toCurrency = toCurrency;
+    public Alarm (String fromCurrencyCode, String toCurrencyCode, double triggerValue, AlarmType alarmType, AlarmColor alarmColor, String note) {
+        this.fromCurrencyCode = fromCurrencyCode;
+        this.toCurrencyCode = toCurrencyCode;
         this.triggerValue = triggerValue;
-        this.exchangeType = exchangeType;
         this.alarmType = alarmType;
         this.alarmColor = alarmColor;
         this.note = note;
@@ -56,17 +52,14 @@ public class Alarm {
     public Long getId() {
         return id;
     }
-    public Currency getFromCurrency() {
-        return fromCurrency;
+    public String getFromCurrencyCode() {
+        return fromCurrencyCode;
     }
-    public Currency getToCurrency() {
-        return toCurrency;
+    public String getToCurrencyCode() {
+        return toCurrencyCode;
     }
     public double getTriggerValue() {
         return triggerValue;
-    }
-    public ExchangeType getExchangeType() {
-        return exchangeType;
     }
     public AlarmType getAlarmType() {
         return alarmType;
@@ -81,17 +74,14 @@ public class Alarm {
     public void setId(Long id) {
         this.id = id;
     }
-    public void setFromCurrency(Currency fromCurrency) {
-        this.fromCurrency = fromCurrency;
+    public void setFromCurrencyCode(String fromCurrency) {
+        this.fromCurrencyCode = fromCurrency;
     }
-    public void setToCurrency(Currency toCurrency) {
-        this.toCurrency = toCurrency;
+    public void setToCurrencyCode(String toCurrency) {
+        this.toCurrencyCode = toCurrency;
     }
     public void setTriggerValue(double triggerValue) {
         this.triggerValue = triggerValue;
-    }
-    public void setExchangeType(ExchangeType exchangeType) {
-        this.exchangeType = exchangeType;
     }
     public void setAlarmType(AlarmType alarmType) {
         this.alarmType = alarmType;

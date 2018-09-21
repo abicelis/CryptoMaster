@@ -14,6 +14,7 @@ import javax.inject.Inject;
 import io.reactivex.Completable;
 import io.reactivex.Maybe;
 import io.reactivex.Single;
+import io.reactivex.functions.Action;
 import io.reactivex.functions.Function;
 import ve.com.abicelis.cryptomaster.application.Constants;
 import ve.com.abicelis.cryptomaster.data.local.AppDatabase;
@@ -549,10 +550,6 @@ public class DataManager {
         return mAppDatabase.alarmDao().getAll();
     }
 
-    public long insertAlarm(Alarm alarm) {
-        long id = mAppDatabase.alarmDao().insert(alarm);
-        return id;
-    }
 
     public int deleteAlarm(Alarm alarm) {
         int result = mAppDatabase.alarmDao().delete(alarm);
@@ -560,4 +557,7 @@ public class DataManager {
     }
 
 
+    public Completable insertAlarm(Alarm alarm) {
+        return Completable.fromAction(() -> mAppDatabase.alarmDao().insert(alarm));
+    }
 }

@@ -15,7 +15,7 @@ import ve.com.abicelis.cryptomaster.data.model.FavoriteCoin;
  */
 
 @Database(entities = {Coin.class, CachedCoin.class, FavoriteCoin.class, Alarm.class}, version = Constants.ROOM_DATABASE_VERSION)
-@TypeConverters({CurrencyConverter.class, AlarmColorConverter.class, AlarmTypeConverter.class, ExchangeTypeConverter.class})
+@TypeConverters({CurrencyConverter.class, AlarmColorConverter.class, AlarmTypeConverter.class})
 public abstract class AppDatabase extends RoomDatabase {
     public abstract CoinDao coinDao();
     public abstract CachedCoinDao cachedCoinDao();
