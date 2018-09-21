@@ -10,8 +10,8 @@ android {
         applicationId "ve.com.abicelis.cryptomaster"
         minSdkVersion 21
         targetSdkVersion 27
-        versionCode 7
-        versionName "0.34"
+        versionCode 8
+        versionName "0.40"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
         javaCompileOptions {
