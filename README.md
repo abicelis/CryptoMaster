@@ -23,7 +23,7 @@ Migrated from Pencil to Adobe Xd mid-project so some of the screens were designe
 
 
 
-## Skills learnt while building the app 
+## Fun stuff
 - MVP: Model View Presenter
 - New fancy MVP+RxJava+DataLayer architecture, loosely based on [ribot-boilerplate](https://github.com/ribot/android-boilerplate)
 - RxJava 2 and Rx Android!
