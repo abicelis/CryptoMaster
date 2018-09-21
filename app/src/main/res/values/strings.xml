@@ -1,8 +1,10 @@
 <resources>
 
-    <!-- ALARM ACTIVITY -->
-    <string name="activity_alarm_title_new_alarm">New Alert</string>
-    <string name="activity_alarm_title_edit_alarm">Edit Alert</string>
+    <!-- NEW ALARM ACTIVITY -->
+    <string name="activity_new_alarm_title_new_alarm">New Alert</string>
+    <string name="activity_new_alarm_title_edit_alarm">Edit Alert</string>
+    <string name="activity_new_alarm_optional_note">Optional note&#8230;</string>
+
 
     <!--HOME ACTIVITY-->
     <string name="title_alarms">Alerts</string>
@@ -146,7 +148,7 @@
     <string name="view_coin_search_title_price">Price</string>
     <string name="view_coin_search_title_optional">Optional</string>
     <string name="view_coin_search_title_optional_color">Color</string>
-    <string name="view_coin_search_hint">Select a coin&#8230;</string>
+    <string name="view_coin_search_idle_text">Select a coin&#8230;</string>
     <string name="view_coin_search">Search a coin&#8230;</string>
 
     <!-- DIALOG -->

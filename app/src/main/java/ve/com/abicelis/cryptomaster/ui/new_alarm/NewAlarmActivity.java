@@ -87,6 +87,8 @@ public class NewAlarmActivity extends BaseActivity implements NewAlarmMvpView {
     RelativeLayout mColorContainer;
     @BindView(R.id.activity_new_alarm_optional_color_view)
     View mColorView;
+    @BindView(R.id.activity_new_alarm_optional_note)
+    EditText mOptionalNote;
 
     @BindView(R.id.activity_new_alarm_save)
     Button mSaveButton;
@@ -136,7 +138,7 @@ public class NewAlarmActivity extends BaseActivity implements NewAlarmMvpView {
             }
 
             @Override
-            public void requestCachedCoins(String query) {
+            public void findCoins(String query) {
                 mPresenter.requestCachedCoins(query);
             }
 
@@ -296,6 +298,11 @@ public class NewAlarmActivity extends BaseActivity implements NewAlarmMvpView {
     @Override
     public void changeAlarmColorTint(AlarmColor alarmColor) {
         mColorView.setBackgroundTintList(ColorStateList.valueOf(alarmColor.getColor(this)));
+    }
+
+    @Override
+    public String getOptionalNote() {
+        return mOptionalNote.getText().toString();
     }
 
     @Override

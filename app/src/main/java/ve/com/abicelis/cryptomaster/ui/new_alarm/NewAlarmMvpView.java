@@ -26,5 +26,7 @@ interface NewAlarmMvpView extends MvpView {
 
     void changeAlarmColorTint(AlarmColor alarmColor);
 
+    String getOptionalNote();
+
     void alarmSuccessfullyInserted();
 }

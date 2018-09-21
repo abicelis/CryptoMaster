@@ -168,7 +168,29 @@ public class NewAlarmPresenter extends BasePresenter<NewAlarmActivity> {
     }
 
     public void saveAlarmClicked() {
-        Alarm alarm = new Alarm(mBaseCurrency.getCode(), mQuoteCoin.getCode(), mAlarmPrice, mAlarmType, alarmColor, "SOME NOTE");
+
+        if(mQuoteCoin == null) {
+            getMvpView().showMessage(Message.COULD_NOT_INSERT_ALARM, null);
+            return;
+        }
+
+        if(mQuote == 0f) {
+            getMvpView().showMessage(Message.COULD_NOT_INSERT_ALARM, null);
+            return;
+        }
+
+        if(mAlarmType == AlarmType.ABOVE && mAlarmPrice <= mQuote) {
+            getMvpView().showMessage(Message.COULD_NOT_INSERT_ALARM, null);
+            return;
+        }
+
+        if(mAlarmType == AlarmType.BELOW && mAlarmPrice >= mQuote) {
+            getMvpView().showMessage(Message.COULD_NOT_INSERT_ALARM, null);
+            return;
+        }
+
+
+        Alarm alarm = new Alarm(mBaseCurrency.getCode(), mQuoteCoin.getCode(), mAlarmPrice, mAlarmType, alarmColor, getMvpView().getOptionalNote());
 
         dataManager.insertAlarm(alarm)
                 .subscribeOn(Schedulers.io())
