@@ -28,6 +28,7 @@ import ve.com.abicelis.cryptomaster.application.Message;
 import ve.com.abicelis.cryptomaster.data.DataManager;
 import ve.com.abicelis.cryptomaster.data.local.SharedPreferenceHelper;
 import ve.com.abicelis.cryptomaster.data.model.CoinsFragmentType;
+import ve.com.abicelis.cryptomaster.data.model.StartFragment;
 import ve.com.abicelis.cryptomaster.ui.alarm.AlarmFragment;
 import ve.com.abicelis.cryptomaster.ui.base.BaseActivity;
 import ve.com.abicelis.cryptomaster.ui.coins.CoinsFragment;
@@ -42,13 +43,8 @@ import ve.com.abicelis.cryptomaster.util.SnackbarUtil;
 
 public class HomeActivity extends BaseActivity implements HomeMvpView {
 
-    CompositeDisposable compositeDisposable;
-
     @Inject
-    SharedPreferenceHelper sharedPreferenceHelper;
-
-    @Inject
-    DataManager dataManager;
+    HomePresenter mPresenter;
 
     @BindView(R.id.activity_home_container)
     RelativeLayout mContainer;
@@ -70,31 +66,37 @@ public class HomeActivity extends BaseActivity implements HomeMvpView {
         ButterKnife.bind(this);
 
         getPresenterComponent().inject(this);
+        mPresenter.attachView(this);
+        mPresenter.init();
 
-        setupBottomNavigation();
-        setupViewpager();
-        //createFakeNotification();
 
-        compositeDisposable = new CompositeDisposable();
-        compositeDisposable.add(dataManager.refreshCachedCoins()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(() -> {
-                    //COMPLETED YAY
-                    Toast.makeText(this, "Cached Currencies refreshed!", Toast.LENGTH_SHORT).show();
-                }, throwable -> {
-                    Timber.e(throwable, "Unable to refresh cached currencies");
-                }));
     }
+
+
+//        private void createFakeNotification() {
+//        new Handler().postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                AHNotification notification = new AHNotification.Builder()
+//                        .setText("1")
+//                        .setBackgroundColor(AttrUtil.getAttributeColor(HomeActivity.this, R.attr.bottom_nav_notification_background))
+//                        .setTextColor(AttrUtil.getAttributeColor(HomeActivity.this, R.attr.bottom_nav_notification_text))
+//                        .build();
+//                // Adding notification to last item.
+//
+//                mBottomNavigation.setNotification(notification, mBottomNavigation.getItemsCount() - 1);
+//            }
+//        }, 1000);
+//    }
+
+
+
+
+
+    /* HomeMvpView implementation */
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        if(compositeDisposable != null)
-            compositeDisposable.dispose();
-    }
-
-    private void setupViewpager() {
+    public void setupViewPager(StartFragment startFragment) {
         mViewPager.setPagingEnabled(false);
         mViewpagerAdapter = new BottomNavigationAdapter(getSupportFragmentManager());
 
@@ -125,16 +127,17 @@ public class HomeActivity extends BaseActivity implements HomeMvpView {
         mViewpagerAdapter.addFragment(preferenceFragment);
 
         mViewPager.setAdapter(mViewpagerAdapter);
-        mViewPager.setCurrentItem(sharedPreferenceHelper.getStartFragment().getFragmentIndex());
+        mViewPager.setCurrentItem(startFragment.getFragmentIndex());
     }
 
-    private void setupBottomNavigation() {
+    @Override
+    public void setupBottomNavigation(StartFragment startFragment) {
         mBottomNavigation.addItem(new AHBottomNavigationItem(getString(R.string.title_alarms), R.drawable.ic_nav_bottom_alarm));
         mBottomNavigation.addItem(new AHBottomNavigationItem(getString(R.string.title_market), R.drawable.ic_nav_bottom_market));
         mBottomNavigation.addItem(new AHBottomNavigationItem(getString(R.string.title_coins), R.drawable.ic_nav_bottom_coin));
         mBottomNavigation.addItem(new AHBottomNavigationItem(getString(R.string.title_favorites), R.drawable.ic_nav_bottom_favorite));
         mBottomNavigation.addItem(new AHBottomNavigationItem(getString(R.string.title_settings), R.drawable.ic_nav_bottom_settings));
-        mBottomNavigation.setCurrentItem(sharedPreferenceHelper.getStartFragment().getFragmentIndex());
+        mBottomNavigation.setCurrentItem(startFragment.getFragmentIndex());
 
 
         mBottomNavigation.setOnTabSelectedListener((position, wasSelected) -> {
@@ -151,150 +154,9 @@ public class HomeActivity extends BaseActivity implements HomeMvpView {
 
     }
 
-    private void createFakeNotification() {
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                AHNotification notification = new AHNotification.Builder()
-                        .setText("1")
-                        .setBackgroundColor(AttrUtil.getAttributeColor(HomeActivity.this, R.attr.bottom_nav_notification_background))
-                        .setTextColor(AttrUtil.getAttributeColor(HomeActivity.this, R.attr.bottom_nav_notification_text))
-                        .build();
-                // Adding notification to last item.
-
-                mBottomNavigation.setNotification(notification, mBottomNavigation.getItemsCount() - 1);
-            }
-        }, 1000);
-    }
-
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        //mHomePresenter.refreshTripList(null);
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        //getMenuInflater().inflate(R.menu.menu_activity_home, menu);
-
-        //MenuItem item = menu.findItem(R.id.menu_home_search);
-        //mSearchView.setMenuItem(item);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-//        switch (id) {
-////            case R.id.menu_home_settings:
-////                Toast.makeText(this, "Under construction", Toast.LENGTH_SHORT).show();
-////                break;
-//
-//            case R.id.menu_home_theme:
-//                new SharedPreferenceHelper().toggleAppThemeType();
-//                recreate();
-//                break;
-//
-//            case R.id.menu_home_about:
-//                Intent aboutIntent = new Intent(this, AboutActivity.class);
-//                startActivity(aboutIntent);
-//                break;
-//        }
-
-
-        return super.onOptionsItemSelected(item);
-    }
-//
-//    private void setUpToolbar() {
-//        //Setup toolbar
-//        setSupportActionBar(mToolbar);
-//        getSupportActionBar().setTitle(R.string.app_name);
-//        getSupportActionBar().setLogo(R.drawable.ic_plane);
-//    }
-//
-//    private void setUpRecyclerView() {
-//
-//        mLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-//        mTripAdapter = new TripAdapter(this);
-//        mTripAdapter.setTripDeletedListener(trip -> {
-//            mHomePresenter.deleteTrip(trip);
-//        });
-//
-//        mRecycler.setLayoutManager(mLayoutManager);
-//        mRecycler.setAdapter(mTripAdapter);
-//
-//        mSwipeRefresh.setColorSchemeResources(R.color.swipe_refresh_green, R.color.swipe_refresh_red, R.color.swipe_refresh_yellow);
-//        mSwipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-//                                               @Override
-//                                               public void onRefresh() {
-//                                                   mHomePresenter.refreshTripList(null);
-//                                               }
-//                                           }
-//        );
-//    }
-//
-//    private void setupSearchView() {
-//        mSearchView.setVoiceSearch(true);
-//        mSearchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
-//            @Override
-//            public boolean onQueryTextSubmit(String query) {
-//                mHomePresenter.refreshTripList(query.trim());
-//                return true;
-//            }
-//
-//            @Override
-//            public boolean onQueryTextChange(String newText) {
-//                newText = newText.trim();
-//                if(newText.length() > 0)
-//                    mHomePresenter.refreshTripList(newText);
-//                if(newText.length() == 0)
-//                    mHomePresenter.refreshTripList(null);
-//                return true;
-//            }
-//        });
-//
-//        mSearchView.setOnSearchViewListener(new MaterialSearchView.SearchViewListener() {
-//            @Override
-//            public void onSearchViewShown() {
-//                mAddTrip.hide();
-//            }
-//
-//            @Override
-//            public void onSearchViewClosed() {
-//                mAddTrip.show();
-//                mHomePresenter.refreshTripList(null);
-//            }
-//        });
-//    }
-
-
-    /* HomeMvpView implementation */
-
-    @Override
-    public void showLoading() {
-        //mSwipeRefresh.setRefreshing(true);
-    }
-
-
     @Override
     public void showMessage(Message message, @Nullable BaseTransientBottomBar.BaseCallback<Snackbar> callback) {
         SnackbarUtil.showSnackbar(mContainer, message.getMessageType(), message.getFriendlyNameRes(), SnackbarUtil.SnackbarDuration.SHORT, callback);
     }
 
-//    @Override
-//    public void showTrips(List<TripViewModel> trips) {
-//        mSwipeRefresh.setRefreshing(false);
-//        mTripAdapter.getItems().clear();
-//        mTripAdapter.getItems().addAll(trips);
-//        mTripAdapter.notifyDataSetChanged();
-//
-//        if(mTripAdapter.getItems().size() == 0) {
-//            mNoItemsContainer.setVisibility(View.VISIBLE);
-//            mRecycler.setVisibility(View.GONE);
-//        } else {
-//            mNoItemsContainer.setVisibility(View.GONE);
-//            mRecycler.setVisibility(View.VISIBLE);
-//        }
-//    }
 }

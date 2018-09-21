@@ -1,7 +1,6 @@
 package ve.com.abicelis.cryptomaster.ui.home;
 
-import java.util.List;
-
+import ve.com.abicelis.cryptomaster.data.model.StartFragment;
 import ve.com.abicelis.cryptomaster.ui.base.MvpView;
 
 
@@ -10,7 +9,6 @@ import ve.com.abicelis.cryptomaster.ui.base.MvpView;
  */
 
 public interface HomeMvpView extends MvpView {
-
-   void showLoading();
-   //void showCoins(List<TripViewModel> trips);
+   void setupViewPager(StartFragment startFragment);
+   void setupBottomNavigation(StartFragment startFragment);
 }
