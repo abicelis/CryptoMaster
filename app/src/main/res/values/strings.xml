@@ -86,6 +86,10 @@
     <string name="activity_about_github_link">View GitHub Project</string>
     <string name="activity_about_website_link" translatable="false">www.alejandrobicelis.com.ve</string>
 
+    <!--DIALOG COLOR PICKER-->
+    <string name="dialog_color_picker_title">Pick a color</string>
+
+
     <!-- LINKS -->
     <string name="url_market" translatable="false">market://details?id=ve.com.abicelis.cryptomaster</string>
     <string name="url_github" translatable="false">github.com/abicelis/</string>
@@ -141,6 +145,7 @@
     <string name="view_coin_search_title_pair">Pair</string>
     <string name="view_coin_search_title_price">Price</string>
     <string name="view_coin_search_title_optional">Optional</string>
+    <string name="view_coin_search_title_optional_color">Color</string>
     <string name="view_coin_search_hint">Select a coin&#8230;</string>
     <string name="view_coin_search">Search a coin&#8230;</string>
 
@@ -149,6 +154,7 @@
     <string name="dialog_search">SEARCH</string>
     <string name="dialog_done">DONE</string>
     <string name="dialog_set">SET</string>
+    <string name="dialog_select">SELECT</string>
     <string name="dialog_agree">AGREE</string>
     <string name="dialog_skip">SKIP</string>
     <string name="dialog_yes">YES</string>
@@ -174,6 +180,8 @@
     <string name="could_not_fetch_chart_data">Could not fetch chart data</string>
     <string name="could_not_fetch_exchange_data">Could not fetch list of exchanges</string>
     <string name="could_not_fetch_alarm_data">Could not fetch list of alerts</string>
+    <string name="could_not_insert_alarm">Could not fetch insert alert</string>
+    <string name="success_inserting_alarm">Alert created successfully</string>
     <string name="duplicate_quote_base_coin">Quote coin must be different than base coin</string>
     <string name="duplicate_base_quote_coin">Base coin must be different than quote coin</string>
 </resources>

@@ -1,15 +1,19 @@
 package ve.com.abicelis.cryptomaster.ui.new_alarm;
 
+import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BaseTransientBottomBar;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.CardView;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.List;
@@ -22,6 +26,7 @@ import butterknife.ButterKnife;
 import timber.log.Timber;
 import ve.com.abicelis.cryptomaster.R;
 import ve.com.abicelis.cryptomaster.application.Message;
+import ve.com.abicelis.cryptomaster.data.model.AlarmColor;
 import ve.com.abicelis.cryptomaster.data.model.CachedCoin;
 import ve.com.abicelis.cryptomaster.data.model.Currency;
 import ve.com.abicelis.cryptomaster.ui.base.BaseActivity;
@@ -34,6 +39,11 @@ import ve.com.abicelis.cryptomaster.util.ViewUtil;
  * Created by abicelis on 14/9/2018.
  */
 public class NewAlarmActivity extends BaseActivity implements NewAlarmMvpView {
+
+
+    //UI
+    AlarmColorPickerDialogFragment dialog;
+
 
     @Inject
     NewAlarmPresenter mPresenter;
@@ -71,6 +81,15 @@ public class NewAlarmActivity extends BaseActivity implements NewAlarmMvpView {
     TextView mPriceAboveDiff;
     @BindView(R.id.activity_new_alarm_price_above_percent)
     TextView mPriceAbovePercent;
+
+
+    @BindView(R.id.activity_new_alarm_optional_color_container)
+    RelativeLayout mColorContainer;
+    @BindView(R.id.activity_new_alarm_optional_color_view)
+    View mColorView;
+
+    @BindView(R.id.activity_new_alarm_save)
+    Button mSaveButton;
 
 
 
@@ -167,8 +186,25 @@ public class NewAlarmActivity extends BaseActivity implements NewAlarmMvpView {
             }
         });
 
-        hidePriceDiffsAndPercentages();
+
+        mColorContainer.setOnClickListener(v -> showAlarmColorPickerDialog());
+        mPresenter.alarmColorChanged(AlarmColor.COLOR_1);
+
+        mSaveButton.setOnClickListener(v -> mPresenter.saveAlarmClicked());
     }
+
+
+    private void showAlarmColorPickerDialog() {
+        dialog = AlarmColorPickerDialogFragment.newInstance(color -> {
+                        mPresenter.alarmColorChanged(color);
+                        dialog.dismiss();
+        });
+        dialog.show(getSupportFragmentManager(), "AlarmColorPickerDialogFragment");
+    }
+
+
+
+
     @Override
     public void displayCachedCoins(List<CachedCoin> cachedCoins) {
         mCoinSearchView.updateCachedCoins(cachedCoins);
@@ -255,5 +291,23 @@ public class NewAlarmActivity extends BaseActivity implements NewAlarmMvpView {
         mPriceBelowPercent.setText("");
         mPriceAboveDiff.setText("");
         mPriceAbovePercent.setText("");
+    }
+
+    @Override
+    public void changeAlarmColorTint(AlarmColor alarmColor) {
+        mColorView.setBackgroundTintList(ColorStateList.valueOf(alarmColor.getColor(this)));
+    }
+
+    @Override
+    public void alarmSuccessfullyInserted() {
+        BaseTransientBottomBar.BaseCallback<Snackbar> callback = new BaseTransientBottomBar.BaseCallback<Snackbar>() {
+            @Override
+            public void onDismissed(Snackbar transientBottomBar, int event) {
+                super.onDismissed(transientBottomBar, event);
+                finish();
+            }
+        };
+
+        showMessage(Message.SUCCESS_INSERTING_ALARM, callback);
     }
 }

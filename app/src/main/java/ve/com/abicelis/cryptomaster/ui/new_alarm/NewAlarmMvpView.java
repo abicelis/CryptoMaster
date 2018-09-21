@@ -2,6 +2,7 @@ package ve.com.abicelis.cryptomaster.ui.new_alarm;
 
 import java.util.List;
 
+import ve.com.abicelis.cryptomaster.data.model.AlarmColor;
 import ve.com.abicelis.cryptomaster.data.model.CachedCoin;
 import ve.com.abicelis.cryptomaster.data.model.Coin;
 import ve.com.abicelis.cryptomaster.data.model.Currency;
@@ -22,4 +23,8 @@ interface NewAlarmMvpView extends MvpView {
     void showBelowDiffAndPercent(Currency currency, double diff, double percent);
     void showAboveDiffAndPercent(Currency currency, double diff, double percent);
     void hidePriceDiffsAndPercentages();
+
+    void changeAlarmColorTint(AlarmColor alarmColor);
+
+    void alarmSuccessfullyInserted();
 }

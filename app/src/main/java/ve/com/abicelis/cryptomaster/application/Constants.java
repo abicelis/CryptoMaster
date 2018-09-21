@@ -59,7 +59,7 @@ public class Constants {
 
     /* ROOM DATABASE */
     public static final String                  ROOM_DATABASE_NAME =                                "crypto_master.db";
-    public static final int                     ROOM_DATABASE_VERSION =                             5;
+    public static final int                     ROOM_DATABASE_VERSION =                             6;
 
 
     /* COINMARKETCAP API */

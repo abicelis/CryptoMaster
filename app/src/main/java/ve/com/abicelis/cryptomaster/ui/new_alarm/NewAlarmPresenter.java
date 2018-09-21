@@ -7,9 +7,11 @@ import ve.com.abicelis.cryptomaster.application.Constants;
 import ve.com.abicelis.cryptomaster.application.Message;
 import ve.com.abicelis.cryptomaster.data.DataManager;
 import ve.com.abicelis.cryptomaster.data.model.Alarm;
+import ve.com.abicelis.cryptomaster.data.model.AlarmColor;
 import ve.com.abicelis.cryptomaster.data.model.AlarmType;
 import ve.com.abicelis.cryptomaster.data.model.CachedCoin;
 import ve.com.abicelis.cryptomaster.data.model.Currency;
+import ve.com.abicelis.cryptomaster.data.model.ExchangeType;
 import ve.com.abicelis.cryptomaster.ui.base.BasePresenter;
 
 /**
@@ -26,6 +28,7 @@ public class NewAlarmPresenter extends BasePresenter<NewAlarmActivity> {
     double mQuote;
     AlarmType mAlarmType;
     double mAlarmPrice;
+    AlarmColor alarmColor;
 
     public NewAlarmPresenter(DataManager dataManager) {
         this.dataManager = dataManager;
@@ -157,5 +160,24 @@ public class NewAlarmPresenter extends BasePresenter<NewAlarmActivity> {
             } else
                 getMvpView().hidePriceDiffsAndPercentages();
         }
+    }
+
+    public void alarmColorChanged(AlarmColor color) {
+        alarmColor = color;
+        getMvpView().changeAlarmColorTint(alarmColor);
+    }
+
+    public void saveAlarmClicked() {
+        Alarm alarm = new Alarm(mBaseCurrency.getCode(), mQuoteCoin.getCode(), mAlarmPrice, mAlarmType, alarmColor, "SOME NOTE");
+
+        dataManager.insertAlarm(alarm)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe( () -> {
+                    getMvpView().alarmSuccessfullyInserted();
+                }, throwable -> {
+                    getMvpView().showMessage(Message.COULD_NOT_INSERT_ALARM, null);
+                });
+
     }
 }
