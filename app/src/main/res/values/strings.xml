@@ -64,6 +64,10 @@
     <string name="fragment_preference_start_fragment_key" translatable="false">settings_start_fragment</string>
     <string name="fragment_preference_start_fragment_title">Start Page</string>
 
+
+    <string name="fragment_preference_alarm_frequency_key" translatable="false">settings_alarm_frequency</string>
+    <string name="fragment_preference_alarm_frequency_title">Alert frequency</string>
+
     <string name="fragment_preference_backup_key" translatable="false">settings_backup</string>
     <string name="fragment_preference_backup_title">Backup</string>
     <string name="fragment_preference_backup_summary">Configure app data backup options</string>
