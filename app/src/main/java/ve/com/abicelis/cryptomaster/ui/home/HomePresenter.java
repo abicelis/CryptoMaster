@@ -1,17 +1,12 @@
 package ve.com.abicelis.cryptomaster.ui.home;
 
-import java.util.concurrent.TimeUnit;
-
-import androidx.work.PeriodicWorkRequest;
-import androidx.work.WorkManager;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 import timber.log.Timber;
-import ve.com.abicelis.cryptomaster.application.Constants;
 import ve.com.abicelis.cryptomaster.data.DataManager;
 import ve.com.abicelis.cryptomaster.data.model.StartFragment;
-import ve.com.abicelis.cryptomaster.service.AlarmWorker;
 import ve.com.abicelis.cryptomaster.ui.base.BasePresenter;
+import ve.com.abicelis.cryptomaster.util.AlarmWorkerUtil;
 
 /**
  * Created by abicelis on 4/9/2017.
@@ -39,11 +34,7 @@ public class HomePresenter extends BasePresenter<HomeMvpView> {
 
 
         //Handle AlarmWorker
-        WorkManager.getInstance().cancelAllWorkByTag(Constants.ALARM_WORKER_TAG);
-        PeriodicWorkRequest.Builder alarmWorkerBuilder = new PeriodicWorkRequest.Builder(AlarmWorker.class, 15, TimeUnit.MINUTES)
-                .addTag(Constants.ALARM_WORKER_TAG);
-        PeriodicWorkRequest alarmWork = alarmWorkerBuilder.build();
-        WorkManager.getInstance().enqueue(alarmWork);
+        AlarmWorkerUtil.resetAlarmWorker(mDataManager.getSharedPreferenceHelper().getAlarmFrequency());
 
 
 
