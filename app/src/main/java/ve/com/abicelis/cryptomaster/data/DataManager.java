@@ -545,8 +545,8 @@ public class DataManager {
     }
 
 
-    public Single<List<Alarm>> getAlarms() {
-        return mAppDatabase.alarmDao().getAll();
+    public Single<List<Alarm>> getEnabledAlarms() {
+        return mAppDatabase.alarmDao().getAllEnabled();
     }
 
 

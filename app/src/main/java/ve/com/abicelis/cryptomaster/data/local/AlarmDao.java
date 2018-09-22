@@ -29,6 +29,9 @@ public abstract class AlarmDao {
     @Query("SELECT * FROM alarm")
     public abstract Single<List<Alarm>> getAll();
 
+    @Query("SELECT * FROM alarm WHERE enabled = 1")
+    public abstract Single<List<Alarm>> getAllEnabled();
+
     @Query("SELECT * FROM alarm where alarm_id = :alarmId")
     public abstract Maybe<Alarm> getById(long alarmId);
 
