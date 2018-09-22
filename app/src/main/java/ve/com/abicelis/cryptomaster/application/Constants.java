@@ -32,6 +32,9 @@ public class Constants {
     public static final int                     MISC_CHART_ANIMATION_DURATION =                     500;
     public static final int                     MISC_COINMARKETCAP_BTC_ID =                         1;
     public static final String                  ALARM_WORKER_TAG =                                  "ALARM_WORKER_TAG";
+    public static final String                  NOTIFICATION_CHANNEL_ID =                           "CRYPTO_MASTER_NOTIFICATION_CHANNEL_ID";
+    public static final String                  NOTIFICATION_CHANNEL_NAME =                         "Alert Notifications";
+    public static final String                  NOTIFICATION_CHANNEL_DESCRIPTION =                  "Shows notifications whenever an Alert is triggered";
 
 
     /* NEW ALARM ACTIVITY */
