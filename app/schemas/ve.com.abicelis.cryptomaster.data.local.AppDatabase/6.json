@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 6,
-    "identityHash": "797f9fb07cddcc9033bc08d244d38eb0",
+    "identityHash": "ffad576bd72f9d371018963a9d2df2c8",
     "entities": [
       {
         "tableName": "coin",
@@ -209,7 +209,7 @@
       },
       {
         "tableName": "alarm",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`alarm_id` INTEGER PRIMARY KEY AUTOINCREMENT, `from_currency_code` TEXT, `to_currency_code` TEXT, `trigger_value` REAL NOT NULL, `alarm_type` TEXT, `alarm_color` TEXT, `note` TEXT)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`alarm_id` INTEGER PRIMARY KEY AUTOINCREMENT, `enabled` INTEGER NOT NULL, `from_currency` TEXT, `to_coin_id` INTEGER NOT NULL, `to_coin_code` TEXT, `trigger_value` REAL NOT NULL, `alarm_type` TEXT, `alarm_color` TEXT, `note` TEXT)",
         "fields": [
           {
             "fieldPath": "id",
@@ -218,14 +218,26 @@
             "notNull": false
           },
           {
-            "fieldPath": "fromCurrencyCode",
-            "columnName": "from_currency_code",
+            "fieldPath": "enabled",
+            "columnName": "enabled",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "fromCurrency",
+            "columnName": "from_currency",
             "affinity": "TEXT",
             "notNull": false
           },
           {
-            "fieldPath": "toCurrencyCode",
-            "columnName": "to_currency_code",
+            "fieldPath": "toCoinId",
+            "columnName": "to_coin_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "toCoinCode",
+            "columnName": "to_coin_code",
             "affinity": "TEXT",
             "notNull": false
           },
@@ -266,7 +278,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"797f9fb07cddcc9033bc08d244d38eb0\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"ffad576bd72f9d371018963a9d2df2c8\")"
     ]
   }
 }

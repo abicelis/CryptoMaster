@@ -11,7 +11,6 @@ import ve.com.abicelis.cryptomaster.data.model.AlarmColor;
 import ve.com.abicelis.cryptomaster.data.model.AlarmType;
 import ve.com.abicelis.cryptomaster.data.model.CachedCoin;
 import ve.com.abicelis.cryptomaster.data.model.Currency;
-import ve.com.abicelis.cryptomaster.data.model.ExchangeType;
 import ve.com.abicelis.cryptomaster.ui.base.BasePresenter;
 
 /**
@@ -114,7 +113,7 @@ public class NewAlarmPresenter extends BasePresenter<NewAlarmActivity> {
 
     public void getPairQuote(CachedCoin quoteCoin) {
         mQuoteCoin = quoteCoin;
-        addDisposable(dataManager.getTicker(mQuoteCoin.getId(), mBaseCurrency)
+        addDisposable(dataManager.getCoinMarketCapTicker(mQuoteCoin.getId(), mBaseCurrency)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(coin -> {
@@ -190,7 +189,7 @@ public class NewAlarmPresenter extends BasePresenter<NewAlarmActivity> {
         }
 
 
-        Alarm alarm = new Alarm(mBaseCurrency.getCode(), mQuoteCoin.getCode(), mAlarmPrice, mAlarmType, alarmColor, getMvpView().getOptionalNote());
+        Alarm alarm = new Alarm(mBaseCurrency, mQuoteCoin.getId(), mQuoteCoin.getCode(), mAlarmPrice, mAlarmType, alarmColor, getMvpView().getOptionalNote(), true);
 
         dataManager.insertAlarm(alarm)
                 .subscribeOn(Schedulers.io())
