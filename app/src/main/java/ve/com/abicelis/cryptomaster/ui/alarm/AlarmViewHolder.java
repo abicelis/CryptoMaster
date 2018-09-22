@@ -5,6 +5,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
 
+import java.util.Locale;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import ve.com.abicelis.cryptomaster.R;
@@ -36,13 +38,13 @@ public class AlarmViewHolder extends RecyclerView.ViewHolder {
     public void setData(Alarm alarm) {
         mCurrent = alarm;
 
-        mPair.setText(String.format("%1$s/%2$s", mCurrent.getFromCurrencyCode(), mCurrent.getToCurrencyCode()));
+        mPair.setText(String.format("%1$s/%2$s", mCurrent.getFromCurrency().getCode(), mCurrent.getToCoinCode()));
 
         mDescription.setText(
-                String.format("%1$s %2$s %3$s",
+                String.format(Locale.getDefault(), "%1$s %2$.6f %3$s",
                         mCurrent.getAlarmType().getDescription(mDescription.getContext()),
                         mCurrent.getTriggerValue(),
-                        mCurrent.getToCurrencyCode()));
+                        mCurrent.getFromCurrency().getCode()));
 
         int color = mCurrent.getAlarmColor().getColor(mColor.getContext());
         mColor.setBackgroundTintList(ColorStateList.valueOf(color));

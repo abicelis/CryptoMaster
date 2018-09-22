@@ -15,11 +15,16 @@ public class Alarm {
     @ColumnInfo(name = "alarm_id")
     private Long id;
 
-    @ColumnInfo(name ="from_currency_code")
-    private String fromCurrencyCode;
+    private boolean enabled;
 
-    @ColumnInfo(name = "to_currency_code")
-    private String toCurrencyCode;
+    @ColumnInfo(name ="from_currency")
+    private Currency fromCurrency;
+
+    @ColumnInfo(name = "to_coin_id")
+    private int toCoinId;
+
+    @ColumnInfo(name = "to_coin_code")
+    private String toCoinCode;
 
     @ColumnInfo(name = "trigger_value")
     private double triggerValue;
@@ -33,31 +38,35 @@ public class Alarm {
     @ColumnInfo(name = "note")
     private String note;
 
-    public Alarm (Long id, String fromCurrencyCode, String toCurrencyCode, double triggerValue, AlarmType alarmType, AlarmColor alarmColor, String note) {
-        this(fromCurrencyCode, toCurrencyCode, triggerValue, alarmType, alarmColor, note);
+    public Alarm (Long id, Currency fromCurrency, int toCoinId, String toCoinCode, double triggerValue, AlarmType alarmType, AlarmColor alarmColor, String note, boolean enabled) {
+        this(fromCurrency, toCoinId, toCoinCode, triggerValue, alarmType, alarmColor, note, enabled);
         this.id = id;
     }
 
     @Ignore
-    public Alarm (String fromCurrencyCode, String toCurrencyCode, double triggerValue, AlarmType alarmType, AlarmColor alarmColor, String note) {
-        this.fromCurrencyCode = fromCurrencyCode;
-        this.toCurrencyCode = toCurrencyCode;
+    public Alarm (Currency fromCurrency, int toCoinId, String toCoinCode, double triggerValue, AlarmType alarmType, AlarmColor alarmColor, String note, boolean enabled) {
+        this.fromCurrency = fromCurrency;
+        this.toCoinId = toCoinId;
+        this.toCoinCode = toCoinCode;
         this.triggerValue = triggerValue;
         this.alarmType = alarmType;
         this.alarmColor = alarmColor;
         this.note = note;
+        this.enabled = enabled;
     }
 
 
     public Long getId() {
         return id;
     }
-    public String getFromCurrencyCode() {
-        return fromCurrencyCode;
+    public boolean isEnabled() { return enabled; }
+    public Currency getFromCurrency() {
+        return fromCurrency;
     }
-    public String getToCurrencyCode() {
-        return toCurrencyCode;
+    public int getToCoinId() {
+        return toCoinId;
     }
+    public String getToCoinCode() { return toCoinCode; }
     public double getTriggerValue() {
         return triggerValue;
     }
@@ -74,12 +83,14 @@ public class Alarm {
     public void setId(Long id) {
         this.id = id;
     }
-    public void setFromCurrencyCode(String fromCurrency) {
-        this.fromCurrencyCode = fromCurrency;
+    public void setEnabled(boolean enabled) { this.enabled = enabled; }
+    public void setFromCurrency(Currency fromCurrency) {
+        this.fromCurrency = fromCurrency;
     }
-    public void setToCurrencyCode(String toCurrency) {
-        this.toCurrencyCode = toCurrency;
+    public void setToCoinId(int toCurrency) {
+        this.toCoinId = toCurrency;
     }
+    public void setToCoinCode(String toCurrencyCode) { this.toCoinCode = toCurrencyCode; }
     public void setTriggerValue(double triggerValue) {
         this.triggerValue = triggerValue;
     }

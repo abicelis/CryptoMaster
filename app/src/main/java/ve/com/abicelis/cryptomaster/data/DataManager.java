@@ -269,8 +269,8 @@ public class DataManager {
                 });
     }
 
-    public Single<Coin> getTicker(long coinId, Currency currency) {
-        return mCoinMarketCapApi.getTickerSingleCurrency(coinId, currency.getCode())
+    public Single<Coin> getCoinMarketCapTicker(long coinMarketCapCoinId, Currency currency) {
+        return mCoinMarketCapApi.getTickerSingleCurrency(coinMarketCapCoinId, currency.getCode())
                 .map(tickerResult -> buildCoinFromTickerData(tickerResult.getData().get(0), currency));
     }
 
@@ -282,7 +282,6 @@ public class DataManager {
                 .map(coins -> {
                     Collections.sort(coins);
                     return coins;
-
                 });
     }
 

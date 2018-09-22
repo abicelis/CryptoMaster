@@ -16,7 +16,7 @@ public class CachedCoin implements Comparable<CachedCoin> {
 
     @PrimaryKey
     @ColumnInfo(name = "cached_coin_id")
-    private long id;                                //CoinMarketCap ID
+    private int id;                                //CoinMarketCap ID
     private String name;
     private String code;
     @ColumnInfo(name = "website_slug")
@@ -24,7 +24,7 @@ public class CachedCoin implements Comparable<CachedCoin> {
     private int rank;
 
 
-    public CachedCoin(long id, String name, String code, String websiteSlug, int rank) {
+    public CachedCoin(int id, String name, String code, String websiteSlug, int rank) {
         this.id = id;
         this.name = name;
         this.code = code;
@@ -33,7 +33,7 @@ public class CachedCoin implements Comparable<CachedCoin> {
     }
 
 
-    public long getId() { return id; }
+    public int getId() { return id; }
     public String getName() { return name; }
     public String getCode() { return code; }
     public String getWebsiteSlug() {
