@@ -19,9 +19,11 @@ import com.takisoft.fix.support.v7.preference.PreferenceFragmentCompatDividers;
 
 import ve.com.abicelis.cryptomaster.R;
 import ve.com.abicelis.cryptomaster.data.local.SharedPreferenceHelper;
+import ve.com.abicelis.cryptomaster.data.model.AlarmFrequency;
 import ve.com.abicelis.cryptomaster.data.model.Currency;
 import ve.com.abicelis.cryptomaster.data.model.StartFragment;
 import ve.com.abicelis.cryptomaster.ui.about.AboutActivity;
+import ve.com.abicelis.cryptomaster.util.AlarmWorkerUtil;
 
 /**
  * Created by abicelis on 15/7/2018.
@@ -31,6 +33,7 @@ public class PreferenceFragment extends PreferenceFragmentCompatDividers {
     //UI
     private ListPreference mDefaultCurrency;
     private ListPreference mStartFragment;
+    private ListPreference mAlarmFrequency;
     private Preference mBackup;
     private Preference mAbout;
     private Preference mRate;
@@ -74,6 +77,20 @@ public class PreferenceFragment extends PreferenceFragmentCompatDividers {
             StartFragment startFragment = StartFragment.valueOf((String) newValue);
             mStartFragment.setSummary(startFragment.getFriendlyName());
             new SharedPreferenceHelper().setStartFragment(startFragment);
+            return true;
+        });
+
+
+        mAlarmFrequency = (ListPreference) findPreference(getResources().getString(R.string.fragment_preference_alarm_frequency_key));
+        mAlarmFrequency.setSummary(new SharedPreferenceHelper().getAlarmFrequency().getFriendlyName());
+        mAlarmFrequency.setEntries(AlarmFrequency.getEntries());
+        mAlarmFrequency.setEntryValues(AlarmFrequency.getEntryValues());
+        mAlarmFrequency.setOnPreferenceChangeListener((Preference preference, Object newValue) -> {
+            AlarmFrequency alarmFrequency = AlarmFrequency.valueOf((String) newValue);
+            mAlarmFrequency.setSummary(alarmFrequency.getFriendlyName());
+            new SharedPreferenceHelper().setAlarmFrequency(alarmFrequency);
+
+            AlarmWorkerUtil.resetAlarmWorker(new SharedPreferenceHelper().getAlarmFrequency());
             return true;
         });
 

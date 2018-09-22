@@ -6,6 +6,7 @@ import android.preference.PreferenceManager;
 import timber.log.Timber;
 import ve.com.abicelis.cryptomaster.application.Constants;
 import ve.com.abicelis.cryptomaster.application.CryptoMasterApplication;
+import ve.com.abicelis.cryptomaster.data.model.AlarmFrequency;
 import ve.com.abicelis.cryptomaster.data.model.AppThemeType;
 import ve.com.abicelis.cryptomaster.data.model.CoinsToFetch;
 import ve.com.abicelis.cryptomaster.data.model.Currency;
@@ -96,6 +97,30 @@ public class SharedPreferenceHelper {
     }
     public void setStartFragment(StartFragment value) {
         mSharedPreferences.edit().putString(Constants.SHARED_PREFERENCE_START_FRAGMENT, value.name()).apply();
+    }
+
+
+
+    /* ALARM FREQUENCY */
+    public AlarmFrequency getAlarmFrequency() {
+        String value = mSharedPreferences.getString(Constants.SHARED_PREFERENCE_ALARM_FREQUENCY, null);
+        AlarmFrequency pref;
+        try {
+            pref = AlarmFrequency.valueOf(value);
+        } catch (Exception e) {
+            pref = null;
+        }
+
+        if(pref == null) {
+            Timber.w("getAlarmFrequency() found null, setting _1_HOUR");
+            pref = AlarmFrequency._1_HOUR;
+            setAlarmFrequency(pref);
+        }
+
+        return pref;
+    }
+    public void setAlarmFrequency(AlarmFrequency value) {
+        mSharedPreferences.edit().putString(Constants.SHARED_PREFERENCE_ALARM_FREQUENCY, value.name()).apply();
     }
 
 

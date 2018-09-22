@@ -35,7 +35,7 @@ public class Constants {
 
 
     /* NEW ALARM ACTIVITY */
-    public static final int                     NEW_ALARM_ACTIVITY_RANKED_CACHED_COINS_COINT =             8;
+    public static final int                     NEW_ALARM_ACTIVITY_RANKED_CACHED_COINS_COINT =             9;
 
 
     /* COIN DETAIL ACTIVITY */
@@ -55,6 +55,7 @@ public class Constants {
     public static final String                  SHARED_PREFERENCE_COINS_TO_FETCH =                  "SHARED_PREFERENCE_COINS_TO_FETCH";
     public static final String                  SHARED_PREFERENCE_CURRENCY =                        "SHARED_PREFERENCE_CURRENCY";
     public static final String                  SHARED_PREFERENCE_START_FRAGMENT =                  "SHARED_PREFERENCE_START_FRAGMENT";
+    public static final String                  SHARED_PREFERENCE_ALARM_FREQUENCY =                 "SHARED_PREFERENCE_ALARM_FREQUENCY";
     public static final String                  SHARED_PREFERENCE_COIN_DETAIL_BTC_DEFAULT =         "SHARED_PREFERENCE_COIN_DETAIL_BTC_DEFAULT";
 
 
