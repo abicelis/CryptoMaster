@@ -14,10 +14,15 @@
         android:title="@string/fragment_preference_start_fragment_title"
         />
 
-    <Preference
-        android:key="@string/fragment_preference_backup_key"
-        android:title="@string/fragment_preference_backup_title"
-        android:summary="@string/fragment_preference_backup_summary" />
+    <ListPreference
+        android:key="@string/fragment_preference_alarm_frequency_key"
+        android:title="@string/fragment_preference_alarm_frequency_title"
+        />
+
+    <!--<Preference-->
+        <!--android:key="@string/fragment_preference_backup_key"-->
+        <!--android:title="@string/fragment_preference_backup_title"-->
+        <!--android:summary="@string/fragment_preference_backup_summary" />-->
 
 
 
