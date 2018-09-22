@@ -125,6 +125,8 @@
     <string name="alarm_type_below">Below</string>
     <string name="alarm_type_above_description">Price goes above</string>
     <string name="alarm_type_below_description">Price goes below</string>
+    <string name="alarm_type_above_description_2">went above</string>
+    <string name="alarm_type_below_description_2">went below</string>
 
 
     <!--ENUM APP THEME TYPE-->
