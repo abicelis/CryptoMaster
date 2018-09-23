@@ -24,7 +24,8 @@
         </activity>
         <activity android:name=".ui.about.AboutActivity"/>
         <activity android:name=".ui.new_alarm.NewAlarmActivity"/>
-        <activity android:name=".ui.coindetail.CoinDetailActivity"/>
+        <activity android:name=".ui.coindetail.CoinDetailActivity"
+            android:parentActivityName=".ui.home.HomeActivity"/>
 
         <meta-data
             android:name="preloaded_fonts"

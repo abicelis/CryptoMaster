@@ -19,7 +19,9 @@ public class AlarmPresenter extends BasePresenter<AlarmMvpView> {
     }
 
     public void getAlarms() {
-        addDisposable(mDataManager.getAlarms()
+
+        //TODO get enabled and disabled and show them accordingly in recycler
+        addDisposable(mDataManager.getEnabledAlarms()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe( alarms -> {

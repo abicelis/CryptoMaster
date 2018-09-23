@@ -103,4 +103,16 @@ public class Alarm {
     public void setNote(String note) {
         this.note = note;
     }
+
+
+    //TODO uncomment this!!!!!
+    public boolean checkIfShouldTrigger(double quote) {
+        //if(AlarmType.ABOVE.equals(alarmType) && triggerValue > quote)
+            return true;
+
+        //if(AlarmType.BELOW.equals(alarmType) && triggerValue < quote)
+        //    return true;
+
+        //return false;
+    }
 }

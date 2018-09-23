@@ -15,7 +15,7 @@ import ve.com.abicelis.cryptomaster.service.AlarmWorker;
 public class AlarmWorkerUtil {
 
     public static void resetAlarmWorker(AlarmFrequency alarmFrequency) {
-        Timber.i("Resetting alarmWorker (" + alarmFrequency.getFrequencyMinutes() + " minutes frequency");
+        Timber.i("Resetting alarmWorker (Frequency = " + alarmFrequency.getFrequencyMinutes() + " minutes)");
         WorkManager.getInstance().cancelAllWorkByTag(Constants.ALARM_WORKER_TAG);
         PeriodicWorkRequest.Builder alarmWorkerBuilder = new PeriodicWorkRequest.Builder(AlarmWorker.class, alarmFrequency.getFrequencyMinutes(), TimeUnit.MINUTES)
                 .addTag(Constants.ALARM_WORKER_TAG);
