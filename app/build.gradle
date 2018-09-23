@@ -78,5 +78,5 @@ dependencies {
     //Preference fix
     implementation 'com.takisoft.fix:preference-v7:27.1.1.2'
     //WorkManager
-    implementation "android.arch.work:work-runtime:1.0.0-alpha08"
+    implementation "android.arch.work:work-runtime:1.0.0-alpha09"
 }
