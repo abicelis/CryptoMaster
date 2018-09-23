@@ -6,6 +6,19 @@
     <!--<color name="colorPrimaryDark">@color/default_foreground</color>-->
     <!--<color name="colorAccent">@color/default_accent</color>-->
 
+    <!--Alarm colors-->
+    <color name="alarm_color_1">#fff44336</color>
+    <color name="alarm_color_2">#ff9c27b0</color>
+    <color name="alarm_color_3">#ff673ab7</color>
+    <color name="alarm_color_4">#ff3f51b5</color>
+    <color name="alarm_color_5">#ff2196f3</color>
+    <color name="alarm_color_6">#ff00bcd4</color>
+    <color name="alarm_color_7">#ff4caf50</color>
+    <color name="alarm_color_8">#ffffeb3b</color>
+    <color name="alarm_color_9">#ffff9800</color>
+    <color name="notification_color">#3f51b5</color>
+
+
     <!--Main colors: AppTheme Light-->
     <color name="default_divider">#0E1A23</color>
     <color name="default_background">#272E47</color>
