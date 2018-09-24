@@ -176,6 +176,7 @@
     <string name="app_name">Crypto Master</string>
     <string name="loading">Loading&#8230;</string>
     <string name="no_image">No Image</string>
+    <string name="notification_snooze">SNOOZE</string>
 
 
     <!--MESSAGES-->
