@@ -13,8 +13,6 @@ import com.bumptech.glide.request.FutureTarget;
 import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
 
 import javax.inject.Inject;
 
@@ -37,7 +35,6 @@ public class AlarmWorker extends Worker {
     DataManager dataManager;
 
 
-
     @NonNull
     @Override
     public Result doWork() {
@@ -58,21 +55,31 @@ public class AlarmWorker extends Worker {
         Timber.i("Found " + alarmList.size() + " enabled alarms");
 
         for (Alarm alarm : alarmList) {
-            Coin coin = dataManager.getCoinMarketCapTicker(alarm.getToCoinId(), alarm.getFromCurrency()).blockingGet();
+            try {
+                Coin coin = dataManager.getCoinMarketCapTicker(alarm.getToCoinId(), alarm.getFromCurrency()).blockingGet();
 
-            Timber.i(String.format(Locale.getDefault(), "Checking %1$s: Ticker = %2$.2f, Trigger = %3$.2f, Type =  %4$s",
-                    alarm.getToCoinCode(), coin.getQuoteDefaultPrice(), alarm.getTriggerValue(), alarm.getAlarmType().name()));
+                Timber.i(String.format(Locale.getDefault(), "Checking %1$s: Ticker = %2$.2f, Trigger = %3$.2f, Type =  %4$s",
+                        alarm.getToCoinCode(), coin.getQuoteDefaultPrice(), alarm.getTriggerValue(), alarm.getAlarmType().name()));
 
-            if (alarm.checkIfShouldTrigger(coin.getQuoteDefaultPrice())) {
-                Timber.i("ALARM TRIGGER!");
+                if (alarm.checkIfShouldTrigger(coin.getQuoteDefaultPrice())) {
+                    Timber.i("ALARM TRIGGER!");
 
-                showNotification(context, alarm, coin);
-                //TODO disable this alarm.
+                    showNotification(context, alarm, coin);
+                    disableAlarm(alarm);
+                }
+            } catch (Exception e) {
+                Timber.e(e, "UNEXPECTED ERROR");
             }
         }
 
 
         return Result.SUCCESS;
+    }
+
+    private void disableAlarm(Alarm alarm) {
+        Throwable throwable = dataManager.disableAlarm(alarm.getId()).blockingGet();
+        if (throwable != null)
+            Timber.e(throwable,"Could not disable alarm. Alarm ID = %d", alarm.getId());
     }
 
     private void showNotification(Context context, Alarm alarm, Coin coin) {
@@ -102,7 +109,7 @@ public class AlarmWorker extends Worker {
             textContent = alarm.getNote();
         }
 
-        NotificationUtil.showNotification(context, coin.getId(), Constants.NOTIFICATION_CHANNEL_ID, R.drawable.ic_nav_bottom_coin, textTitle,
+        NotificationUtil.showNotification(context, coin.getId(), alarm.getId(), Constants.NOTIFICATION_CHANNEL_ID, R.drawable.ic_nav_bottom_coin, textTitle,
                 textContent, ContextCompat.getColor(context, R.color.notification_color), alarm.getAlarmColor().getColor(context), bitmap, coin.getId());
     }
 
