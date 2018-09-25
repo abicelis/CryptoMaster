@@ -15,8 +15,11 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
 import android.support.v4.app.TaskStackBuilder;
+import android.support.v4.content.ContextCompat;
 
+import ve.com.abicelis.cryptomaster.R;
 import ve.com.abicelis.cryptomaster.application.Constants;
+import ve.com.abicelis.cryptomaster.service.AlarmSnoozeReceiver;
 import ve.com.abicelis.cryptomaster.ui.coindetail.CoinDetailActivity;
 
 /**
@@ -24,19 +27,25 @@ import ve.com.abicelis.cryptomaster.ui.coindetail.CoinDetailActivity;
  */
 public class NotificationUtil {
 
-    public static void showNotification(Context context, long coinId, @NonNull String channelId, @DrawableRes int smallIcon,
+    public static void showNotification(Context context, long coinId, long alarmId, @NonNull String channelId, @DrawableRes int smallIcon,
                                         String textTitle, String textContent, int notificationColor, int alarmColor, @Nullable Bitmap largeIcon, long notificationId) {
 
         if(!isNotificationVisible(context, notificationId)) {
 
-            // Create an Intent for the activity you want to start
-            Intent resultIntent = new Intent(context, CoinDetailActivity.class);
-            resultIntent.putExtra(Constants.EXTRA_COIN_DETAIL_COIN_ID, coinId);
-            // Create the TaskStackBuilder and add the intent, which inflates the back stack
+            //Intent for notification's snooze action
+            Intent snoozeIntent = new Intent(context, AlarmSnoozeReceiver.class);
+            snoozeIntent.setAction(Constants.NOTIFICATION_ACTION_SNOOZE);
+            snoozeIntent.putExtra(Constants.NOTIFICATION_EXTRA_ALARM_ID, alarmId);
+            snoozeIntent.putExtra(Constants.NOTIFICATION_EXTRA_NOTIFICATION_ID, notificationId);
+            PendingIntent snoozePendingIntent = PendingIntent.getBroadcast(context, (int)coinId, snoozeIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+
+            //Intent for notification tap
+            Intent contentIntent = new Intent(context, CoinDetailActivity.class);
+            contentIntent.putExtra(Constants.EXTRA_COIN_DETAIL_COIN_ID, coinId);
             TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
-            stackBuilder.addNextIntentWithParentStack(resultIntent);
-            // Get the PendingIntent containing the entire back stack
-            PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+            stackBuilder.addNextIntentWithParentStack(contentIntent);
+            PendingIntent contentPendingIntent = stackBuilder.getPendingIntent((int)coinId, PendingIntent.FLAG_UPDATE_CURRENT);
 
 
             NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context, channelId)
@@ -50,7 +59,8 @@ public class NotificationUtil {
                     .setStyle(new NotificationCompat.BigTextStyle()
                             .bigText(textContent))
                     .setPriority(NotificationCompat.PRIORITY_MAX)
-                    .setContentIntent(resultPendingIntent)
+                    .addAction(R.drawable.ic_snooze, context.getString(R.string.notification_snooze), snoozePendingIntent)
+                    .setContentIntent(contentPendingIntent)
                     .setAutoCancel(true);
 
             if (largeIcon != null)

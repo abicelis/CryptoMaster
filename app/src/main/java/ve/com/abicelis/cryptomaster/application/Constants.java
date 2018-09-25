@@ -31,10 +31,16 @@ public class Constants {
     public static final Easing.EasingOption     MISC_CHART_ANIMATION_EASING =                       Easing.EasingOption.EaseInOutSine;
     public static final int                     MISC_CHART_ANIMATION_DURATION =                     500;
     public static final int                     MISC_COINMARKETCAP_BTC_ID =                         1;
+
+
+    /* ALARM */
     public static final String                  ALARM_WORKER_TAG =                                  "ALARM_WORKER_TAG";
     public static final String                  NOTIFICATION_CHANNEL_ID =                           "CRYPTO_MASTER_NOTIFICATION_CHANNEL_ID";
     public static final String                  NOTIFICATION_CHANNEL_NAME =                         "Alert Notifications";
     public static final String                  NOTIFICATION_CHANNEL_DESCRIPTION =                  "Shows notifications whenever an Alert is triggered";
+    public static final String                  NOTIFICATION_ACTION_SNOOZE =                        "NOTIFICATION_ACTION_SNOOZE";
+    public static final String                  NOTIFICATION_EXTRA_ALARM_ID =                       "NOTIFICATION_EXTRA_ALARM_ID";
+    public static final String                  NOTIFICATION_EXTRA_NOTIFICATION_ID =                "NOTIFICATION_EXTRA_NOTIFICATION_ID";
 
 
     /* NEW ALARM ACTIVITY */

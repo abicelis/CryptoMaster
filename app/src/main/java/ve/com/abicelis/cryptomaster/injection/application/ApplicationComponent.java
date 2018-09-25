@@ -5,6 +5,7 @@ import ve.com.abicelis.cryptomaster.application.CryptoMasterApplication;
 import ve.com.abicelis.cryptomaster.data.DataManager;
 import ve.com.abicelis.cryptomaster.injection.presenter.PresenterComponent;
 import ve.com.abicelis.cryptomaster.injection.presenter.PresenterModule;
+import ve.com.abicelis.cryptomaster.service.AlarmSnoozeReceiver;
 import ve.com.abicelis.cryptomaster.service.AlarmWorker;
 
 /**
@@ -22,6 +23,7 @@ import ve.com.abicelis.cryptomaster.service.AlarmWorker;
 public interface ApplicationComponent {
     void inject(CryptoMasterApplication target);
     void inject(AlarmWorker target);
+    void inject(AlarmSnoozeReceiver target);
 
 
 
