@@ -158,6 +158,7 @@ public class CoinDetailActivity extends BaseActivity implements CoinDetailMvpVie
         long coinId = getIntent().getLongExtra(Constants.EXTRA_COIN_DETAIL_COIN_ID, -1);
         if (coinId != -1) {
             mCoinDetailPresenter.setCoinId(coinId);
+            Timber.i("Coin ID %d", coinId);
         } else {
             Timber.i(Message.COIN_DETAIL_COIN_ID_MISSING.getFriendlyName(this));
 
