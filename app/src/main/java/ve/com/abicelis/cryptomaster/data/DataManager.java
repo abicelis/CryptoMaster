@@ -551,12 +551,33 @@ public class DataManager {
 
 
     public int deleteAlarm(Alarm alarm) {
-        int result = mAppDatabase.alarmDao().delete(alarm);
-        return result;
+        return mAppDatabase.alarmDao().delete(alarm);
     }
 
 
     public Completable insertAlarm(Alarm alarm) {
         return Completable.fromAction(() -> mAppDatabase.alarmDao().insert(alarm));
+    }
+
+    public Completable enableAlarm(long alarmId) {
+        return Completable.fromAction(() -> {
+           Alarm alarm = mAppDatabase.alarmDao().getById(alarmId).blockingGet();
+
+           if (alarm != null) {
+               alarm.setEnabled(true);
+               mAppDatabase.alarmDao().update(alarm);
+           } else throw new NullPointerException("Could not find alarm. Alarm ID = " + alarmId);
+        });
+    }
+
+    public Completable disableAlarm(Long alarmId) {
+        return Completable.fromAction(() -> {
+            Alarm alarm = mAppDatabase.alarmDao().getById(alarmId).blockingGet();
+
+            if (alarm != null) {
+                alarm.setEnabled(false);
+                mAppDatabase.alarmDao().update(alarm);
+            } else throw new NullPointerException("Could not find alarm. Alarm ID = " + alarmId);
+        });
     }
 }
