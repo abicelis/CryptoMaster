@@ -44,7 +44,7 @@ public class Constants {
 
 
     /* NEW ALARM ACTIVITY */
-    public static final int                     NEW_ALARM_ACTIVITY_RANKED_CACHED_COINS_COINT =             9;
+    public static final int                     NEW_ALARM_ACTIVITY_RANKED_CACHED_COINS_COUNT =      9;
 
 
     /* COIN DETAIL ACTIVITY */
@@ -70,7 +70,7 @@ public class Constants {
 
     /* ROOM DATABASE */
     public static final String                  ROOM_DATABASE_NAME =                                "crypto_master.db";
-    public static final int                     ROOM_DATABASE_VERSION =                             6;
+    public static final int                     ROOM_DATABASE_VERSION =                             7;
 
 
     /* COINMARKETCAP API */

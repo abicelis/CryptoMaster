@@ -13,7 +13,7 @@ public class Alarm {
 
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "alarm_id")
-    private Long id;
+    private long id;
 
     private boolean enabled;
 
@@ -38,7 +38,7 @@ public class Alarm {
     @ColumnInfo(name = "note")
     private String note;
 
-    public Alarm (Long id, Currency fromCurrency, int toCoinId, String toCoinCode, double triggerValue, AlarmType alarmType, AlarmColor alarmColor, String note, boolean enabled) {
+    public Alarm (long id, Currency fromCurrency, int toCoinId, String toCoinCode, double triggerValue, AlarmType alarmType, AlarmColor alarmColor, String note, boolean enabled) {
         this(fromCurrency, toCoinId, toCoinCode, triggerValue, alarmType, alarmColor, note, enabled);
         this.id = id;
     }
@@ -56,7 +56,7 @@ public class Alarm {
     }
 
 
-    public Long getId() {
+    public long getId() {
         return id;
     }
     public boolean isEnabled() { return enabled; }
@@ -105,14 +105,31 @@ public class Alarm {
     }
 
 
-    //TODO uncomment this!!!!!
     public boolean checkIfShouldTrigger(double quote) {
-        //if(AlarmType.ABOVE.equals(alarmType) && triggerValue > quote)
+        if(AlarmType.ABOVE.equals(alarmType) && quote > triggerValue)
             return true;
 
-        //if(AlarmType.BELOW.equals(alarmType) && triggerValue < quote)
-        //    return true;
+        if(AlarmType.BELOW.equals(alarmType) && quote < triggerValue)
+            return true;
 
-        //return false;
+        return false;
+    }
+
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj != null && obj instanceof Alarm) {
+            Alarm other = (Alarm)obj;
+            return getId() == other.getId()
+                    && isEnabled() == other.isEnabled()
+                    && getFromCurrency().equals(other.getFromCurrency())
+                    && getToCoinId() == other.getToCoinId()
+                    && getToCoinCode().equals(other.getToCoinCode())
+                    && getTriggerValue() == other.getTriggerValue()
+                    && getAlarmType().equals(other.getAlarmType())
+                    && getAlarmColor().equals(other.getAlarmColor())
+                    && getNote().equals(other.getNote());
+        }
+        return false;
     }
 }
