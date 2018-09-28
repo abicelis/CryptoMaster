@@ -58,7 +58,7 @@ public class NewAlarmPresenter extends BasePresenter<NewAlarmActivity> {
 
                         } else {
 
-                            addDisposable(dataManager.getRankedCachedCoins(Constants.NEW_ALARM_ACTIVITY_RANKED_CACHED_COINS_COINT)
+                            addDisposable(dataManager.getRankedCachedCoins(Constants.NEW_ALARM_ACTIVITY_RANKED_CACHED_COINS_COUNT)
                                     .subscribeOn(Schedulers.io())
                                     .observeOn(AndroidSchedulers.mainThread())
                                     .subscribe(cachedCoins -> {
