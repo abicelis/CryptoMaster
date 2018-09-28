@@ -84,6 +84,10 @@
     <string name="fragment_preference_contact_summary">Having trouble using this app? Questions? Email me at alejandro@alejandrobicelis.com.ve</string>
 
 
+    <!-- ALARM ACTIVITY -->
+    <string name="activity_alarm_success_enabling_alarm">enabled</string>
+    <string name="activity_alarm_success_disabling_alarm">disabled</string>
+
     <!-- ABOUT ACTIVITY -->
     <string name="activity_about_toolbar_title">About</string>
     <string name="activity_about_version">Version %1$s</string>
@@ -189,7 +193,8 @@
     <string name="could_not_fetch_chart_data">Could not fetch chart data</string>
     <string name="could_not_fetch_exchange_data">Could not fetch list of exchanges</string>
     <string name="could_not_fetch_alarm_data">Could not fetch list of alerts</string>
-    <string name="could_not_insert_alarm">Could not fetch insert alert</string>
+    <string name="could_not_insert_alarm">Could not insert alert</string>
+    <string name="could_not_update_alarm">Could not update alert</string>
     <string name="success_inserting_alarm">Alert created successfully</string>
     <string name="duplicate_quote_base_coin">Quote coin must be different than base coin</string>
     <string name="duplicate_base_quote_coin">Base coin must be different than quote coin</string>

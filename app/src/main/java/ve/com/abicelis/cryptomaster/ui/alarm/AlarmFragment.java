@@ -8,7 +8,9 @@ import android.support.design.widget.BaseTransientBottomBar;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewCompat;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -17,7 +19,9 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import javax.inject.Inject;
 
@@ -26,6 +30,7 @@ import butterknife.ButterKnife;
 import ve.com.abicelis.cryptomaster.R;
 import ve.com.abicelis.cryptomaster.application.Message;
 import ve.com.abicelis.cryptomaster.data.model.Alarm;
+import ve.com.abicelis.cryptomaster.data.model.AlarmType;
 import ve.com.abicelis.cryptomaster.data.model.Exchange;
 import ve.com.abicelis.cryptomaster.ui.base.BaseFragment;
 import ve.com.abicelis.cryptomaster.ui.coindetail.ExchangeAdapter;
@@ -83,9 +88,14 @@ public class AlarmFragment extends BaseFragment implements AlarmMvpView, View.On
 
     private void setupRecycler() {
         mLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
-        mAdapter = new AlarmAdapter(getContext());
+        mAdapter = new AlarmAdapter(getContext(), (alarm, enabled) -> {
+            mAlarmPresenter.alarmEnabledOrDisabled(alarm, enabled);
+        });
         mRecycler.setLayoutManager(mLayoutManager);
         mRecycler.setAdapter(mAdapter);
+        DividerItemDecoration decoration = new DividerItemDecoration(getContext(), LinearLayoutManager.VERTICAL);
+        //decoration.setDrawable(ContextCompat.getDrawable(getContext(), R.drawable.item_decoration));
+        mRecycler.addItemDecoration(decoration);
     }
 
     @Override
@@ -109,6 +119,8 @@ public class AlarmFragment extends BaseFragment implements AlarmMvpView, View.On
         }
     }
 
+
+
     @Override
     public void showAlarms(List<Alarm> alarmList) {
         mAdapter.getItems().clear();
@@ -116,10 +128,20 @@ public class AlarmFragment extends BaseFragment implements AlarmMvpView, View.On
         mAdapter.notifyDataSetChanged();
     }
 
+
+    @Override
+    public void showAlarmMessage(boolean enabled, String fromCurrencyCode, String toCurrencyCode) {
+        String aux = (enabled ? getString(R.string.activity_alarm_success_enabling_alarm) : getString(R.string.activity_alarm_success_disabling_alarm));
+        String message = String.format(Locale.getDefault(), "%1$s/%2$s %3$s", fromCurrencyCode, toCurrencyCode, aux);
+
+        SnackbarUtil.showSnackbar(mContainer, SnackbarUtil.SnackbarType.SUCCESS, message, SnackbarUtil.SnackbarDuration.SHORT, null);
+    }
+
     @Override
     public void showMessage(Message message, @Nullable BaseTransientBottomBar.BaseCallback<Snackbar> callback) {
         SnackbarUtil.showSnackbar(mContainer, message.getMessageType(), message.getFriendlyNameRes(), SnackbarUtil.SnackbarDuration.SHORT, callback);
     }
+
 
 
 }

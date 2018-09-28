@@ -1,8 +1,8 @@
 package ve.com.abicelis.cryptomaster.ui.alarm;
 
-import android.app.Activity;
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
@@ -19,14 +19,16 @@ import ve.com.abicelis.cryptomaster.data.model.Alarm;
 public class AlarmAdapter extends RecyclerView.Adapter<AlarmViewHolder> {
 
     //DATA
-    List<Alarm> items;
+    List<Alarm> mItems;
+    AlarmEnabledOrDisabledListener mListener;
 
     //UI
     private LayoutInflater mInflater;
 
-    public AlarmAdapter(Context context) {
+    public AlarmAdapter(Context context, AlarmEnabledOrDisabledListener listener) {
         mInflater = LayoutInflater.from(context);
-        items = new ArrayList<>();
+        mListener = listener;
+        mItems = new ArrayList<>();
     }
 
 
@@ -38,18 +40,29 @@ public class AlarmAdapter extends RecyclerView.Adapter<AlarmViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull AlarmViewHolder holder, int position) {
-        holder.setData(items.get(position));
+        holder.setData(mItems.get(position));
+        holder.setListeners(mListener);
     }
 
 
     @Override
     public int getItemCount() {
-        return items.size();
+        return mItems.size();
     }
 
 
     public List<Alarm> getItems() {
-        return items;
+        return mItems;
+    }
+
+    public void updateList(List<Alarm> newItems) {
+        DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(new MyDiffCallback(this.mItems, newItems));
+        diffResult.dispatchUpdatesTo(this);
+    }
+
+
+    interface AlarmEnabledOrDisabledListener {
+        void onAlarmEnabledOrDisabled(Alarm alarm, boolean enabled);
     }
 
 

@@ -26,6 +26,7 @@ public enum Message {
     COULD_NOT_FETCH_EXCHANGE_DATA(R.string.could_not_fetch_exchange_data, SnackbarUtil.SnackbarType.NOTICE),
     COULD_NOT_FETCH_ALARM_DATA(R.string.could_not_fetch_alarm_data, SnackbarUtil.SnackbarType.NOTICE),
     COULD_NOT_INSERT_ALARM(R.string.could_not_insert_alarm, SnackbarUtil.SnackbarType.ERROR),
+    COULD_NOT_UPDATE_ALARM(R.string.could_not_update_alarm, SnackbarUtil.SnackbarType.ERROR),
     SUCCESS_INSERTING_ALARM(R.string.success_inserting_alarm, SnackbarUtil.SnackbarType.SUCCESS),
     DUPLICATE_BASE_QUOTE_COIN(R.string.duplicate_base_quote_coin, SnackbarUtil.SnackbarType.NOTICE),
     DUPLICATE_QUOTE_BASE_COIN(R.string.duplicate_quote_base_coin, SnackbarUtil.SnackbarType.NOTICE),

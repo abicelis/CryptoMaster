@@ -549,6 +549,10 @@ public class DataManager {
         return mAppDatabase.alarmDao().getAllEnabled();
     }
 
+    public Single<List<Alarm>> getAlarmsSortedByEnabled() {
+        return mAppDatabase.alarmDao().getAllSortedByEnabled();
+    }
+
 
     public int deleteAlarm(Alarm alarm) {
         return mAppDatabase.alarmDao().delete(alarm);
