@@ -29,6 +29,9 @@ public abstract class AlarmDao {
     @Query("SELECT * FROM alarm")
     public abstract Single<List<Alarm>> getAll();
 
+    @Query("SELECT * FROM alarm ORDER BY enabled, to_coin_code DESC")
+    public abstract Single<List<Alarm>> getAllSortedByEnabled();
+
     @Query("SELECT * FROM alarm WHERE enabled = 1")
     public abstract Single<List<Alarm>> getAllEnabled();
 
