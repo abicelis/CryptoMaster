@@ -55,11 +55,6 @@ public class AlarmAdapter extends RecyclerView.Adapter<AlarmViewHolder> {
         return mItems;
     }
 
-    public void updateList(List<Alarm> newItems) {
-        DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(new MyDiffCallback(this.mItems, newItems));
-        diffResult.dispatchUpdatesTo(this);
-    }
-
 
     interface AlarmEnabledOrDisabledListener {
         void onAlarmEnabledOrDisabled(Alarm alarm, boolean enabled);
