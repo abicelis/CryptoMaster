@@ -45,6 +45,7 @@ public class Constants {
 
     /* NEW ALARM ACTIVITY */
     public static final int                     NEW_ALARM_ACTIVITY_RANKED_CACHED_COINS_COUNT =      9;
+    public static final String                  NEW_ALARM_ACTIVITY_EXTRA_ALARM_ID =                 "NEW_ALARM_ACTIVITY_EXTRA_ALARM_ID";
 
 
     /* COIN DETAIL ACTIVITY */
