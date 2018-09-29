@@ -17,4 +17,6 @@ import ve.com.abicelis.cryptomaster.util.SnackbarUtil;
 interface AlarmMvpView extends MvpView {
     void showAlarmMessage(boolean enabled, String fromCurrencyCode, String toCurrencyCode);
     void showAlarms(List<Alarm> alarmList);
+
+    void editAlarm(Alarm alarm);
 }

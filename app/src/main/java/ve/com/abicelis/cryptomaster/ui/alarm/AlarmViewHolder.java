@@ -1,9 +1,9 @@
 package ve.com.abicelis.cryptomaster.ui.alarm;
 
 import android.content.res.ColorStateList;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SwitchCompat;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.TextView;
 
@@ -24,6 +24,8 @@ public class AlarmViewHolder extends RecyclerView.ViewHolder {
     private Alarm mCurrent;
 
     //UI
+    @BindView(R.id.list_item_alarm_container)
+    ConstraintLayout mContainer;
     @BindView(R.id.list_item_alarm_pair)
     TextView mPair;
     @BindView(R.id.list_item_alarm_description)
@@ -55,16 +57,9 @@ public class AlarmViewHolder extends RecyclerView.ViewHolder {
         mColor.setBackgroundTintList(ColorStateList.valueOf(color));
     }
 
-    public void setListeners(AlarmAdapter.AlarmEnabledOrDisabledListener listener) {
+    public void setListeners(AlarmAdapter.AlarmListener listener) {
 
-//        mSwitch.setOnTouchListener( (v, event) -> {
-//                //Intercept touch, send to listener
-//                if(event.getAction() == MotionEvent.ACTION_UP)
-//                    listener.onAlarmEnabledOrDisabled(getAdapterPosition(), mCurrent.getId(), !mSwitch.isChecked());
-//
-//                return true; //this will prevent switch from changing state
-//            }
-//        );
+        mContainer.setOnClickListener((v) -> listener.onAlarmClicked(mCurrent));
 
         mSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
             listener.onAlarmEnabledOrDisabled(mCurrent, mSwitch.isChecked());

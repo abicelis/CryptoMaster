@@ -28,6 +28,7 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import ve.com.abicelis.cryptomaster.R;
+import ve.com.abicelis.cryptomaster.application.Constants;
 import ve.com.abicelis.cryptomaster.application.Message;
 import ve.com.abicelis.cryptomaster.data.model.Alarm;
 import ve.com.abicelis.cryptomaster.data.model.AlarmType;
@@ -88,9 +89,18 @@ public class AlarmFragment extends BaseFragment implements AlarmMvpView, View.On
 
     private void setupRecycler() {
         mLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
-        mAdapter = new AlarmAdapter(getContext(), (alarm, enabled) -> {
-            mAlarmPresenter.alarmEnabledOrDisabled(alarm, enabled);
+        mAdapter = new AlarmAdapter(getContext(), new AlarmAdapter.AlarmListener() {
+            @Override
+            public void onAlarmEnabledOrDisabled(Alarm alarm, boolean enabled) {
+                mAlarmPresenter.alarmEnabledOrDisabled(alarm, enabled);
+            }
+
+            @Override
+            public void onAlarmClicked(Alarm alarm) {
+                mAlarmPresenter.alarmClicked(alarm);
+            }
         });
+
         mRecycler.setLayoutManager(mLayoutManager);
         mRecycler.setAdapter(mAdapter);
         DividerItemDecoration decoration = new DividerItemDecoration(getContext(), LinearLayoutManager.VERTICAL);
@@ -126,6 +136,13 @@ public class AlarmFragment extends BaseFragment implements AlarmMvpView, View.On
         mAdapter.getItems().clear();
         mAdapter.getItems().addAll(alarmList);
         mAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void editAlarm(Alarm alarm) {
+        Intent editAlarmIntent = new Intent(getContext(), NewAlarmActivity.class);
+        editAlarmIntent.putExtra(Constants.NEW_ALARM_ACTIVITY_EXTRA_ALARM_ID, alarm.getId());
+        startActivityForResult(editAlarmIntent, 0);
     }
 
 

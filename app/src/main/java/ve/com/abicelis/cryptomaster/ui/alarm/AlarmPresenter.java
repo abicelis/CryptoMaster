@@ -55,4 +55,8 @@ public class AlarmPresenter extends BasePresenter<AlarmMvpView> {
                     }));
         }
     }
+
+    public void alarmClicked(Alarm alarm) {
+        getMvpView().editAlarm(alarm);
+    }
 }

@@ -2,7 +2,6 @@ package ve.com.abicelis.cryptomaster.ui.alarm;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
-import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
@@ -20,12 +19,12 @@ public class AlarmAdapter extends RecyclerView.Adapter<AlarmViewHolder> {
 
     //DATA
     List<Alarm> mItems;
-    AlarmEnabledOrDisabledListener mListener;
+    AlarmListener mListener;
 
     //UI
     private LayoutInflater mInflater;
 
-    public AlarmAdapter(Context context, AlarmEnabledOrDisabledListener listener) {
+    public AlarmAdapter(Context context, AlarmListener listener) {
         mInflater = LayoutInflater.from(context);
         mListener = listener;
         mItems = new ArrayList<>();
@@ -56,8 +55,9 @@ public class AlarmAdapter extends RecyclerView.Adapter<AlarmViewHolder> {
     }
 
 
-    interface AlarmEnabledOrDisabledListener {
+    interface AlarmListener {
         void onAlarmEnabledOrDisabled(Alarm alarm, boolean enabled);
+        void onAlarmClicked(Alarm alarm);
     }
 
 
