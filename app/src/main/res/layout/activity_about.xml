@@ -9,7 +9,6 @@
         android:layout_width="match_parent"
         android:layout_height="?android:attr/actionBarSize"
         android:background="?attr/default_accent"
-        app:popupTheme="@style/AppTheme.PopupOverlay"
         />
 
     <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
@@ -31,8 +30,9 @@
                 android:layout_width="192dp"
                 android:layout_height="192dp"
                 android:layout_centerHorizontal="true"
-                android:layout_margin="16dp"
-                android:src="@mipmap/ic_launcher_round" />
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="4dp"
+                android:src="@mipmap/ic_launcher" />
 
             <TextView
                 android:id="@+id/activity_about_app_name"
@@ -41,7 +41,7 @@
                 android:layout_below="@id/activity_about_app_icon"
                 android:layout_centerHorizontal="true"
                 android:text="@string/app_name"
-                android:textSize="22sp"
+                android:textSize="28sp"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
             <android.support.v7.widget.AppCompatButton
@@ -49,7 +49,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
-                android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true"
                 app:backgroundTint="?attr/default_accent"
                 android:textColor="?attr/text_primary"
