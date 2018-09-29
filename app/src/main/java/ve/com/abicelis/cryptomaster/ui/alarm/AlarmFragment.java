@@ -1,5 +1,6 @@
 package ve.com.abicelis.cryptomaster.ui.alarm;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -124,9 +125,9 @@ public class AlarmFragment extends BaseFragment implements AlarmMvpView, View.On
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == REQUEST_CODE) {
-            mAlarmPresenter.getAlarms();
-        }
+        if (requestCode == REQUEST_CODE)
+            if(resultCode == Activity.RESULT_OK)
+                mAlarmPresenter.getAlarms();
     }
 
 
@@ -142,7 +143,7 @@ public class AlarmFragment extends BaseFragment implements AlarmMvpView, View.On
     public void editAlarm(Alarm alarm) {
         Intent editAlarmIntent = new Intent(getContext(), NewAlarmActivity.class);
         editAlarmIntent.putExtra(Constants.NEW_ALARM_ACTIVITY_EXTRA_ALARM_ID, alarm.getId());
-        startActivityForResult(editAlarmIntent, 0);
+        startActivityForResult(editAlarmIntent, REQUEST_CODE);
     }
 
 

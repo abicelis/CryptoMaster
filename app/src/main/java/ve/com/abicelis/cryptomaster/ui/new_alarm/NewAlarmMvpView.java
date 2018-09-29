@@ -14,6 +14,7 @@ import ve.com.abicelis.cryptomaster.ui.base.MvpView;
 interface NewAlarmMvpView extends MvpView {
     void displayCachedCoins(List<CachedCoin> cachedCoins);
     void displayQuote(Currency currency, double quote);
+    void setQuoteCoin(CachedCoin coin);
     void toggleBaseBtc();
     void toggleBaseDefaultCurrency(Currency defaultCurrency);
 
@@ -29,4 +30,6 @@ interface NewAlarmMvpView extends MvpView {
     String getOptionalNote();
 
     void alarmSuccessfullyInserted();
+
+
 }

@@ -116,24 +116,54 @@ public class CoinSearchView extends FrameLayout {
         //Recycler
         mLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         CSVAdapter.ItemClickedListener listener = (coin) -> {
-            if (!coin.getCode().equals(mBaseCoin.getCode())) {
-                mState = State.IDLE_WITH_COIN;
-                mQuoteCoin = coin;
-
-                mAdapter.getItems().clear();
-                cachedCoinsLoaded = false;
-                mSearchEditText.setText("");
-                hideSearch();
-                showCoin();
-            } else {
+            if (!coin.getCode().equals(mBaseCoin.getCode()))
+                setQuoteCoin(coin);
+            else
                 mCoinSearchViewListener.showMessage(Message.DUPLICATE_QUOTE_BASE_COIN);
-            }
         };
         mAdapter = new CSVAdapter(getContext(), listener);
         mRecycler.setLayoutManager(mLayoutManager);
         mRecycler.setAdapter(mAdapter);
+
     }
 
+    public void updateCachedCoins(List<CachedCoin> cachedCoins) {
+        cachedCoinsLoaded = true;
+        mProgress.setVisibility(View.GONE);
+        mAdapter.getItems().clear();
+        mAdapter.getItems().addAll(cachedCoins);
+        mAdapter.notifyDataSetChanged();
+    }
+
+
+    public void setQuoteCoin(CachedCoin coin) {
+        mQuoteCoin = coin;
+        mAdapter.getItems().clear();
+        cachedCoinsLoaded = false;
+        mSearchEditText.setText("");
+        if(mState == State.SEARCH_OPEN)
+            hideSearch();
+        showCoin();
+
+        mState = State.IDLE_WITH_COIN;
+    }
+
+
+    public void setBaseCoin(Currency baseCoin) {
+        mBaseCoin = baseCoin;
+
+        if(mState == State.IDLE_WITH_COIN) {
+            showCoin();
+        }
+    }
+
+    public void setPairQuote(Currency currency, double quote) {
+        mCoinLoading.setVisibility(View.GONE);
+
+        String symbol = (currency.hasSymbol() ? currency.getSymbol() : "");
+        String code = (currency.hasSymbol() ? "" : currency.getCode());
+        mCoinPrice.setHint(String.format(Locale.getDefault(), "%1$s%2$f%3$s", symbol, quote, code));
+    }
 
 
     private void showSearch() {
@@ -200,29 +230,6 @@ public class CoinSearchView extends FrameLayout {
         mCoinSearchViewListener.getPairQuote(mQuoteCoin);
     }
 
-    public void updateCachedCoins(List<CachedCoin> cachedCoins) {
-        cachedCoinsLoaded = true;
-        mProgress.setVisibility(View.GONE);
-        mAdapter.getItems().clear();
-        mAdapter.getItems().addAll(cachedCoins);
-        mAdapter.notifyDataSetChanged();
-    }
-
-    public void setBaseCoin(Currency baseCoin) {
-        mBaseCoin = baseCoin;
-
-        if(mState == State.IDLE_WITH_COIN) {
-            showCoin();
-        }
-    }
-
-    public void setPairQuote(Currency currency, double quote) {
-        mCoinLoading.setVisibility(View.GONE);
-
-        String symbol = (currency.hasSymbol() ? currency.getSymbol() : "");
-        String code = (currency.hasSymbol() ? "" : currency.getCode());
-        mCoinPrice.setHint(String.format(Locale.getDefault(), "%1$s%2$f%3$s", symbol, quote, code));
-    }
 
 
     //CoinSearchViewListener
@@ -239,5 +246,5 @@ public class CoinSearchView extends FrameLayout {
 
 
 
-    public enum State { IDLE_NO_COIN, SEARCH_OPEN, IDLE_WITH_COIN }
+    private enum State { IDLE_NO_COIN, SEARCH_OPEN, IDLE_WITH_COIN }
 }

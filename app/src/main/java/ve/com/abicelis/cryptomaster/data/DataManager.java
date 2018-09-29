@@ -523,6 +523,10 @@ public class DataManager {
         return mAppDatabase.cachedCoinDao().find("%"+query+"%");
     }
 
+    public Maybe<CachedCoin> getCachedCoin(long toCoinId) {
+        return mAppDatabase.cachedCoinDao().getById(toCoinId);
+    }
+
 
     public Single<List<Exchange>> getTopExchangesByPair(String fromCode, String toCode, int limit) {
         return mCryptoCompareMinApi.getTopExchangesByPair(fromCode, toCode, limit)
@@ -545,6 +549,13 @@ public class DataManager {
     }
 
 
+
+
+
+    public Maybe<Alarm> getAlarm(long alarmId) {
+        return mAppDatabase.alarmDao().getById(alarmId);
+    }
+
     public Single<List<Alarm>> getEnabledAlarms() {
         return mAppDatabase.alarmDao().getAllEnabled();
     }
@@ -561,6 +572,10 @@ public class DataManager {
 
     public Completable insertAlarm(Alarm alarm) {
         return Completable.fromAction(() -> mAppDatabase.alarmDao().insert(alarm));
+    }
+
+    public Completable updateAlarm(Alarm alarm) {
+        return Completable.fromAction(() -> mAppDatabase.alarmDao().update(alarm));
     }
 
     public Completable enableAlarm(long alarmId) {
@@ -584,4 +599,7 @@ public class DataManager {
             } else throw new NullPointerException("Could not find alarm. Alarm ID = " + alarmId);
         });
     }
+
+
+
 }

@@ -28,9 +28,59 @@ public class NewAlarmPresenter extends BasePresenter<NewAlarmActivity> {
     AlarmType mAlarmType;
     double mAlarmPrice;
     AlarmColor alarmColor;
+    boolean editingExistingAlarm;
+    long existingAlarmId;
 
     public NewAlarmPresenter(DataManager dataManager) {
         this.dataManager = dataManager;
+    }
+
+
+
+    public void newAlarm() {
+        baseCurrencyDefCurrToggled();
+        priceBelowButtonToggled();
+        alarmColorChanged(AlarmColor.COLOR_1);
+    }
+
+    public void editingExistingAlarm(long alarmId) {
+        editingExistingAlarm = true;
+        addDisposable(dataManager.getAlarm(alarmId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(alarm -> {
+                    existingAlarmId = alarm.getId();
+                    mBaseCurrency = alarm.getFromCurrency();
+                    mAlarmType = alarm.getAlarmType();
+                    //mAlarmPrice = alarm.getTriggerValue();
+                    alarmColor = alarm.getAlarmColor();
+
+                    alarmColorChanged(alarmColor);
+                    if(mBaseCurrency.equals(Currency.BTC))
+                        baseCurrencyBtcToggled();
+                    else
+                        baseCurrencyDefCurrToggled();
+
+                    if(mAlarmType.equals(AlarmType.ABOVE))
+                        priceAboveButtonToggled();
+                    else
+                        priceBelowButtonToggled();
+
+                    dataManager.getCachedCoin(alarm.getToCoinId())
+                            .subscribeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe(coin -> {
+                                getMvpView().setQuoteCoin(coin);
+                            }, throwable -> {
+                                Timber.e(throwable, "Unexpected error fetching cached quote coin. ID=%d", alarm.getToCoinId());
+                                getMvpView().showMessage(Message.ERROR_UNEXPECTED, null);
+                            });
+
+                }, throwable -> {
+                    getMvpView().showMessage(Message.ERROR_UNEXPECTED, null);
+                    Timber.e(throwable, "Error getting alarm. Alarm ID=%d", alarmId);
+                }));
+
     }
 
 
@@ -168,12 +218,18 @@ public class NewAlarmPresenter extends BasePresenter<NewAlarmActivity> {
 
     public void saveAlarmClicked() {
 
+        //TODO improve these messages
         if(mQuoteCoin == null) {
             getMvpView().showMessage(Message.COULD_NOT_INSERT_ALARM, null);
             return;
         }
 
         if(mQuote == 0f) {
+            getMvpView().showMessage(Message.COULD_NOT_INSERT_ALARM, null);
+            return;
+        }
+
+        if(mAlarmPrice == 0f) {
             getMvpView().showMessage(Message.COULD_NOT_INSERT_ALARM, null);
             return;
         }
@@ -191,14 +247,30 @@ public class NewAlarmPresenter extends BasePresenter<NewAlarmActivity> {
 
         Alarm alarm = new Alarm(mBaseCurrency, mQuoteCoin.getId(), mQuoteCoin.getCode(), mAlarmPrice, mAlarmType, alarmColor, getMvpView().getOptionalNote(), true);
 
-        dataManager.insertAlarm(alarm)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe( () -> {
-                    getMvpView().alarmSuccessfullyInserted();
-                }, throwable -> {
-                    getMvpView().showMessage(Message.COULD_NOT_INSERT_ALARM, null);
-                });
+        if(editingExistingAlarm) {
+            alarm.setId(existingAlarmId);
+            dataManager.updateAlarm(alarm)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe( () -> {
+                        getMvpView().alarmSuccessfullyInserted();
+                    }, throwable -> {
+                        Timber.e(throwable, "Error Updating alarm");
+                        getMvpView().showMessage(Message.COULD_NOT_UPDATE_ALARM, null);
+                    });
+        } else {
+            dataManager.insertAlarm(alarm)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe( () -> {
+                        getMvpView().alarmSuccessfullyInserted();
+                    }, throwable -> {
+                        Timber.e(throwable, "Error Inserting alarm");
+                        getMvpView().showMessage(Message.COULD_NOT_INSERT_ALARM, null);
+                    });
+        }
+
 
     }
+
 }

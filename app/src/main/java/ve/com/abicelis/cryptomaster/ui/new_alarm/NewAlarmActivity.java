@@ -25,6 +25,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import timber.log.Timber;
 import ve.com.abicelis.cryptomaster.R;
+import ve.com.abicelis.cryptomaster.application.Constants;
 import ve.com.abicelis.cryptomaster.application.Message;
 import ve.com.abicelis.cryptomaster.data.model.AlarmColor;
 import ve.com.abicelis.cryptomaster.data.model.CachedCoin;
@@ -107,6 +108,23 @@ public class NewAlarmActivity extends BaseActivity implements NewAlarmMvpView {
         getPresenterComponent().inject(this);
         mPresenter.attachView(this);
 
+        init();
+
+
+        long alarmId = getIntent().getLongExtra(Constants.NEW_ALARM_ACTIVITY_EXTRA_ALARM_ID, -1);
+        if(alarmId != -1) {
+            //Editing existing alarm
+            mPresenter.editingExistingAlarm(alarmId);
+        } else {
+            //New alarm
+            mPresenter.newAlarm();
+        }
+
+    }
+
+
+    private void init() {
+
         mBaseBtc.setText(Currency.BTC.getCode());
         mBaseBtc.setOnClickListener(v -> {
             mPresenter.baseCurrencyBtcToggled();
@@ -116,7 +134,6 @@ public class NewAlarmActivity extends BaseActivity implements NewAlarmMvpView {
         mBaseDefCurr.setOnClickListener(v -> {
             mPresenter.baseCurrencyDefCurrToggled();
         });
-        mPresenter.baseCurrencyDefCurrToggled();    //Call it for starters
 
         mPairTitle.setOnClickListener(v -> {
             mCoinSearchView.hideSearch();
@@ -158,7 +175,6 @@ public class NewAlarmActivity extends BaseActivity implements NewAlarmMvpView {
         mPriceBelowButton.setOnClickListener(v-> {
             mPresenter.priceBelowButtonToggled();
         });
-        mPresenter.priceBelowButtonToggled();
 
         mPriceAboveButton.setOnClickListener(v-> {
             mPresenter.priceAboveButtonToggled();
@@ -188,28 +204,28 @@ public class NewAlarmActivity extends BaseActivity implements NewAlarmMvpView {
             }
         });
 
-
         mColorContainer.setOnClickListener(v -> showAlarmColorPickerDialog());
-        mPresenter.alarmColorChanged(AlarmColor.COLOR_1);
-
         mSaveButton.setOnClickListener(v -> mPresenter.saveAlarmClicked());
     }
 
 
+
     private void showAlarmColorPickerDialog() {
         dialog = AlarmColorPickerDialogFragment.newInstance(color -> {
-                        mPresenter.alarmColorChanged(color);
-                        dialog.dismiss();
+            mPresenter.alarmColorChanged(color);
+            dialog.dismiss();
         });
         dialog.show(getSupportFragmentManager(), "AlarmColorPickerDialogFragment");
     }
 
-
-
-
     @Override
     public void displayCachedCoins(List<CachedCoin> cachedCoins) {
         mCoinSearchView.updateCachedCoins(cachedCoins);
+    }
+
+    @Override
+    public void setQuoteCoin(CachedCoin coin) {
+        mCoinSearchView.setQuoteCoin(coin);
     }
 
     @Override
@@ -311,6 +327,7 @@ public class NewAlarmActivity extends BaseActivity implements NewAlarmMvpView {
             @Override
             public void onDismissed(Snackbar transientBottomBar, int event) {
                 super.onDismissed(transientBottomBar, event);
+                setResult(RESULT_OK);
                 finish();
             }
         };
