@@ -176,24 +176,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="62dp">
 
-                        <EditText
-                            android:id="@+id/activity_new_alarm_price_edittext"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textSize="16sp"
-                            android:textAlignment="center"
-                            android:lines="1"
-                            android:inputType="numberDecimal"
-                            android:fontFamily="@font/nunito_light"
-                            android:textColor="?attr/text_primary"
-                            android:textColorHint="?attr/text_hint"
-                            android:backgroundTint="@android:color/transparent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            />
-
                         <android.support.constraint.Guideline
                             android:id="@+id/activity_new_alarm_price_guideline"
                             android:layout_width="wrap_content"
@@ -250,6 +232,24 @@
                             android:textColor="?attr/text_secondary"
                             android:lines="1"
                             android:fontFamily="@font/nunito_light"
+                            />
+
+                        <EditText
+                            android:id="@+id/activity_new_alarm_price_edittext"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textSize="16sp"
+                            android:textAlignment="center"
+                            android:lines="1"
+                            android:inputType="numberDecimal"
+                            android:fontFamily="@font/nunito_light"
+                            android:textColor="?attr/text_primary"
+                            android:textColorHint="?attr/text_hint"
+                            android:backgroundTint="@android:color/transparent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintBottom_toBottomOf="parent"
                             />
 
                     </android.support.constraint.ConstraintLayout>
