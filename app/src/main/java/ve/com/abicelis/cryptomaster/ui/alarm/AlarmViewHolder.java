@@ -13,6 +13,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import ve.com.abicelis.cryptomaster.R;
 import ve.com.abicelis.cryptomaster.data.model.Alarm;
+import ve.com.abicelis.cryptomaster.util.DecimalFormatUtil;
 
 /**
  * Created by abicelis on 11/9/2018.
@@ -48,9 +49,9 @@ public class AlarmViewHolder extends RecyclerView.ViewHolder {
         mSwitch.setChecked(mCurrent.isEnabled());
 
         mDescription.setText(
-                String.format(Locale.getDefault(), "%1$s %2$.6f %3$s",
+                String.format(Locale.getDefault(), "%1$s %2$s %3$s",
                         mCurrent.getAlarmType().getDescription(mDescription.getContext()),
-                        mCurrent.getTriggerValue(),
+                        DecimalFormatUtil.formatDecimals(mCurrent.getTriggerValue()),
                         mCurrent.getFromCurrency().getCode()));
 
         int color = mCurrent.getAlarmColor().getColor(mColor.getContext());
