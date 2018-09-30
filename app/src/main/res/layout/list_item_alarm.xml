@@ -40,10 +40,8 @@
         android:id="@+id/list_item_alarm_description"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:gravity="center"
         android:maxLines="1"
-        android:text="Price goes above $7800.32"
-        android:ellipsize="end"
+        android:text="Price goes above $7800"
         android:textColor="?attr/text_secondary"
         app:layout_constraintTop_toBottomOf="@+id/list_item_alarm_pair"
         app:layout_constraintBottom_toBottomOf="parent"/>

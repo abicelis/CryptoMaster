@@ -196,6 +196,7 @@
     <string name="could_not_insert_alarm">Could not insert alert</string>
     <string name="could_not_update_alarm">Could not update alert</string>
     <string name="success_inserting_alarm">Alert created successfully</string>
+    <string name="success_updating_alarm">Alert updated successfully</string>
     <string name="duplicate_quote_base_coin">Quote coin must be different than base coin</string>
     <string name="duplicate_base_quote_coin">Base coin must be different than quote coin</string>
 </resources>
