@@ -54,6 +54,7 @@ public class NewAlarmPresenter extends BasePresenter<NewAlarmActivity> {
                     mAlarmType = alarm.getAlarmType();
                     //mAlarmPrice = alarm.getTriggerValue();
                     alarmColor = alarm.getAlarmColor();
+                    getMvpView().setOptionalNote(alarm.getNote());
 
                     alarmColorChanged(alarmColor);
                     if(mBaseCurrency.equals(Currency.BTC))
@@ -253,7 +254,7 @@ public class NewAlarmPresenter extends BasePresenter<NewAlarmActivity> {
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe( () -> {
-                        getMvpView().alarmSuccessfullyInserted();
+                        getMvpView().alarmSuccessfullySaved(true);
                     }, throwable -> {
                         Timber.e(throwable, "Error Updating alarm");
                         getMvpView().showMessage(Message.COULD_NOT_UPDATE_ALARM, null);
@@ -263,7 +264,7 @@ public class NewAlarmPresenter extends BasePresenter<NewAlarmActivity> {
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe( () -> {
-                        getMvpView().alarmSuccessfullyInserted();
+                        getMvpView().alarmSuccessfullySaved(false);
                     }, throwable -> {
                         Timber.e(throwable, "Error Inserting alarm");
                         getMvpView().showMessage(Message.COULD_NOT_INSERT_ALARM, null);

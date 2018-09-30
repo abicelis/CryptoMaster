@@ -322,7 +322,12 @@ public class NewAlarmActivity extends BaseActivity implements NewAlarmMvpView {
     }
 
     @Override
-    public void alarmSuccessfullyInserted() {
+    public void setOptionalNote(String note) {
+        mOptionalNote.setText(note);
+    }
+
+    @Override
+    public void alarmSuccessfullySaved(boolean existingAlarm) {
         BaseTransientBottomBar.BaseCallback<Snackbar> callback = new BaseTransientBottomBar.BaseCallback<Snackbar>() {
             @Override
             public void onDismissed(Snackbar transientBottomBar, int event) {
@@ -332,6 +337,9 @@ public class NewAlarmActivity extends BaseActivity implements NewAlarmMvpView {
             }
         };
 
-        showMessage(Message.SUCCESS_INSERTING_ALARM, callback);
+        if (existingAlarm)
+            showMessage(Message.SUCCESS_UPDATING_ALARM, callback);
+        else
+            showMessage(Message.SUCCESS_INSERTING_ALARM, callback);
     }
 }
