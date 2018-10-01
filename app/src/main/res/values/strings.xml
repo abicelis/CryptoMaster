@@ -44,8 +44,8 @@
 
 
     <!--COINS FRAGMENT-->
-    <string name="fragment_coins_added_to_favorites">%1$s added codeTo Favorites</string>
-    <string name="fragment_coins_removed_from_favorites">%1$s removed codeFrom Favorites</string>
+    <string name="fragment_coins_added_to_favorites">%1$s added to Favorites</string>
+    <string name="fragment_coins_removed_from_favorites">%1$s removed from Favorites</string>
     <string name="fragment_coins_header_title_name">Name</string>
     <string name="fragment_coins_header_title_price">Price</string>
     <string name="fragment_coins_header_title_markets">M.Cap</string>
@@ -195,6 +195,7 @@
     <string name="could_not_fetch_alarm_data">Could not fetch list of alerts</string>
     <string name="could_not_insert_alarm">Could not insert alert</string>
     <string name="could_not_update_alarm">Could not update alert</string>
+    <string name="could_not_delete_alarm">Could not delete alert</string>
     <string name="success_inserting_alarm">Alert created successfully</string>
     <string name="success_updating_alarm">Alert updated successfully</string>
     <string name="duplicate_quote_base_coin">Quote coin must be different than base coin</string>
