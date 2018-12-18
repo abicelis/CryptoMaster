@@ -4,12 +4,13 @@
     android:id="@+id/list_item_alarm_container"
     android:layout_width="match_parent"
     android:layout_height="60dp"
-    android:background="?android:attr/selectableItemBackground"
+    android:foreground="?android:attr/selectableItemBackground"
     android:paddingStart="12dp"
     android:paddingEnd="12dp"
     android:paddingTop="8dp"
     android:paddingBottom="8dp"
     >
+
 
 
     <TextView

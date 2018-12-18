@@ -1,7 +1,5 @@
 apply plugin: 'com.android.application'
-
 apply plugin: 'kotlin-android'
-
 apply plugin: 'kotlin-android-extensions'
 
 android {
@@ -20,6 +18,7 @@ android {
             }
         }
     }
+
     buildTypes {
         release {
             minifyEnabled false
@@ -78,5 +77,5 @@ dependencies {
     //Preference fix
     implementation 'com.takisoft.fix:preference-v7:27.1.1.2'
     //WorkManager
-    implementation "android.arch.work:work-runtime:1.0.0-alpha09"
+    implementation "android.arch.work:work-runtime:1.0.0-alpha10"
 }

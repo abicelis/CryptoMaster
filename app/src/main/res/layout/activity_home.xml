@@ -1,27 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_home_container"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:id="@+id/activity_home_container"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:fitsSystemWindows="true"
+tools:context="ve.com.abicelis.cryptomaster.ui.home.HomeActivity">
+
+<android.support.design.widget.AppBarLayout
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    android:layout_height="wrap_content"
+    android:background="?attr/default_foreground"
+    android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/activity_home_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:title=""
+        app:popupTheme="@style/AppTheme.PopupOverlay"
+        app:layout_scrollFlags="scroll|enterAlways|snap"
+        >
+
+        <TextView
+            android:id="@+id/activity_home_toolbar_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="10dp"
+            android:textColor="?attr/text_primary"
+            android:textSize="34sp" />
+
+    </android.support.v7.widget.Toolbar>
+
+</android.support.design.widget.AppBarLayout>
 
 
     <ve.com.abicelis.cryptomaster.ui.home.NoSwipePager
         android:id="@+id/activity_home_viewpager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/activity_home_bottom_navigation"
-        />
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+
+
+
+
 
     <com.aurelhubert.ahbottomnavigation.AHBottomNavigation
         android:id="@+id/activity_home_bottom_navigation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
+        android:layout_gravity="bottom"
         />
 
+<android.support.design.widget.FloatingActionButton
+    android:id="@+id/activity_home_fab"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    app:layout_anchor="@id/activity_home_bottom_navigation"
+    app:layout_anchorGravity="top|end"
+    android:layout_marginBottom="72dp"
+    android:layout_marginEnd="16dp"
+    app:backgroundTint="?attr/default_accent"
+    android:src="@drawable/ic_add"/>
 
-</RelativeLayout>
+</android.support.design.widget.CoordinatorLayout>

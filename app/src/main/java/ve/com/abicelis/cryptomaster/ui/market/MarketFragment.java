@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.BaseTransientBottomBar;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
+import android.support.v4.widget.NestedScrollView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +16,6 @@ import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.XAxis;
@@ -43,6 +43,7 @@ import ve.com.abicelis.cryptomaster.data.model.ChartTimeSpan;
 import ve.com.abicelis.cryptomaster.data.model.coinmarketcapgraph.DominanceChartData;
 import ve.com.abicelis.cryptomaster.data.model.coinmarketcapgraph.MarketCapAndVolumeChartData;
 import ve.com.abicelis.cryptomaster.ui.base.BaseFragment;
+import ve.com.abicelis.cryptomaster.ui.home.HomeActivity;
 import ve.com.abicelis.cryptomaster.util.AttrUtil;
 import ve.com.abicelis.cryptomaster.util.SnackbarUtil;
 
@@ -51,13 +52,15 @@ import ve.com.abicelis.cryptomaster.util.SnackbarUtil;
  */
 public class MarketFragment extends BaseFragment implements MarketMvpView, View.OnClickListener {
 
-    private Context mContext;
 
     @Inject
     MarketPresenter mMarketPresenter;
 
+    //UI
+    HomeActivity mHomeActivity;
+
     @BindView(R.id.fragment_market_container)
-    CoordinatorLayout mContainer;
+    NestedScrollView mContainer;
 
     @BindView(R.id.fragment_market_total_chart_loading_container)
     FrameLayout mMarketCapChartLoadingContainer;
@@ -131,6 +134,8 @@ public class MarketFragment extends BaseFragment implements MarketMvpView, View.
         View rootView = inflater.inflate(R.layout.fragment_market, container, false);
         ButterKnife.bind(this, rootView);
 
+
+
         mMarketPresenter.getMarketCapAndVolumeGraphData(ChartTimeSpan._3M);
         mMarketPresenter.getDominanceGraphData(ChartTimeSpan._1Y);
 
@@ -153,16 +158,18 @@ public class MarketFragment extends BaseFragment implements MarketMvpView, View.
         return rootView;
     }
 
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        mContext = context;
+        if(context instanceof HomeActivity)
+            mHomeActivity = (HomeActivity) context;
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
-        mContext = null;
+        mHomeActivity = null;
     }
 
     @Override
@@ -227,7 +234,7 @@ public class MarketFragment extends BaseFragment implements MarketMvpView, View.
     public void marketCapAndVolumeShowGraph(MarketCapAndVolumeChartData data) {
 
         //Axis customization
-        int color = AttrUtil.getAttributeColor(mContext, R.attr.chart_grid_line);
+        int color = AttrUtil.getAttributeColor(mHomeActivity, R.attr.chart_grid_line);
 
 
         YAxis yAxisL = mMarketCapChart.getAxisLeft();
@@ -259,24 +266,24 @@ public class MarketFragment extends BaseFragment implements MarketMvpView, View.
 
         //Data set and customization
         LineDataSet dataSetMcap = new LineDataSet(data.getMarketCapEntries(), "Mcap"); // add entries to dataset
-        dataSetMcap.setColor(AttrUtil.getAttributeColor(mContext, R.attr.chart_line));
+        dataSetMcap.setColor(AttrUtil.getAttributeColor(mHomeActivity, R.attr.chart_line));
         dataSetMcap.setLineWidth(2f);
         dataSetMcap.setAxisDependency(YAxis.AxisDependency.RIGHT);
         dataSetMcap.setDrawCircles(false);
         dataSetMcap.setDrawValues(false);
         dataSetMcap.setMode(LineDataSet.Mode.HORIZONTAL_BEZIER);
         //dataSetMcap.setHighlightEnabled(false);
-        //dataSetMcap.setHighLightColor(AttrUtil.getAttributeColor(mContext, R.attr.chart_highlight));
+        //dataSetMcap.setHighLightColor(AttrUtil.getAttributeColor(mHomeActivity, R.attr.chart_highlight));
 
         LineDataSet dataSetVolume = new LineDataSet(data.getVolumeEntries(), "Volume"); // add entries to dataset
-        dataSetVolume.setColor(AttrUtil.getAttributeColor(mContext, R.attr.chart_line_2));
+        dataSetVolume.setColor(AttrUtil.getAttributeColor(mHomeActivity, R.attr.chart_line_2));
         //dataSetVolume.setLineWidth(1f);
         dataSetVolume.setAxisDependency(YAxis.AxisDependency.LEFT);
         dataSetVolume.setDrawCircles(false);
         dataSetVolume.setDrawValues(false);
         dataSetMcap.setMode(LineDataSet.Mode.HORIZONTAL_BEZIER);
         dataSetVolume.setDrawFilled(true);
-        dataSetVolume.setFillColor(AttrUtil.getAttributeColor(mContext, R.attr.chart_line_2));
+        dataSetVolume.setFillColor(AttrUtil.getAttributeColor(mHomeActivity, R.attr.chart_line_2));
         //dataSetVolume.setHighlightEnabled(false);
 
 
@@ -302,8 +309,8 @@ public class MarketFragment extends BaseFragment implements MarketMvpView, View.
     }
     @Override
     public void marketCapActivateButton(ChartTimeSpan chartTimeSpan) {
-        int activeColor = AttrUtil.getAttributeColor(mContext, R.attr.chart_button_active);
-        int inactiveColor = AttrUtil.getAttributeColor(mContext, R.attr.chart_button_inactive);
+        int activeColor = AttrUtil.getAttributeColor(mHomeActivity, R.attr.chart_button_active);
+        int inactiveColor = AttrUtil.getAttributeColor(mHomeActivity, R.attr.chart_button_inactive);
 
         mMarketButton24h.setTextColor(inactiveColor);
         mMarketButton7d.setTextColor(inactiveColor);
@@ -361,7 +368,7 @@ public class MarketFragment extends BaseFragment implements MarketMvpView, View.
     public void dominanceShowGraph(DominanceChartData data) {
 
         //Axis customization
-        int color = AttrUtil.getAttributeColor(mContext, R.attr.chart_grid_line);
+        int color = AttrUtil.getAttributeColor(mHomeActivity, R.attr.chart_grid_line);
 
 
         YAxis yAxisL = mDominanceChart.getAxisLeft();
@@ -394,45 +401,45 @@ public class MarketFragment extends BaseFragment implements MarketMvpView, View.
 
         //Data set and customization
         LineDataSet dataSetMostDominant = new LineDataSet(data.getMostDominantCoinEntries(), data.getMostDominantCoinName());
-        dataSetMostDominant.setColor(AttrUtil.getAttributeColor(mContext, R.attr.chart_line_3));
+        dataSetMostDominant.setColor(AttrUtil.getAttributeColor(mHomeActivity, R.attr.chart_line_3));
         dataSetMostDominant.setLineWidth(2f);
         dataSetMostDominant.setDrawCircles(false);
         dataSetMostDominant.setAxisDependency(YAxis.AxisDependency.RIGHT);
         dataSetMostDominant.setMode(LineDataSet.Mode.HORIZONTAL_BEZIER);
         //dataSetMostDominant.setFillFormatter(new StackedLineFillFormatter(dataSetMostDominant));
         dataSetMostDominant.setDrawFilled(true);
-        dataSetMostDominant.setFillColor(AttrUtil.getAttributeColor(mContext, R.attr.chart_line_3));
+        dataSetMostDominant.setFillColor(AttrUtil.getAttributeColor(mHomeActivity, R.attr.chart_line_3));
 
         LineDataSet dataSetLessDominant = new LineDataSet(data.getLessDominantCoinEntries(), data.getLessDominantCoinName());
-        dataSetLessDominant.setColor(AttrUtil.getAttributeColor(mContext, R.attr.chart_line_4));
+        dataSetLessDominant.setColor(AttrUtil.getAttributeColor(mHomeActivity, R.attr.chart_line_4));
         dataSetLessDominant.setLineWidth(2f);
         dataSetLessDominant.setDrawCircles(false);
         dataSetLessDominant.setAxisDependency(YAxis.AxisDependency.RIGHT);
         dataSetLessDominant.setMode(LineDataSet.Mode.HORIZONTAL_BEZIER);
         dataSetLessDominant.setFillFormatter(new StackedLineFillFormatter(dataSetMostDominant));
         dataSetLessDominant.setDrawFilled(true);
-        dataSetLessDominant.setFillColor(AttrUtil.getAttributeColor(mContext, R.attr.chart_line_4));
+        dataSetLessDominant.setFillColor(AttrUtil.getAttributeColor(mHomeActivity, R.attr.chart_line_4));
 
         LineDataSet dataSetLeastDominant = new LineDataSet(data.getLeastDominantCoinEntries(), data.getLeastDominantCoinName());
-        dataSetLeastDominant.setColor(AttrUtil.getAttributeColor(mContext, R.attr.chart_line_5));
+        dataSetLeastDominant.setColor(AttrUtil.getAttributeColor(mHomeActivity, R.attr.chart_line_5));
         dataSetLeastDominant.setLineWidth(2f);
         dataSetLeastDominant.setDrawCircles(false);
         dataSetLeastDominant.setAxisDependency(YAxis.AxisDependency.RIGHT);
         dataSetLeastDominant.setMode(LineDataSet.Mode.HORIZONTAL_BEZIER);
         dataSetLeastDominant.setFillFormatter(new StackedLineFillFormatter(dataSetLessDominant));
         dataSetLeastDominant.setDrawFilled(true);
-        dataSetLeastDominant.setFillColor(AttrUtil.getAttributeColor(mContext, R.attr.chart_line_5));
+        dataSetLeastDominant.setFillColor(AttrUtil.getAttributeColor(mHomeActivity, R.attr.chart_line_5));
 
 
         LineDataSet dataSetOthers = new LineDataSet(data.getOtherCoinsEntries(), "Others");
-        dataSetOthers.setColor(AttrUtil.getAttributeColor(mContext, R.attr.chart_line_6));
+        dataSetOthers.setColor(AttrUtil.getAttributeColor(mHomeActivity, R.attr.chart_line_6));
         dataSetOthers.setLineWidth(2f);
         dataSetOthers.setDrawCircles(false);
         dataSetOthers.setAxisDependency(YAxis.AxisDependency.RIGHT);
         dataSetOthers.setMode(LineDataSet.Mode.HORIZONTAL_BEZIER);
         dataSetOthers.setFillFormatter(new StackedLineFillFormatter(dataSetLeastDominant));
         dataSetOthers.setDrawFilled(true);
-        dataSetOthers.setFillColor(AttrUtil.getAttributeColor(mContext, R.attr.chart_line_6));
+        dataSetOthers.setFillColor(AttrUtil.getAttributeColor(mHomeActivity, R.attr.chart_line_6));
 
         List<ILineDataSet> dataSets = new ArrayList<>();
         dataSets.add(dataSetMostDominant);
@@ -452,8 +459,8 @@ public class MarketFragment extends BaseFragment implements MarketMvpView, View.
 
     @Override
     public void dominanceActivateButton(ChartTimeSpan chartTimeSpan) {
-        int activeColor = AttrUtil.getAttributeColor(mContext, R.attr.chart_button_active);
-        int inactiveColor = AttrUtil.getAttributeColor(mContext, R.attr.chart_button_inactive);
+        int activeColor = AttrUtil.getAttributeColor(mHomeActivity, R.attr.chart_button_active);
+        int inactiveColor = AttrUtil.getAttributeColor(mHomeActivity, R.attr.chart_button_inactive);
 
         mDominanceButton24h.setTextColor(inactiveColor);
         mDominanceButton7d.setTextColor(inactiveColor);

@@ -6,16 +6,14 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BaseTransientBottomBar;
-import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+import android.widget.FrameLayout;
 
 import javax.inject.Inject;
 
@@ -31,6 +29,7 @@ import ve.com.abicelis.cryptomaster.data.model.CoinsToFetch;
 import ve.com.abicelis.cryptomaster.ui.base.BaseFragment;
 import ve.com.abicelis.cryptomaster.ui.coindetail.CoinDetailActivity;
 import ve.com.abicelis.cryptomaster.ui.common.CoinsHeader;
+import ve.com.abicelis.cryptomaster.ui.home.HomeActivity;
 import ve.com.abicelis.cryptomaster.util.AttrUtil;
 import ve.com.abicelis.cryptomaster.util.SnackbarUtil;
 
@@ -39,35 +38,30 @@ import ve.com.abicelis.cryptomaster.util.SnackbarUtil;
  */
 public class CoinsFragment extends BaseFragment implements CoinsMvpView {
 
+    //DATA
     @Inject
     SharedPreferenceHelper mSharedPreferenceHelper;
-
-    //DATA
-    Context mContext;
     CoinsFragmentType mCoinFragmentType;
 
+
+    //UI
+    HomeActivity mHomeActivity;
+
     @BindView(R.id.fragment_coins_container)
-    CoordinatorLayout mContainer;
-    @BindView(R.id.fragment_coin_toolbar_title)
-    TextView mToolbarTitle;
-
-    @BindView(R.id.fragment_coin_toolbar)
-    Toolbar mToolbar;
-
-    @BindView(R.id.fragment_coins_recycler)
-    RecyclerView mRecycler;
+    FrameLayout mContainer;
+    @BindView(R.id.fragment_coin_header)
+    CoinsHeader mCoinsHeader;
     @BindView(R.id.fragment_coins_swipe_refresh)
     SwipeRefreshLayout mSwipeRefresh;
+    @BindView(R.id.fragment_coins_recycler)
+    RecyclerView mRecycler;
     private LinearLayoutManager mLayoutManager;
     private CoinsListAdapter mCoinsListAdapter;
 
-    @BindView(R.id.fragment_coin_header)
-    CoinsHeader mCoinsHeader;
 
     public CoinsFragment() {
         // Required empty public constructor
     }
-
 
 
     @Override
@@ -84,8 +78,10 @@ public class CoinsFragment extends BaseFragment implements CoinsMvpView {
             showMessage(Message.COIN_FRAGMENT_TYPE_MISSING, null);
             mCoinFragmentType = CoinsFragmentType.NORMAL;
         }
+        setTitle();
 
     }
+
 
 
     @Override
@@ -96,14 +92,9 @@ public class CoinsFragment extends BaseFragment implements CoinsMvpView {
         View rootView = inflater.inflate(R.layout.fragment_coins, container, false);
         ButterKnife.bind(this, rootView);
 
-        switch(mCoinFragmentType) {
-            case NORMAL:
-                mToolbarTitle.setText(mSharedPreferenceHelper.getCoinsToFetch().getFriendlyName(mContext));
-                break;
-            case FAVORITES:
-                mToolbarTitle.setText(getResources().getString(R.string.title_favorites));
-                break;
-        }
+        mHomeActivity.hideFab();
+
+
 
         if(mCoinsHeader != null){
             mCoinsHeader.setCoinsHeaderSortListener(coinsSortType -> {
@@ -120,24 +111,43 @@ public class CoinsFragment extends BaseFragment implements CoinsMvpView {
         return rootView;
     }
 
+
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
-        if(isVisibleToUser && mCoinsListAdapter != null)
-            mCoinsListAdapter.fetchNewData();
+        if(isVisibleToUser) {
+            if (mCoinsListAdapter != null)
+                mCoinsListAdapter.fetchNewData();
+
+            setTitle();
+        }
+    }
+
+    private void setTitle() {
+//        if (mCoinFragmentType != null && mHomeActivity != null) {
+//            switch (mCoinFragmentType) {
+//                case NORMAL:
+//                    mHomeActivity.setToolbarText(mSharedPreferenceHelper.getCoinsToFetch().getFriendlyName(mHomeActivity));
+//                    break;
+//                case FAVORITES:
+//                    mHomeActivity.setToolbarText(getResources().getString(R.string.title_favorites));
+//                    break;
+//            }
+//        }
     }
 
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        mContext = context;
+        if(context instanceof HomeActivity)
+            mHomeActivity = (HomeActivity) context;
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
-        mContext = null;
+        mHomeActivity = null;
     }
 
     private void setupRecycler() {
@@ -156,9 +166,9 @@ public class CoinsFragment extends BaseFragment implements CoinsMvpView {
 
             @Override
             public void openCoinDetail(long coinId) {
-                Intent goToCoinDetailIntent = new Intent(mContext, CoinDetailActivity.class);
+                Intent goToCoinDetailIntent = new Intent(mHomeActivity, CoinDetailActivity.class);
                 goToCoinDetailIntent.putExtra(Constants.EXTRA_COIN_DETAIL_COIN_ID, coinId);
-                mContext.startActivity(goToCoinDetailIntent);
+                mHomeActivity.startActivity(goToCoinDetailIntent);
             }
 
             @Override
@@ -171,18 +181,19 @@ public class CoinsFragment extends BaseFragment implements CoinsMvpView {
         mRecycler.setAdapter(mCoinsListAdapter);
 
         mSwipeRefresh.setColorSchemeResources(
-                AttrUtil.getAttributeColorResource(mContext, R.attr.bottom_nav_icon_unselected),
-                AttrUtil.getAttributeColorResource(mContext, R.attr.bottom_nav_icon_selected),
-                AttrUtil.getAttributeColorResource(mContext, R.attr.bottom_nav_icon_unselected));
-        mSwipeRefresh.setProgressBackgroundColorSchemeResource(AttrUtil.getAttributeColorResource(mContext, R.attr.bottom_nav_background));
+                AttrUtil.getAttributeColorResource(mHomeActivity, R.attr.bottom_nav_icon_unselected),
+                AttrUtil.getAttributeColorResource(mHomeActivity, R.attr.bottom_nav_icon_selected),
+                AttrUtil.getAttributeColorResource(mHomeActivity, R.attr.bottom_nav_icon_unselected));
+        mSwipeRefresh.setProgressBackgroundColorSchemeResource(AttrUtil.getAttributeColorResource(mHomeActivity, R.attr.bottom_nav_background));
         mSwipeRefresh.setOnRefreshListener(() -> mCoinsListAdapter.fetchNewData());
     }
 
     private void setUpToolbar() {
         if(mCoinFragmentType == CoinsFragmentType.NORMAL) {
 
-            mToolbar.inflateMenu(R.menu.menu_fragment_coins);
-            mToolbar.setOnMenuItemClickListener(item -> {
+            mHomeActivity.getToolbar().getMenu().clear();
+            mHomeActivity.getToolbar().inflateMenu(R.menu.menu_fragment_coins);
+            mHomeActivity.getToolbar().setOnMenuItemClickListener(item -> {
                 item.setChecked(true);
 
                 switch (item.getItemId()) {
@@ -202,23 +213,22 @@ public class CoinsFragment extends BaseFragment implements CoinsMvpView {
                         mSharedPreferenceHelper.setCoinsToFetch(CoinsToFetch.ALL);
                         break;
                 }
-                mToolbarTitle.setText(mSharedPreferenceHelper.getCoinsToFetch().getFriendlyName(mContext));
                 mCoinsListAdapter.fetchNewData();
                 return true;
             });
 
             switch (mSharedPreferenceHelper.getCoinsToFetch()) {
                 case TOP_50:
-                    mToolbar.getMenu().findItem(R.id.menu_fragment_coins_top_50).setChecked(true);
+                    mHomeActivity.getToolbar().getMenu().findItem(R.id.menu_fragment_coins_top_50).setChecked(true);
                     break;
                 case TOP_100:
-                    mToolbar.getMenu().findItem(R.id.menu_fragment_coins_top_100).setChecked(true);
+                    mHomeActivity.getToolbar().getMenu().findItem(R.id.menu_fragment_coins_top_100).setChecked(true);
                     break;
                 case TOP_500:
-                    mToolbar.getMenu().findItem(R.id.menu_fragment_coins_top_500).setChecked(true);
+                    mHomeActivity.getToolbar().getMenu().findItem(R.id.menu_fragment_coins_top_500).setChecked(true);
                     break;
                 case ALL:
-                    mToolbar.getMenu().findItem(R.id.menu_fragment_coins_all).setChecked(true);
+                    mHomeActivity.getToolbar().getMenu().findItem(R.id.menu_fragment_coins_all).setChecked(true);
                     break;
             }
         }

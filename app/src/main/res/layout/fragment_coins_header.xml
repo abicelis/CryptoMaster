@@ -2,6 +2,8 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/fragment_coin_header_container"
+    android:background="?attr/default_foreground"
+
     android:layout_width="match_parent"
     android:layout_height="38dp"
     android:padding="0dp">

@@ -7,7 +7,6 @@ import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.preference.ListPreference;
 import android.support.v7.preference.Preference;
 import android.view.LayoutInflater;
@@ -23,6 +22,7 @@ import ve.com.abicelis.cryptomaster.data.model.AlarmFrequency;
 import ve.com.abicelis.cryptomaster.data.model.Currency;
 import ve.com.abicelis.cryptomaster.data.model.StartFragment;
 import ve.com.abicelis.cryptomaster.ui.about.AboutActivity;
+import ve.com.abicelis.cryptomaster.ui.home.HomeActivity;
 import ve.com.abicelis.cryptomaster.util.AlarmWorkerUtil;
 
 /**
@@ -39,18 +39,19 @@ public class PreferenceFragment extends PreferenceFragmentCompatDividers {
     private Preference mRate;
     private Preference mContact;
 
-    private AppCompatActivity mActivity;
+    private HomeActivity mHomeActivity;
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        mActivity = (AppCompatActivity) context;
+        if(context instanceof HomeActivity)
+            mHomeActivity = (HomeActivity) context;
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
-        mActivity = null;
+        mHomeActivity = null;
     }
 
 
@@ -99,7 +100,7 @@ public class PreferenceFragment extends PreferenceFragmentCompatDividers {
 //        mBackup.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
 //            @Override
 //            public boolean onPreferenceClick(Preference preference) {
-//                Intent goToBackupActivity = new Intent(mActivity, BackupActivity.class);
+//                Intent goToBackupActivity = new Intent(mHomeActivity, BackupActivity.class);
 //                startActivity(goToBackupActivity);
 //                return true;
 //            }
@@ -109,12 +110,12 @@ public class PreferenceFragment extends PreferenceFragmentCompatDividers {
         mAbout.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
-                Intent goToAboutActivity = new Intent(mActivity, AboutActivity.class);
+                Intent goToAboutActivity = new Intent(mHomeActivity, AboutActivity.class);
 
                 //if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                //mActivity.getWindow().setEnterTransition(new Explode());
-                //mActivity.getWindow().setExitTransition(new Fade(Visibility.MODE_OUT));
-                //startActivity(goToAboutActivity, ActivityOptions.makeSceneTransitionAnimation(mActivity).toBundle());
+                //mHomeActivity.getWindow().setEnterTransition(new Explode());
+                //mHomeActivity.getWindow().setExitTransition(new Fade(Visibility.MODE_OUT));
+                //startActivity(goToAboutActivity, ActivityOptions.makeSceneTransitionAnimation(mHomeActivity).toBundle());
                 //} else {
                 startActivity(goToAboutActivity);
                 //}
@@ -130,9 +131,9 @@ public class PreferenceFragment extends PreferenceFragmentCompatDividers {
                 Intent playStoreIntent = new Intent(Intent.ACTION_VIEW);
                 playStoreIntent.setData(Uri.parse(getResources().getString(R.string.url_market)));
 
-                ResolveInfo resolveInfo = mActivity.getPackageManager().resolveActivity(playStoreIntent, PackageManager.MATCH_DEFAULT_ONLY);
+                ResolveInfo resolveInfo = mHomeActivity.getPackageManager().resolveActivity(playStoreIntent, PackageManager.MATCH_DEFAULT_ONLY);
                 if (null == resolveInfo)
-                    Toast.makeText(mActivity, "Play Store not installed on device", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mHomeActivity, "Play Store not installed on device", Toast.LENGTH_SHORT).show();
                 else
                     startActivity(playStoreIntent);
 
@@ -147,9 +148,9 @@ public class PreferenceFragment extends PreferenceFragmentCompatDividers {
             public boolean onPreferenceClick(Preference preference) {
                 Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts("mailto",getResources().getString(R.string.address_email), null));
 
-                ResolveInfo resolveInfo = mActivity.getPackageManager().resolveActivity(emailIntent, PackageManager.MATCH_DEFAULT_ONLY);
+                ResolveInfo resolveInfo = mHomeActivity.getPackageManager().resolveActivity(emailIntent, PackageManager.MATCH_DEFAULT_ONLY);
                 if (null == resolveInfo)
-                    Toast.makeText(mActivity, "Mail app not installed on device", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mHomeActivity, "Mail app not installed on device", Toast.LENGTH_SHORT).show();
                 else
                     startActivity(Intent.createChooser(emailIntent, "Send email..."));
 
@@ -167,4 +168,5 @@ public class PreferenceFragment extends PreferenceFragmentCompatDividers {
             setDividerPreferences(DIVIDER_PADDING_CHILD | DIVIDER_CATEGORY_AFTER_LAST | DIVIDER_CATEGORY_BETWEEN);
         }
     }
+
 }

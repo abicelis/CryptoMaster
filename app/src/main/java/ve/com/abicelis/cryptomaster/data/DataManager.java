@@ -565,8 +565,8 @@ public class DataManager {
     }
 
 
-    public int deleteAlarm(Alarm alarm) {
-        return mAppDatabase.alarmDao().delete(alarm);
+    public Completable deleteAlarms(List<Alarm> alarms) {
+        return Completable.fromAction(() -> mAppDatabase.alarmDao().delete(alarms));
     }
 
 

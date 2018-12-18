@@ -11,6 +11,7 @@ import java.util.List;
 
 import ve.com.abicelis.cryptomaster.R;
 import ve.com.abicelis.cryptomaster.data.model.Alarm;
+import ve.com.abicelis.cryptomaster.data.model.viewmodel.AlarmViewModel;
 
 /**
  * Created by abicelis on 26/7/2018.
@@ -18,7 +19,7 @@ import ve.com.abicelis.cryptomaster.data.model.Alarm;
 public class AlarmAdapter extends RecyclerView.Adapter<AlarmViewHolder> {
 
     //DATA
-    List<Alarm> mItems;
+    List<AlarmViewModel> mItems;
     AlarmListener mListener;
 
     //UI
@@ -50,14 +51,21 @@ public class AlarmAdapter extends RecyclerView.Adapter<AlarmViewHolder> {
     }
 
 
-    public List<Alarm> getItems() {
+    public List<AlarmViewModel> getItems() {
         return mItems;
+    }
+
+    public void clearActionModeSelectedItems() {
+        for (int i=0; i < getItemCount(); i ++)
+            mItems.get(i).setSelected(false);
+        notifyDataSetChanged();
     }
 
 
     interface AlarmListener {
-        void onAlarmEnabledOrDisabled(Alarm alarm, boolean enabled);
-        void onAlarmClicked(Alarm alarm);
+        void onAlarmEnabledOrDisabled(AlarmViewModel alarm, boolean enabled);
+        void onAlarmClicked(AlarmViewModel alarm, int position);
+        void onAlarmLongClicked(AlarmViewModel alarm, int position);
     }
 
 

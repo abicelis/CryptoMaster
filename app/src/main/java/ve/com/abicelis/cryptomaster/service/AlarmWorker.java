@@ -17,6 +17,7 @@ import java.util.concurrent.ExecutionException;
 import javax.inject.Inject;
 
 import androidx.work.Worker;
+import androidx.work.WorkerParameters;
 import timber.log.Timber;
 import ve.com.abicelis.cryptomaster.R;
 import ve.com.abicelis.cryptomaster.application.Constants;
@@ -34,6 +35,10 @@ public class AlarmWorker extends Worker {
     @Inject
     DataManager dataManager;
 
+
+    public AlarmWorker(@NonNull Context context, @NonNull WorkerParameters workerParams) {
+        super(context, workerParams);
+    }
 
     @NonNull
     @Override

@@ -54,6 +54,9 @@ public abstract class AlarmDao {
     @Delete
     public abstract int delete(Alarm alarm);
 
+    @Delete
+    public abstract int delete(List<Alarm> alarms);
+
     @Query("DELETE FROM alarm")
     public abstract int deleteAll();
 

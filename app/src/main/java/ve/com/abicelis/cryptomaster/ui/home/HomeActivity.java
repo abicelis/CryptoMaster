@@ -1,32 +1,27 @@
 package ve.com.abicelis.cryptomaster.ui.home;
 
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BaseTransientBottomBar;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.widget.RelativeLayout;
-import android.widget.Toast;
+import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
+import android.support.v7.widget.Toolbar;
+import android.widget.TextView;
 
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
-import com.aurelhubert.ahbottomnavigation.notification.AHNotification;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.schedulers.Schedulers;
 import timber.log.Timber;
 import ve.com.abicelis.cryptomaster.R;
 import ve.com.abicelis.cryptomaster.application.Constants;
 import ve.com.abicelis.cryptomaster.application.Message;
-import ve.com.abicelis.cryptomaster.data.DataManager;
-import ve.com.abicelis.cryptomaster.data.local.SharedPreferenceHelper;
 import ve.com.abicelis.cryptomaster.data.model.CoinsFragmentType;
 import ve.com.abicelis.cryptomaster.data.model.StartFragment;
 import ve.com.abicelis.cryptomaster.ui.alarm.AlarmFragment;
@@ -47,30 +42,62 @@ public class HomeActivity extends BaseActivity implements HomeMvpView {
     HomePresenter mPresenter;
 
     @BindView(R.id.activity_home_container)
-    RelativeLayout mContainer;
+    CoordinatorLayout mContainer;
+    @BindView(R.id.activity_home_toolbar)
+    Toolbar mToolbar;
+    @BindView(R.id.activity_home_toolbar_title)
+    TextView mToolbarTitle;
 
     @BindView(R.id.activity_home_viewpager)
     NoSwipePager mViewPager;
-    private BottomNavigationAdapter mViewpagerAdapter;
+    CustomViewPagerAdapter mViewpagerAdapter;
 
     @BindView(R.id.activity_home_bottom_navigation)
     AHBottomNavigation mBottomNavigation;
 
+    @BindView(R.id.activity_home_fab)
+    FloatingActionButton mFab;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        //if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)              //Enable fancy custom activity transitions
-        //    getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         ButterKnife.bind(this);
 
+        setSupportActionBar(mToolbar);
+        getSupportActionBar().setTitle("");
+
         getPresenterComponent().inject(this);
         mPresenter.attachView(this);
         mPresenter.init();
 
+        mFab.setOnClickListener(v -> {
+            Fragment fragment = mViewpagerAdapter.getRegisteredFragment(0);
+            if (fragment instanceof AlarmFragment)
+                ((AlarmFragment)fragment).fabClicked();
+        });
 
     }
+
+    public Toolbar getToolbar() {
+        return mToolbar;
+    }
+    public void setToolbarText(String text) {
+        mToolbarTitle.setText(text);
+    }
+
+    public void hideFab() {
+        mFab.hide();
+    }
+    public void showFab() {
+        mFab.show();
+    }
+
+    public int getCurrentFragmentIndex() {
+        return mViewPager.getCurrentItem();
+    }
+
 
 
 //        private void createFakeNotification() {
@@ -98,7 +125,7 @@ public class HomeActivity extends BaseActivity implements HomeMvpView {
     @Override
     public void setupViewPager(StartFragment startFragment) {
         mViewPager.setPagingEnabled(false);
-        mViewpagerAdapter = new BottomNavigationAdapter(getSupportFragmentManager());
+        mViewpagerAdapter = new CustomViewPagerAdapter(getSupportFragmentManager());
 
         //ALARM FRAGMENT
         AlarmFragment fragment = new AlarmFragment();
@@ -128,6 +155,54 @@ public class HomeActivity extends BaseActivity implements HomeMvpView {
 
         mViewPager.setAdapter(mViewpagerAdapter);
         mViewPager.setCurrentItem(startFragment.getFragmentIndex());
+        setToolbarTitle(startFragment.getFragmentIndex());
+        mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) { }
+
+            @Override
+            public void onPageSelected(int position) {
+                setToolbarTitle(position);
+                getToolbar().getMenu().clear();
+                if(position == 0)
+                    showFab();
+                else {
+                    hideFab();
+
+                    //Notify Alarm Fragment no longer focused
+                    Fragment fragment = mViewpagerAdapter.getRegisteredFragment(0);
+                    if (fragment instanceof AlarmFragment)
+                        ((AlarmFragment)fragment).onLostFocus();
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) { }
+        });
+    }
+
+    private void setToolbarTitle(int position) {
+        switch (position) {
+            case 0:
+                mToolbarTitle.setText(getString(R.string.title_alarms));
+                break;
+
+            case 1:
+                mToolbarTitle.setText(getString(R.string.title_market));
+                break;
+
+            case 2:
+                mToolbarTitle.setText(getString(R.string.title_coins));
+                break;
+
+            case 3:
+                mToolbarTitle.setText(getString(R.string.title_favorites));
+                break;
+
+            case 4:
+                mToolbarTitle.setText(getString(R.string.title_settings));
+                break;
+        }
     }
 
     @Override

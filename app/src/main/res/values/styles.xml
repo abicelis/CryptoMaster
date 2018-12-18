@@ -9,12 +9,17 @@
         <item name="colorPrimaryDark">@color/default_foreground</item>
         <item name="colorAccent">@color/default_accent</item>
 
-        <item name="android:windowBackground">@color/default_background</item>     <!--Background color,  used by preference fragment -->
+        <item name="android:windowBackground">@color/default_background</item>                      <!--Background color,  used by preference fragment -->
+
+        <item name="windowActionModeOverlay">true</item>                                            <!-- So that actionMode toolbar displays on top of normal toolbar -->
+        <item name="actionModeBackground">@color/default_accent</item>                         <!-- ActionMode background drawable -->
+
 
         <item name="horizontal_divider">@color/default_divider</item>
         <item name="default_background">@color/default_background</item>
         <item name="default_foreground">@color/default_foreground</item>
         <item name="default_accent">@color/default_accent</item>
+        <item name="default_item_selected">@color/default_item_selected</item>
         <item name="chart_highlight">@color/chart_highlight</item>
         <item name="chart_line">@color/chart_line</item>
         <item name="chart_line_2">@color/chart_line_2</item>
@@ -51,12 +56,17 @@
         <item name="colorPrimaryDark">@color/default_foreground</item>
         <item name="colorAccent">@color/dark_default_accent</item>
 
-        <item name="android:windowBackground">@color/dark_default_background</item>     <!--Background color,  used by preference fragment -->
+        <item name="android:windowBackground">@color/dark_default_background</item>                 <!--Background color,  used by preference fragment -->
+
+        <item name="windowActionModeOverlay">true</item>                                            <!-- So that actionMode toolbar displays on top of normal toolbar -->
+        <item name="actionModeBackground">@color/dark_default_accent</item>                         <!-- ActionMode background drawable -->
+
 
         <item name="horizontal_divider">@color/dark_default_divider</item>
         <item name="default_background">@color/dark_default_background</item>
         <item name="default_foreground">@color/dark_default_foreground</item>
         <item name="default_accent">@color/dark_default_accent</item>
+        <item name="default_item_selected">@color/dark_default_item_selected</item>
         <item name="chart_highlight">@color/dark_chart_highlight</item>
         <item name="chart_line">@color/dark_chart_line</item>
         <item name="chart_line_2">@color/dark_chart_line_2</item>
@@ -84,6 +94,8 @@
 
         <item name="android:fontFamily">@font/nunito_extralight</item>
     </style>
+
+
 
     <!--<style name="ToggleButton" parent="Base.Widget.AppCompat.Button.Colored">-->
         <!--&lt;!&ndash;<item name="colorAccent">@color/snackbar_error_background</item>&ndash;&gt;-->

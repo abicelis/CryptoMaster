@@ -9,10 +9,10 @@ import java.util.List;
 /**
  * Created by abicelis on 30/5/2018.
  */
-public class BottomNavigationAdapter extends SmartFragmentStatePagerAdapter {
+public class CustomViewPagerAdapter extends SmartFragmentStatePagerAdapter {
     private final List<Fragment> fragments = new ArrayList<>();
 
-    public BottomNavigationAdapter(FragmentManager fragmentManager) {
+    public CustomViewPagerAdapter(FragmentManager fragmentManager) {
         super(fragmentManager);
     }
 
