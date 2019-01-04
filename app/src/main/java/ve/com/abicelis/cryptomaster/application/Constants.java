@@ -31,6 +31,7 @@ public class Constants {
     public static final Easing.EasingOption     MISC_CHART_ANIMATION_EASING =                       Easing.EasingOption.EaseInOutSine;
     public static final int                     MISC_CHART_ANIMATION_DURATION =                     500;
     public static final int                     MISC_COINMARKETCAP_BTC_ID =                         1;
+    public static final int                     UI_LOAD_DELAY =                                     1300;
 
 
     /* ALARM */
