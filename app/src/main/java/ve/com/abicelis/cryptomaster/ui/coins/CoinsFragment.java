@@ -3,6 +3,7 @@ package ve.com.abicelis.cryptomaster.ui.coins;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BaseTransientBottomBar;
@@ -115,15 +116,15 @@ public class CoinsFragment extends BaseFragment implements CoinsMvpView {
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
-        if(isVisibleToUser) {
-            if (mCoinsListAdapter != null)
-                mCoinsListAdapter.fetchNewData();
-
-            setTitle();
+        if (isVisibleToUser) {
+            if (mCoinsListAdapter != null) {
+                final Handler h = new Handler();
+                h.postDelayed(mCoinsListAdapter::fetchNewData, Constants.UI_LOAD_DELAY);
+            }
         }
     }
 
-    private void setTitle() {
+        private void setTitle() {
 //        if (mCoinFragmentType != null && mHomeActivity != null) {
 //            switch (mCoinFragmentType) {
 //                case NORMAL:
@@ -134,109 +135,109 @@ public class CoinsFragment extends BaseFragment implements CoinsMvpView {
 //                    break;
 //            }
 //        }
-    }
+        }
 
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if(context instanceof HomeActivity)
-            mHomeActivity = (HomeActivity) context;
-    }
+        @Override
+        public void onAttach(Context context) {
+            super.onAttach(context);
+            if(context instanceof HomeActivity)
+                mHomeActivity = (HomeActivity) context;
+        }
 
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mHomeActivity = null;
-    }
+        @Override
+        public void onDetach() {
+            super.onDetach();
+            mHomeActivity = null;
+        }
 
-    private void setupRecycler() {
-        mLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
-        mCoinsListAdapter = new CoinsListAdapter(getActivity(), mCoinFragmentType, Constants.EXTRA_DEFAULT_COINS_SORT_TYPE);
-        mCoinsListAdapter.setListener(new CoinsListAdapter.CoinsListAdapterListener() {
-            @Override
-            public void showLoading() {
-                mSwipeRefresh.setRefreshing(true);
-            }
-
-            @Override
-            public void hideLoading() {
-                mSwipeRefresh.setRefreshing(false);
-            }
-
-            @Override
-            public void openCoinDetail(long coinId) {
-                Intent goToCoinDetailIntent = new Intent(mHomeActivity, CoinDetailActivity.class);
-                goToCoinDetailIntent.putExtra(Constants.EXTRA_COIN_DETAIL_COIN_ID, coinId);
-                mHomeActivity.startActivity(goToCoinDetailIntent);
-            }
-
-            @Override
-            public void showMessage(Message message, @Nullable BaseTransientBottomBar.BaseCallback<Snackbar> callback) {
-                CoinsFragment.this.showMessage(message, callback);
-            }
-        });
-
-        mRecycler.setLayoutManager(mLayoutManager);
-        mRecycler.setAdapter(mCoinsListAdapter);
-
-        mSwipeRefresh.setColorSchemeResources(
-                AttrUtil.getAttributeColorResource(mHomeActivity, R.attr.bottom_nav_icon_unselected),
-                AttrUtil.getAttributeColorResource(mHomeActivity, R.attr.bottom_nav_icon_selected),
-                AttrUtil.getAttributeColorResource(mHomeActivity, R.attr.bottom_nav_icon_unselected));
-        mSwipeRefresh.setProgressBackgroundColorSchemeResource(AttrUtil.getAttributeColorResource(mHomeActivity, R.attr.bottom_nav_background));
-        mSwipeRefresh.setOnRefreshListener(() -> mCoinsListAdapter.fetchNewData());
-    }
-
-    private void setUpToolbar() {
-        if(mCoinFragmentType == CoinsFragmentType.NORMAL) {
-
-            mHomeActivity.getToolbar().getMenu().clear();
-            mHomeActivity.getToolbar().inflateMenu(R.menu.menu_fragment_coins);
-            mHomeActivity.getToolbar().setOnMenuItemClickListener(item -> {
-                item.setChecked(true);
-
-                switch (item.getItemId()) {
-                    case R.id.menu_fragment_coins_top_50:
-                        mSharedPreferenceHelper.setCoinsToFetch(CoinsToFetch.TOP_50);
-                        break;
-
-                    case R.id.menu_fragment_coins_top_100:
-                        mSharedPreferenceHelper.setCoinsToFetch(CoinsToFetch.TOP_100);
-                        break;
-
-                    case R.id.menu_fragment_coins_top_500:
-                        mSharedPreferenceHelper.setCoinsToFetch(CoinsToFetch.TOP_500);
-                        break;
-
-                    case R.id.menu_fragment_coins_all:
-                        mSharedPreferenceHelper.setCoinsToFetch(CoinsToFetch.ALL);
-                        break;
+        private void setupRecycler() {
+            mLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
+            mCoinsListAdapter = new CoinsListAdapter(getActivity(), mCoinFragmentType, Constants.EXTRA_DEFAULT_COINS_SORT_TYPE);
+            mCoinsListAdapter.setListener(new CoinsListAdapter.CoinsListAdapterListener() {
+                @Override
+                public void showLoading() {
+                    mSwipeRefresh.setRefreshing(true);
                 }
-                mCoinsListAdapter.fetchNewData();
-                return true;
+
+                @Override
+                public void hideLoading() {
+                    mSwipeRefresh.setRefreshing(false);
+                }
+
+                @Override
+                public void openCoinDetail(long coinId) {
+                    Intent goToCoinDetailIntent = new Intent(mHomeActivity, CoinDetailActivity.class);
+                    goToCoinDetailIntent.putExtra(Constants.EXTRA_COIN_DETAIL_COIN_ID, coinId);
+                    mHomeActivity.startActivity(goToCoinDetailIntent);
+                }
+
+                @Override
+                public void showMessage(Message message, @Nullable BaseTransientBottomBar.BaseCallback<Snackbar> callback) {
+                    CoinsFragment.this.showMessage(message, callback);
+                }
             });
 
-            switch (mSharedPreferenceHelper.getCoinsToFetch()) {
-                case TOP_50:
-                    mHomeActivity.getToolbar().getMenu().findItem(R.id.menu_fragment_coins_top_50).setChecked(true);
-                    break;
-                case TOP_100:
-                    mHomeActivity.getToolbar().getMenu().findItem(R.id.menu_fragment_coins_top_100).setChecked(true);
-                    break;
-                case TOP_500:
-                    mHomeActivity.getToolbar().getMenu().findItem(R.id.menu_fragment_coins_top_500).setChecked(true);
-                    break;
-                case ALL:
-                    mHomeActivity.getToolbar().getMenu().findItem(R.id.menu_fragment_coins_all).setChecked(true);
-                    break;
+            mRecycler.setLayoutManager(mLayoutManager);
+            mRecycler.setAdapter(mCoinsListAdapter);
+
+            mSwipeRefresh.setColorSchemeResources(
+                    AttrUtil.getAttributeColorResource(mHomeActivity, R.attr.bottom_nav_icon_unselected),
+                    AttrUtil.getAttributeColorResource(mHomeActivity, R.attr.bottom_nav_icon_selected),
+                    AttrUtil.getAttributeColorResource(mHomeActivity, R.attr.bottom_nav_icon_unselected));
+            mSwipeRefresh.setProgressBackgroundColorSchemeResource(AttrUtil.getAttributeColorResource(mHomeActivity, R.attr.bottom_nav_background));
+            mSwipeRefresh.setOnRefreshListener(() -> mCoinsListAdapter.fetchNewData());
+        }
+
+        private void setUpToolbar() {
+            if(mCoinFragmentType == CoinsFragmentType.NORMAL) {
+
+                mHomeActivity.getToolbar().getMenu().clear();
+                mHomeActivity.getToolbar().inflateMenu(R.menu.menu_fragment_coins);
+                mHomeActivity.getToolbar().setOnMenuItemClickListener(item -> {
+                    item.setChecked(true);
+
+                    switch (item.getItemId()) {
+                        case R.id.menu_fragment_coins_top_50:
+                            mSharedPreferenceHelper.setCoinsToFetch(CoinsToFetch.TOP_50);
+                            break;
+
+                        case R.id.menu_fragment_coins_top_100:
+                            mSharedPreferenceHelper.setCoinsToFetch(CoinsToFetch.TOP_100);
+                            break;
+
+                        case R.id.menu_fragment_coins_top_500:
+                            mSharedPreferenceHelper.setCoinsToFetch(CoinsToFetch.TOP_500);
+                            break;
+
+                        case R.id.menu_fragment_coins_all:
+                            mSharedPreferenceHelper.setCoinsToFetch(CoinsToFetch.ALL);
+                            break;
+                    }
+                    mCoinsListAdapter.fetchNewData();
+                    return true;
+                });
+
+                switch (mSharedPreferenceHelper.getCoinsToFetch()) {
+                    case TOP_50:
+                        mHomeActivity.getToolbar().getMenu().findItem(R.id.menu_fragment_coins_top_50).setChecked(true);
+                        break;
+                    case TOP_100:
+                        mHomeActivity.getToolbar().getMenu().findItem(R.id.menu_fragment_coins_top_100).setChecked(true);
+                        break;
+                    case TOP_500:
+                        mHomeActivity.getToolbar().getMenu().findItem(R.id.menu_fragment_coins_top_500).setChecked(true);
+                        break;
+                    case ALL:
+                        mHomeActivity.getToolbar().getMenu().findItem(R.id.menu_fragment_coins_all).setChecked(true);
+                        break;
+                }
             }
         }
-    }
 
-    @Override
-    public void showMessage(Message message, @Nullable BaseTransientBottomBar.BaseCallback<Snackbar> callback) {
-        SnackbarUtil.showSnackbar(mContainer, message.getMessageType(), message.getFriendlyNameRes(), SnackbarUtil.SnackbarDuration.SHORT, callback);
-    }
+        @Override
+        public void showMessage(Message message, @Nullable BaseTransientBottomBar.BaseCallback<Snackbar> callback) {
+            SnackbarUtil.showSnackbar(mContainer, message.getMessageType(), message.getFriendlyNameRes(), SnackbarUtil.SnackbarDuration.SHORT, callback);
+        }
 
-}
+    }

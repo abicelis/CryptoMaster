@@ -2,6 +2,7 @@ package ve.com.abicelis.cryptomaster.ui.market;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BaseTransientBottomBar;
@@ -136,8 +137,16 @@ public class MarketFragment extends BaseFragment implements MarketMvpView, View.
 
 
 
-        mMarketPresenter.getMarketCapAndVolumeGraphData(ChartTimeSpan._3M);
-        mMarketPresenter.getDominanceGraphData(ChartTimeSpan._1Y);
+        final Handler h = new Handler();
+        h.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                mMarketPresenter.getMarketCapAndVolumeGraphData(ChartTimeSpan._3M);
+                mMarketPresenter.getDominanceGraphData(ChartTimeSpan._1Y);
+            }
+        }, Constants.UI_LOAD_DELAY);
+
+
 
         mMarketCapChart.setNoDataText("");
         mDominanceChart.setNoDataText("");
